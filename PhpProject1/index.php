@@ -14,14 +14,12 @@ and open the template in the editor.
         include ("layout/header.php")
         ?>
         <?php
-        include ("mysqli_connect.php")
+        //include ("db/mysqli_connect.php")
         ?>
         <?php
         $PageTitle = "Bachelor prosjekt";
 
         echo "<br>";
-
-        
 
         $time = date("H");
 
@@ -32,8 +30,11 @@ and open the template in the editor.
         } else {
             echo "Have a good night!";
         }
+        
+        include 'frontpage_options.php';
+        
         ?>
-
+        
 
         <?php
         include ("layout/footer.php")
