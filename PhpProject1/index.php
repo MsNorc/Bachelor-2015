@@ -11,7 +11,8 @@ and open the template in the editor.
     </head>
     <body>
         <?php
-        include ("layout/header.php")
+        include ("layout/header.php");
+        include 'layout/dropdown_layout.php';
         ?>
         <?php
         //include ("db/mysqli_connect.php")
@@ -30,15 +31,14 @@ and open the template in the editor.
         } else {
             echo "Have a good night!";
         }
-        
-        include 'frontpage_options.php';
-        
-        ?>
-        
 
-        <?php
-        include ("layout/footer.php")
+        include 'layout/frontpage_options.php';
         ?>
+
+
+<?php
+include ("layout/footer.php")
+?>
 
     </body>
 </html>

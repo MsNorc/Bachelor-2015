@@ -16,13 +16,14 @@ include 'language/switch_language.php';
                     </form></td>
 
 
-                <td><form method="POST" action="welcome_user.php">
+                <td><form method="POST" action="?dropdown=2">
                         <?php echo username_label ?> <input type="text" name="username">
                         <input type="submit" value=<?php echo login_btn ?>>
                     </form></td>
 
-                <td><form method="POST" action="index.php">
-                        <input type="submit" value="test">
+                    <td><form method="POST" action="?dropdown=1">
+                        <input type="submit" value=<?php echo search_btn ?>>
+                        
                     </form></td>
 
                 <td>
