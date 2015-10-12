@@ -12,29 +12,6 @@ define("sound_light_label", "lyd og lys");
 
 define("city_trd", "Trondheim");
 
-// Register user labels
-define("register_label","Registrering av bruker");
-define("firstName_label", "Fornavn");
-define("lastName_label", "Etternavn");
-define("email_label", "E-mail");
-define("phone_label", "Telefon");
-define("adresse_label", "Adresse");
-define("zipCode_label", "Postnummer");
-define("city_label", "By");
-
-//Register user errors
-define("blank","");
-define("firstName_blank","skriv inn fornavn");
-define("lastName_blank","skriv inn etternavn");
-define("email_blank","skriv e-post adresse");
-define("invalidName","kun bokstaver og mellomrom er tilatt");
-define("invalidEmail","ugyldig e-post format");
-define("number_blank","skriv inn telefonnummer");
-define("invalidNumber", "telefonnummer kan ikke best&aring av bokstaver eller mellomrom");
-define("invalidLength", "ugyldig lengde p&aring input");
-define("max8Values_Error", "m&aring inneholde 8 tall");
-define("max4Values_Error", "m&aring inneholde 4 tall");
-
 //STRINGS
 define("adress_event_string", "velg addresse for levering");
 define("zip_event_string", "postnummer");

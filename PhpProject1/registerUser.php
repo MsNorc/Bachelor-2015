@@ -1,10 +1,6 @@
 <html>
-    <head><style>
-            .error {color: #FF0000;}
-        </style></head>
     <body>
         <?php
-        include 'layout/header.php';
 
         function test_input($data) {
             $data = trim($data);
@@ -14,128 +10,56 @@
         }
 
 // define variables and set to empty values
-        $first_nameErr = $last_nameErr = $emailErr = $phoneErr = $zip_codeErr = "";
-        $first_name = $last_name = $email = $phone = $zip_code = "";
+        $firstNameErr = $lastNameErr = $emailErr = $numberErr = $adresseErr = $zipCodeErr = $cityErr = "";
+        $firstName = $lastName = $email = $number = $adresse = $zipCode = $city = "";
 
-        //Firstname validation
-        if ($_SERVER["REQUEST_METHOD"] == "POST") {
-            if (empty($_POST["first_name"])) {
-                $first_nameErr = firstName_blank;
+        if (filter_input(INPUT_SERVER, 'SERVER_NAME', FILTER_SANITIZE_STRING) == "POST") {
+
+            if (empty(filter_input(INPUT_POST,'firstName'))) {
+                $firstNameErr = "First name is required";
             } else {
-                $first_name = test_input($_POST["first_name"]);
-                // check if name only contains letters and whitespace
-                if (!preg_match("/^[a-zA-Z ]*$/", $first_name)) {
-                    $first_nameErr = invalidName;
+                $name = test_input(filter_input(INPUT_POST, 'firstame'));
+                if (!preg_match("/^[a-zA-Z ]*$/", $name)) {
+                    $firstNameErr = "Only letters and white space allowed";
                 }
             }
-        }
 
-        //Lastname validation
-        if ($_SERVER["REQUEST_METHOD"] == "POST") {
-            if (empty($_POST["last_name"])) {
-                $last_nameErr = lastName_blank;
+            if (empty(filter_input(INPUT_POST,'lastName'))) {
+                $lastNameErr = "Last name is required";
             } else {
-                $last_name = test_input($_POST["last_name"]);
-                // check if name only contains letters and whitespace
-                if (!preg_match("/^[a-zA-Z ]*$/", $last_name)) {
-                    $last_nameErr = invalidName;
+                $lastName = test_input(filter_input(INPUT_POST, 'lastName'));
+                if (!preg_match("/^[a-zA-Z ]*$/", $lastName)) {
+                    $lastNameErr = "Only letters and white space allowed";
                 }
             }
-        }
 
-        //E-mail validation
-        if ($_SERVER["REQUEST_METHOD"] == "POST") {
-            if (empty($_POST["email"])) {
-                $emailErr = email_blank;
+
+            if (empty(filter_input(INPUT_POST,'email'))) {
+                $emailErr = "Email is required";
             } else {
-                $email = test_input($_POST["email"]);
-                // check if e-mail address is well-formed
+                $email = $name = test_input(filter_input(INPUT_POST, 'email'));
                 if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-                    $emailErr = invalidEmail;
+                    $emailErr = "Invalid email format";
                 }
             }
-        }
 
-        //Phone Validation
-        if ($_SERVER["REQUEST_METHOD"] == "POST") {
-            if (empty($_POST["phone"])) {
-                $phoneErr = number_blank;
-            } else {
-
-                $phone = test_input($_POST["phone"]);
-                $phone = preg_replace("/[^0-9]/", '', $phone);
-
-                // check phone number length
-                if (strlen($phone) != 8) {
-                    $phoneErr = max8Values_Error;
-                }
-                // check if phone number is valid
-                else if (!filter_var($phone, FILTER_VALIDATE_INT)) {
-                    $phoneErr = invalidNumber;
-                }
-            }
-        }
-
-        if ($_SERVER["REQUEST_METHOD"] == "POST") {
-            if (empty($_POST["zip_code"])) {
-                $zip_codeErr = blank;
-            } else {
-                $zip_code = test_input($_POST["zip_code"]);
-                $zip_code = preg_replace("/[^0-9]/", '', $zipCode);
-
-                // check zip code length
-                if (strlen($zip_code) != 4) {
-                    $zip_codeErr = max4Values_Error;
-                }
-            }
+            $number = test_input(filter_input(INPUT_POST, 'number'));
+            $adresse = test_input(filter_input(INPUT_POST, 'adresse'));
+            $zipCode = test_input(filter_input(INPUT_POST, 'zipcode'));
+            $City = test_input(filter_input(INPUT_POST, 'city'));
         }
         ?>
-        <h1><?php echo register_label ?></h1><br>
-        <p><span class="error">* required field.</span></p>
-        <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>"> 
-
-            <!--First name-->
-            <?php echo firstName_label ?>:
-            <input type="text" name="first_name" value="<?php echo $first_name; ?>">
-            <span class="error">* <?php echo $first_nameErr; ?></span>
-            <br><br>
-
-            <!--Last name-->
-            <?php echo lastName_label ?>:
-            <input type="text" name="last_name" value="<?php echo $last_name; ?>">
-            <span class="error">* <?php echo $last_nameErr; ?></span>
-            <br><br>
-
-            <!--E-mail-->
-            <?php echo email_label ?>: 
-            <input type="text" name="email" value="<?php echo $email; ?>">
-            <span class="error">* <?php echo $emailErr; ?></span>
-            <br><br>
-
-            <?php echo phone_label ?>: 
-            <input type="text" name="phone" value="<?php echo $phone; ?>">
-            <span class="error">* <?php echo $phoneErr; ?></span>
-            <br><br>
-
-            <?php echo adresse_label ?>: <input type="text" name="adresse"><br><br>
-
-            <?php echo zipCode_label ?>: 
-            <input type="text" name="zip_code" value="<?php echo $zip_code; ?>">
-            <span class="error"> <?php echo $zip_codeErr; ?></span><br><br>
-
-            <?php echo city_label ?>: <input type="text" name ="city"><br><br>
-            <input type="submit" name="submit" value="Submit">
+        <form action="registerUser.php" method="post">
+            <p><span class="error">* required field.</span></p>
+            <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>"> 
+            First Name: <input type="text" name="firstName"><span class="error">* <?php echo $firstNameErr; ?></span><br>
+            Last Name: <input type="text" name="lastName"><span class="error">* <?php echo $lastNameErr; ?></span><br>
+            E-mail: <input type="text" name="email"><br>
+            Number: <input type="text" name="number"><br>
+            Adresse: <input type="text" name="adresse"><br>
+            Zip Code: <input type="text" name="zipCode"><br>
+            City: <input type="text" name ="city"><br>
+            <input type="submit">
         </form>
-
-        <?php
-        echo "<h4>Your Input:</h4>";
-        echo $first_name;
-        echo "<br>";
-        echo $last_name;
-        echo "<br>";
-        echo $email;
-        echo "<br>";
-        echo $phone;
-        ?>
     </body>
 </html>
