@@ -7,12 +7,12 @@ and open the template in the editor.
 <html>
     <head>
         <meta charset="UTF-8">
-        <title></title>
+        <title>home</title>
     </head>
     <body>
         <?php
-        include ("layout/header.php");
-        include 'layout/dropdown_layout.php';
+        include ("/layout/header.php");
+        include '/layout/dropdown_layout.php';
         ?>
         <?php
         //include ("db/mysqli_connect.php")
@@ -29,8 +29,13 @@ and open the template in the editor.
         } elseif ($time < "20") {
             echo "Have a good day!";
         } else {
-            echo "Have a good night!";
+            echo "Have a good night!  ";
         }
+        
+        session_start();
+        
+        
+        echo time();
 
         include 'layout/frontpage_options.php';
         ?>
