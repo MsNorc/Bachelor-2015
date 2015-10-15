@@ -20,21 +20,22 @@ define("first_name_label", "Fornavn");
 
 define("city_trd", "Trondheim");
 
-<<<<<<< HEAD
+
 //labels admin
 define("label_food_type", "legg inn en ny type mat");
 
 
-=======
+
 // Register user labels
 define("register_label","Registrering av bruker");
 define("firstName_label", "Fornavn");
 define("lastName_label", "Etternavn");
 define("email_label", "E-mail");
 define("phone_label", "Telefon");
-define("adresse_label", "Adresse");
+define("adress_label", "Adresse");
 define("zipCode_label", "Postnummer");
 define("city_label", "By");
+define("amount_label", "Antall mennesker");
 
 //Register user errors
 define("blank","");
@@ -48,7 +49,7 @@ define("invalidNumber", "telefonnummer kan ikke best&aring av bokstaver eller me
 define("invalidLength", "ugyldig lengde p&aring input");
 define("max8Values_Error", "m&aring inneholde 8 tall");
 define("max4Values_Error", "m&aring inneholde 4 tall");
->>>>>>> origin/master
+
 
 //STRINGS
 define("adress_event_string", "velg addresse for levering");

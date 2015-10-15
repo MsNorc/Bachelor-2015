@@ -3,13 +3,13 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <title><?php echo title_cateringView_label ?></title>
-        
+        <title>catering</title>
+
         <?php
         include 'layout/header.php';
         include './catering_populate_view.php';
         ?>
-        
+
     </head>
     <body>
 
@@ -49,11 +49,14 @@
                             ?></a>
 
                         <?php
+                        //script testing
                         ?>
 
 
                     </div>
 
+                    
+                    
                     <div>
                         <input type="submit" value="<?php echo send_btn ?>">
                     </div>
@@ -99,12 +102,10 @@
                         <span class="error">* <?php echo validate_quantity(); ?></span>
                     </div>
 
-                    <div>
-                        <label>
-                            <?php echo search_btn ?>
-                        </label>
-                        <input type="text" name="search_dishes">
-                        <input type="button" value="<?php echo search_btn ?>">
+                    <div id="container">
+                        <input type="text" onkeyup="getFood(this.value)"/><br>
+                        
+                        <div> id="result"></div>
                     </div>
 
                     <div>
