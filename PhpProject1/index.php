@@ -8,6 +8,7 @@ and open the template in the editor.
     <head>
         <meta charset="UTF-8">
         <title>home</title>
+        
     </head>
     <body>
         <?php
@@ -32,7 +33,7 @@ and open the template in the editor.
             echo "Have a good night!  ";
         }
         
-        session_start();
+       // session_start();
         
         
         echo time();

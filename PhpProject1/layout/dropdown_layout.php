@@ -7,30 +7,32 @@ function setDropdown() {
 
             <!DOCTYPE html>
             <html>
+                <head>
+                    <meta charset="UTF-8">
+                    <title>dropdown</title>
+                    
+                </head>
                 <body>
                     <table>
                         <tr>
-                        <form method="POST" action="**search**">
+                        
                             <input type="text" name="email">
                             <input type="submit" value=<?php echo search_btn ?>>
                         </form>
                     </tr>
                 </table>
-            </body>
-            </html>
+         
 
             <?php
         } else if ($_GET['dropdown'] == '2') {
             ?>
 
-            <!DOCTYPE html>
-            <html>
-                <body>
+            
                     <table>
                         <tr>
                         <form method="POST" action="**search**">
                             <input type="text" name="email">
-                            <input type="text" name="password">
+                            <input type="password" name="pw_user">
                             <input type="submit" value=<?php echo login_btn ?>>
                         </form>
                     </tr>

@@ -6,19 +6,19 @@ session_start();
 
 $accessed = 0;
 
-if (isset($_SESSION['accessed'])) {
+/*if (isset($_SESSION['accessed'])) {
     $accessed = $_SESSION['accessed'];
-}
+}*/
 
-
-if ($accessed != 1) {
+include 'db/mysqli_connect.php';
+/*if ($accessed != 1) {
     include '/db/mysqli_connect.php';
 
     $show_dishes = select_common_dishes();
     $_SESSION['show_dishes_save'] = $show_dishes;
     $accessed = 1;
     $_SESSION['accessed'] = $accessed;
-}
+}*/
 
 //
 
@@ -181,7 +181,7 @@ function cancel_picked() {
 
         $displayed_array = $_SESSION['displayed'];
 
-        $cancel = $_GET['cancelled'];
+        $cancel = filter_input(INPUT_GET, 'cancelled');
 
         if (in_array($cancel, $displayed_array)) {
             $delete = array_search($cancel, $displayed_array);
@@ -229,10 +229,10 @@ function show_picked() {
 
     if (isset($_GET['show_picked'])) {
         //$display = array($_GET['show_picked']); old for backup
-        $display = $_GET['show_picked'];
+        $display = filter_input(INPUT_GET, 'show_picked');
         if (isset($_SESSION['displayed'])) {
             $displayed_array = $_SESSION['displayed'];
-            $display = $_GET['show_picked'];
+            $display = filter_input(INPUT_GET, 'show_picked');
 
             if (in_array($display, $displayed_array)) {
 
@@ -254,5 +254,15 @@ function show_picked() {
         return $displayed_array;
     }
 }
+
+if(isset($_POST['partial_food'])){
+    $partial_food = $_POST['partial_food'];
+    search_foodDB($partial_food);
+}
+/*function search_food($input){
+    search_foodDB($input);
+    //$array = $_SESSION['show_dishes_save'];
+    
+}*/
 ?>
 
