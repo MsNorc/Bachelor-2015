@@ -5,6 +5,7 @@
     <body>
         <?php
         include 'layout/header.php';
+        include 'db/mysqli_connect.php';
 
         function test_input($data) {
             $data = trim($data);
@@ -116,26 +117,27 @@
             <input type="text" name="phone" value="<?php echo $phone; ?>">
             <span class="error">* <?php echo $phoneErr; ?></span>
             <br><br>
+            
 
+            <!-- Adress info for user
             <?php echo adresse_label ?>: <input type="text" name="adresse"><br><br>
-
+            
             <?php echo zipCode_label ?>: 
-            <input type="text" name="zip_code" value="<?php echo $zip_code; ?>">
-            <span class="error"> <?php echo $zip_codeErr; ?></span><br><br>
-
+                        <input type="text" name="zip_code" value="<?php echo $zip_code; ?>">
+                        <span class="error"> <?php echo $zip_codeErr; ?></span><br><br>
+            
             <?php echo city_label ?>: <input type="text" name ="city"><br><br>
-            <input type="submit" name="submit" value="Submit">
+                             
+            -->
+            
+            <input type="submit" name="submit" value="Submit">    
+        
         </form>
-
         <?php
-        echo "<h4>Your Input:</h4>";
-        echo $first_name;
-        echo "<br>";
-        echo $last_name;
-        echo "<br>";
-        echo $email;
-        echo "<br>";
-        echo $phone;
+        $user = array($first_name, $last_name, $email, $phone);
+        if($first_nameErr == "" && $last_nameErr == "" && $emailErr == "" && $phoneErr == "" && $first_name != "" && $last_name != "" && $email != "" && $phone != ""){
+            insert_userDB($user);
+        }
         ?>
     </body>
 </html>
