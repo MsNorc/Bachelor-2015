@@ -5,28 +5,32 @@ session_start();
 
 $accessed = 0;
 
-//require_once '/db/mysqli_connect.php';
+include '/db/mysqli_connect.php';
 
 //functions hide and display 
 function show_ins_food() {
-    if($_SESSION['displayed_admin'] == 1){
-        return true;
+    if (isset($_SESSION['displayed_admin'])) {
+        if ($_SESSION['displayed_admin'] == 1) {
+            return true;
+        }
     }
     if (isset($_GET['show_input'])) {
-        if($_GET['show_input'] == 1){
+        if ($_GET['show_input'] == 1) {
             $_SESSION['displayed_admin'] = 1;
-            return true;    
+            return true;
         }
     }
     return false;
 }
 
-function show_ins_customer(){
-    if($_SESSION['displayed_admin'] == 2){
-        return true;
+function show_ins_customer() {
+    if (isset($_SESSION['displayed_admin'])) {
+        if ($_SESSION['displayed_admin'] == 2) {
+            return true;
+        }
     }
     if (isset($_GET['show_input'])) {
-        if($_GET['show_input'] == 2){
+        if ($_GET['show_input'] == 2) {
             $_SESSION['displayed_admin'] = 2;
             return true;
         }
@@ -34,12 +38,14 @@ function show_ins_customer(){
     return false;
 }
 
-function show_ins_provider(){
-    if($_SESSION['displayed_admin'] == 3){
-        return true;
+function show_ins_provider() {
+    if (isset($_SESSION['displayed_admin'])) {
+        if ($_SESSION['displayed_admin'] == 3) {
+            return true;
+        }
     }
     if (isset($_GET['show_input'])) {
-        if($_GET['show_input'] == 3){
+        if ($_GET['show_input'] == 3) {
             $_SESSION['displayed_admin'] = 3;
             return true;
         }
@@ -64,8 +70,7 @@ function insert_user() {
     //if (enable_access()) {
     $user = array();
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        if (!empty($_POST['first_name_customer'] && $_POST['last_name_customer']
-                && $_POST['email_customer'] && $_POST['phone_customer'])) {
+        if (!empty($_POST['first_name_customer'] && $_POST['last_name_customer'] && $_POST['email_customer'] && $_POST['phone_customer'])) {
 
 
             $first_name = $_POST['first_name_customer'];
@@ -85,10 +90,7 @@ function insert_provider() {
     //enable_access();
     $provider = array();
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        if (!empty($_POST['first_name_provider'] && $_POST['last_name_provider']
-                        && $_POST['email_provider'] && $_POST['phone_provider']
-                        && $_POST['adress_provider'] && $_POST['zip_provider']
-                        && $_POST['amount_provider'])) {
+        if (!empty($_POST['first_name_provider'] && $_POST['last_name_provider'] && $_POST['email_provider'] && $_POST['phone_provider'] && $_POST['adress_provider'] && $_POST['zip_provider'] && $_POST['amount_provider'])) {
 
 
             $first_name = $_POST['first_name_provider'];
