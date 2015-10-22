@@ -6,6 +6,7 @@
         <?php
         include 'layout/header.php';
         include 'db/mysqli_connect.php';
+        include 'captchas/CaptchasDotNet.php';
 
         function test_input($data) {
             $data = trim($data);
@@ -15,6 +16,8 @@
         }
 
 // define variables and set to empty values
+
+        $captchas = new CaptchasDotNet('demo', 'secret', '/tmp/captchasnet-random-strings', '3600', 'abcdefghkmnopqrstuvwxyz', '6', '240', '80', '000088');
         $first_nameErr = $last_nameErr = $emailErr = $phoneErr = $zip_codeErr = "";
         $first_name = $last_name = $email = $phone = $zip_code = "";
 
@@ -93,51 +96,69 @@
         ?>
         <h1><?php echo register_label ?></h1><br>
         <p><span class="error">* required field.</span></p>
-        <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>"> 
+        <form method="get" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" action="check.php"> 
+            <table>
+                <tr>
+                    <td>
+                        <input type="hidden" name="random" value="<?= $captchas->random() ?>" />
+                        <!--First name-->
+                        <?php echo firstName_label ?>:
+                        <input type="text" name="first_name" value="<?php echo $first_name; ?>">
+                        <span class="error">* <?php echo $first_nameErr; ?></span>
+                        <br><br>
 
-            <!--First name-->
-            <?php echo firstName_label ?>:
-            <input type="text" name="first_name" value="<?php echo $first_name; ?>">
-            <span class="error">* <?php echo $first_nameErr; ?></span>
-            <br><br>
+                        <!--Last name-->
+                        <?php echo lastName_label ?>:
+                        <input type="text" name="last_name" value="<?php echo $last_name; ?>">
+                        <span class="error">* <?php echo $last_nameErr; ?></span>
+                        <br><br>
 
-            <!--Last name-->
-            <?php echo lastName_label ?>:
-            <input type="text" name="last_name" value="<?php echo $last_name; ?>">
-            <span class="error">* <?php echo $last_nameErr; ?></span>
-            <br><br>
+                        <!--E-mail-->
+                        <?php echo email_label ?>: 
+                        <input type="text" name="email" value="<?php echo $email; ?>">
+                        <span class="error">* <?php echo $emailErr; ?></span>
+                        <br><br>
 
-            <!--E-mail-->
-            <?php echo email_label ?>: 
-            <input type="text" name="email" value="<?php echo $email; ?>">
-            <span class="error">* <?php echo $emailErr; ?></span>
-            <br><br>
+                        <?php echo phone_label ?>: 
+                        <input type="text" name="phone" value="<?php echo $phone; ?>">
+                        <span class="error">* <?php echo $phoneErr; ?></span>
+                        <br><br>
 
-            <?php echo phone_label ?>: 
-            <input type="text" name="phone" value="<?php echo $phone; ?>">
-            <span class="error">* <?php echo $phoneErr; ?></span>
-            <br><br>
-            
 
-            <!-- Adress info for user
-            <?php echo adresse_label ?>: <input type="text" name="adresse"><br><br>
-            
-            <?php echo zipCode_label ?>: 
-                        <input type="text" name="zip_code" value="<?php echo $zip_code; ?>">
-                        <span class="error"> <?php echo $zip_codeErr; ?></span><br><br>
-            
-            <?php echo city_label ?>: <input type="text" name ="city"><br><br>
-                             
-            -->
-            
-            <input type="submit" name="submit" value="Submit">    
-        
+                        <!-- User adress
+                        <?php echo adresse_label ?>: <input type="text" name="adresse"><br><br>
+                        
+                        <?php echo zipCode_label ?>: 
+                                    <input type="text" name="zip_code" value="<?php echo $zip_code; ?>">
+                                    <span class="error"> <?php echo $zip_codeErr; ?></span><br><br>
+                        
+                        <?php echo city_label ?>: <input type="text" name ="city"><br><br>
+                                         
+                        -->
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        CAPTCHA: <input name="password" size="6" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <?= $captchas->image() ?> <a href="javascript:captchas_image_reload('captchas.net')">Reload Image</a>
+                        <br> <a href="<?= $captchas->audio_url() ?>">Phonetic spelling (mp3)</a>
+                    </td>
+                </tr>
+            </table>
+            <input type="submit" value="Submit" />
+
         </form>
         <?php
-        $user = array($first_name, $last_name, $email, $phone);
-        if($first_nameErr == "" && $last_nameErr == "" && $emailErr == "" && $phoneErr == "" && $first_name != "" && $last_name != "" && $email != "" && $phone != ""){
-            insert_userDB($user);
-        }
+        $user = array("first_name" => $first_name, "last_name" => $last_name, "email" => $email, "phone" => $phone);
+
+         if ($first_nameErr == "" && $last_nameErr == "" && $emailErr == "" && $phoneErr == "" && $first_name != "" && $last_name != "" && $email != "" && $phone != "") {  
+                //    insert_userDB($user);
+                print_r($user);
+         }
         ?>
     </body>
 </html>
