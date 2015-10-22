@@ -1,24 +1,24 @@
 <?php
 
-//if (!isset($_SESSION)) {
-session_start();
-//}
+if (!isset($_SESSION)) {
+    session_start();
+}
 
 $accessed = 0;
 
-/*if (isset($_SESSION['accessed'])) {
-    $accessed = $_SESSION['accessed'];
-}*/
+/* if (isset($_SESSION['accessed'])) {
+  $accessed = $_SESSION['accessed'];
+  } */
 
 include 'db/mysqli_connect.php';
-/*if ($accessed != 1) {
-    include '/db/mysqli_connect.php';
+/* if ($accessed != 1) {
+  include '/db/mysqli_connect.php';
 
-    $show_dishes = select_common_dishes();
-    $_SESSION['show_dishes_save'] = $show_dishes;
-    $accessed = 1;
-    $_SESSION['accessed'] = $accessed;
-}*/
+  $show_dishes = select_common_dishes();
+  $_SESSION['show_dishes_save'] = $show_dishes;
+  $accessed = 1;
+  $_SESSION['accessed'] = $accessed;
+  } */
 
 //
 
@@ -37,12 +37,11 @@ function test_input($data) {
 }
 
 function get_adress() {
-    //$adress_event = "";
+    $adress_event = "";
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        if (empty($_POST["adress_event"])) {
-            $adress_event = "";
-        } else {
-            $adress_event = $_POST["adress_event"];
+        if (isset($_POST["adress_event"])) {
+
+            $adress_event = filter_input(INPUT_POST, 'adress_event');
             //return $adress_event;
         }
         return $adress_event;
@@ -52,26 +51,24 @@ function get_adress() {
 function validate_adress() {
     $adressErr = "";
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        if (empty($_POST["adress_event"])) {
-            $adressErr = "";
-        } else {
+        //if (isset($_POST["adress_event"])) {
+        //$adress_event = filter_input(INPUT_POST, 'adress_event');
+        if (get_adress()) {
             $adress_event = test_input($_POST["adress_event"]);
             if (!preg_match("/^[a-zA-Z ]*$/", $adress_event)) {
                 $adressErr = "only letters pls";
             }
         }
+        //  }
         return $adressErr;
     }
-    return $adressErr;
 }
 
 function get_zip() {
+    $zip_code = "";
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        if (empty($_POST["zip_code"])) {
-            $zip_code = "";
-        } else {
-            $zip_code = $_POST["zip_code"];
-            //return $adress_event;
+        if (isset($_POST['zip_code'])) {
+            $zip_code = filter_input(INPUT_POST, 'zip_code');
         }
         return $zip_code;
     }
@@ -81,89 +78,76 @@ function get_zip() {
 function validate_zip() {
     $zipErr = "";
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        if (empty($_POST["zip_code"])) {
-            $zipErr = "";
-        } else {
+        $zip_code = filter_input(INPUT_POST, 'zip_code');
+        if (get_zip()) {
             $zip_code = test_input($_POST["zip_code"]);
-
             if (!preg_match("/^[0-9]*$/", $zip_code)) {
                 $zipErr = "only numbers pls";
             }
         }
-        return $zipErr;
     }
     return $zipErr;
 }
 
 function get_date() {
+    $date_picked = "";
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        if (empty($_POST["date_picked"])) {
-            $date_picked = "";
-        } else {
-            $date_picked = $_POST["date_picked"];
-            //return $adress_event;
-        }
-        return $date_picked;
+        $date_picked = filter_input(INPUT_POST, 'date_picked');
     }
+    return $date_picked;
 }
 
 //date
 function validate_date() {
     $dateErr = "";
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        if (empty($_POST["date_picked"])) {
-            $dateErr = "";
-        } else {
+        if (get_date()) {
+            //date check to be made soon^tm
             $date_picked = test_input($_POST["date_picked"]);
         }
-        return $dateErr;
     }
     return $dateErr;
 }
 
 function get_quantityPeople() {
+    $quantity_people = "";
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        if (empty($_POST["quantity_people"])) {
-            $quantity_people = "";
-        } else {
-            $quantity_people = $_POST["quantity_people"];
-            //return $adress_event;
-        }
-        return $quantity_people;
+        $quantity_people = filter_input(INPUT_POST, 'quantity_people');
     }
+    return $quantity_people;
 }
 
 //quantity
 function validate_quantity() {
     $quantityErr = "";
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        if (empty($_POST["quantity_people"])) {
-            $quantityErr = "";
-        } else {
+        if (get_quantityPeople()) {
             $quantity_people = test_input($_POST["quantity_people"]);
             if (!preg_match("/^[0-9]*$/", $quantity_people)) {
                 $quantityErr = "only letters pls";
             }
         }
-        return $quantityErr;
     }
     return $quantityErr;
 }
 
 function check_validation() {
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        if (empty(validate_adress()) && !empty(get_adress())
-                && empty(validate_date()) && !empty(get_date())
-                && empty(validate_quantity()) && !empty(get_quantityPeople())
-                && empty(validate_zip()) && !empty(get_zip())) {
+        /* if (!empty(validate_adress() && get_adress() 
+          && validate_date() && get_date()
+          && validate_quantity() && get_quantityPeople()
+          && (validate_zip()) && get_zip())) { */ //php > 5.3
+        if ((!validate_adress() && get_adress() && !validate_date() 
+                && get_date() && !validate_quantity() && get_quantityPeople() 
+                && !validate_zip() && get_zip())) {
 
             return true;
         }
-        return false;
     }
+    return false;
 }
 
-function save_input(){
+function save_input() {
     $_SESSION['adress_event'] = get_adress();
     $_SESSION['zip_code'] = get_zip();
     $_SESSION['quantity_people'] = get_quantityPeople();
@@ -205,15 +189,19 @@ function test_array() {
 
 function submit_hold() {
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        if (!empty(isset($_SESSION['displayed']))) {
-            return true;
+        //if (!empty(isset($_SESSION['displayed']))) { // php > 5.3
+        if (isset($_SESSION['displayed'])) {//5.3
+            $displayed = $_SESSION['displayed']; //5.3
+            if ($displayed) {
+                return true;
+            }
         }
         return false;
     }
 }
 
+//displays food_types choosen on the left sidebar
 function show_picked() {
-    $test = "what";
     $display = "";
     $displayed_array = array();
 
@@ -222,7 +210,8 @@ function show_picked() {
     }
 
     if (isset($_GET['cancelled'])) {
-        if (!empty(isset($_SESSION['displayed']))) {
+        //if (!empty(isset($_SESSION['displayed']))) { //**php>5.3**
+        if (isset($_SESSION['displayed'])) {
             return $_SESSION['displayed'];
         }
     }
@@ -255,14 +244,14 @@ function show_picked() {
     }
 }
 
-if(isset($_POST['partial_food'])){
+if (isset($_POST['partial_food'])) {
     $partial_food = $_POST['partial_food'];
     search_foodDB($partial_food);
 }
-/*function search_food($input){
-    search_foodDB($input);
-    //$array = $_SESSION['show_dishes_save'];
-    
-}*/
+/* function search_food($input){
+  search_foodDB($input);
+  //$array = $_SESSION['show_dishes_save'];
+
+  } */
 ?>
 

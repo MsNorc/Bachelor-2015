@@ -8,24 +8,24 @@
 
         <?php
         include 'layout/header.php';
-        include './catering_populate_view.php';
+        include 'catering_populate_view.php';
+        //include '/language/lang_no.php';
         ?>
 
         <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
         <script>
             function getFoodList(value) {
+               
                 $.post("catering_populate_view.php", {partial_food: value})
                         .done(function (data) {
                             $("#results").html(data);
                         })
 
                         .always(function (data) {
-                            //alert("completed");
+                    //alert ("execution time.." + time);
                         });
-            }
-            $("#results").click(function () {
-                alert("clicked");
-            });
+            };
+            
         </script>
 
 
@@ -39,23 +39,23 @@
                 <div id = "catering_left_display">
                     <div >
                         <input type = "checkbox" id = "checkbox_city_trd" value = "trd">
-                        <label for = "checkbox_city_trd" ><?php echo city_trd ?> </label>
+                        <label for="checkbox_city_trd" ><?php echo city_trd ?> </label>
                     </div>
 
-                    <div >
-                        <a ><?php
+                    <div>
+                        <?php
                             if (check_validation()) :
                                 save_input();
                                 header('Location: submit_catering.php');
                             endif;
+                            
                             cancel_picked();
-
                             $display_array = show_picked();
 
                             for ($i = 0; $i < count($display_array); $i++) :
                                 $display_array[$i];
                                 ?>
-                                <a href = "?cancelled=<?php echo $display_array[$i]; ?>">
+                                <a href="?cancelled=<?php echo $display_array[$i] ?>">
                                     <input type = "button" value = "X">
                                 </a>
                                 <?php echo $display_array[$i] ?>
@@ -64,7 +64,7 @@
                                 echo "<br>";
                             endfor;
                             //  }
-                            ?> </a>
+                            ?> 
 
                         <?php
                         //script testing
@@ -96,8 +96,8 @@
                         <label >
                             <?php echo zip_event_string ?>
                         </label>
-                        <input type = "number" name = "zip_code"
-                               value = "<?php echo get_zip(); ?>">
+                        <input type="number" name="zip_code" 
+                               value="<?php echo get_zip();?>">
                         <span class = "error" > * <?php echo validate_zip(); ?> 
                         </span>
 
@@ -116,8 +116,8 @@
                         <label>
                             <?php echo quantity_people_string ?>
                         </label>
-                        <input type = "number" name = "quantity_people"
-                               value = "<?php echo get_quantityPeople(); ?>">
+                        <input type="number" name="quantity_people"
+                               value="<?php echo get_quantityPeople() ?>">
                         <span class = "error" > * <?php echo validate_quantity(); ?> </span>
                     </div>
 

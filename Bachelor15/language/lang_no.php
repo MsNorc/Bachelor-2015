@@ -35,6 +35,7 @@ define("phone_label", "Telefon");
 define("adress_label", "Adresse");
 define("zipCode_label", "Postnummer");
 define("city_label", "By");
+define("pw_label", "Passord");
 define("amount_label", "Antall mennesker");
 
 //Register user errors

@@ -12,15 +12,23 @@ and open the template in the editor.
     </head>
     <body>
         <?php
-        include ("/layout/header.php");
-        include '/layout/dropdown_layout.php';
+       
+        
+        
+        include ("layout/header.php");
+        include 'layout/dropdown_layout.php';
         ?>
         <?php
         //include ("db/mysqli_connect.php")
         ?>
         <?php
         $PageTitle = "Bachelor prosjekt";
-
+        
+        if(isset($_SESSION['dropdown'])){
+            echo $_SESSION['dropdown'];
+        }
+        
+        
         echo "<br>";
 
         $time = date("H");

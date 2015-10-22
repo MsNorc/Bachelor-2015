@@ -1,6 +1,6 @@
 <?php
 
-//include ('/db/config_db.php');
+//include ('db/config_db.php');
 
 function insert_test() {
     $db_connection = get_connection();
@@ -20,14 +20,14 @@ function get_connection() {  //annen måte å gjøre dette på ??
     $db_user = "chrin";
     $db_password = "UZGVCsew";
     $db_name = "chrin";
-    
+
     $db_connection = mysqli_connect($db_host, $db_user, $db_password, $db_name)
             or die("Could not connect");
     if (!mysqli_select_db($db_connection, $db_name)) {
         echo 'Could not select database';
         exit;
     }
-    
+
     return $db_connection;
 }
 
@@ -75,36 +75,70 @@ function select_common_dishes() {
     return $results;
 }
 
+function check_availability_food($food_check) {
+    $db_connection = get_connection();
+    $sql = "SELECT food_type FROM catering_list WHERE food_type = '$food_check'";
+    $result = mysqli_query($db_connection, $sql);
+    $data = mysqli_num_rows($result);
+    if ($data == 1) {
+        return false;
+    }
+    return true;
+}
+
 //insert functions
 function insert_foodDB($food_type) {
-    $db_connection = get_connection();
-    $sql = "INSERT INTO catering_list (food_type) VALUES('$food_type')";
-    $result = mysqli_query($db_connection, $sql);
+    if (check_availability_food($food_type)) {
+        $db_connection = get_connection();
+        $sql = "INSERT INTO catering_list (food_type) VALUES('$food_type')";
+        $result = mysqli_query($db_connection, $sql);
 
-    if (!$result) {
-        echo "DB Error, could not query the database\n";
-        echo 'MySQL Error: ' . mysqli_error($db_connection);
-        exit;
+        if (!$result) {
+            echo "DB Error, could not query the database\n";
+            echo 'MySQL Error: ' . mysqli_error($db_connection);
+            exit;
+        }
+        mysqli_close($db_connection);
     }
 }
 
-function insert_userDB($user) {
+function check_availability_customer($user) {
     $db_connection = get_connection();
-
-    $first_name = $user[0];
-    $last_name = $user[1];
-    $email = $user[2];
-    $phone = $user[3];
-
-    $sql = "INSERT INTO customer (first_name, last_name, email, phone_number) "
-            . "VALUES ('$first_name', '$last_name', '$email', '$phone')";
-
+    $email = $user['email'];
+    $sql = "SELECT email FROM customer WHERE email = '$email'";
     $result = mysqli_query($db_connection, $sql);
+    $data = mysqli_num_rows($result);
+    if ($data == 1) {
+        return false;
+    }
+    return true;
+}
 
-    if (!$result) {
-        echo "DB Error, could not query the database\n";
-        echo 'MySQL Error: ' . mysqli_error($db_connection);
-        exit;
+function insert_userDB($user) {
+    if (check_availability_customer($user)) {
+        $db_connection = get_connection();
+
+        $first_name = $user['first_name'];
+        $last_name = $user['last_name'];
+        $email = $user['email'];
+        $phone = $user['phone'];
+        $adress = $user['adress'];
+        $zip = $user['zip'];
+        $password = $user['password'];
+
+        $sql = "INSERT INTO chrin.customer (first_name, last_name, email, 
+        phone_number, adress, zip_code, password_customer) 
+	VALUES ('$first_name', '$last_name', '$email', '$phone', '$adress', "
+                . "'$zip', '$password')";
+
+        $result = mysqli_query($db_connection, $sql);
+
+        if (!$result) {
+            echo "DB Error, could not query the database\n";
+            echo 'MySQL Error: ' . mysqli_error($db_connection);
+            exit;
+        }
+        mysqli_close($db_connection);
     }
 }
 
@@ -133,20 +167,47 @@ function insert_providerDB($provider) {
         echo 'MySQL Error: ' . mysqli_error($db_connection);
         exit;
     }
+    mysqli_free_result($result);
+    mysqli_close($db_connection);
 }
 
-function search_FoodDB($input){
-    if (!empty($input)) {
-        $con = get_connection();
-        //$sql = "SELECT * FROM catering_list";
+//display list of food from DB - search 
+function search_FoodDB($input) {
+
+    if ($input != "") {
+        $db_connection = get_connection();
         $sql = "SELECT food_type FROM catering_list WHERE food_type LIKE '%{$input}%'";
-        $query = mysqli_query($con, $sql);
+        $query = mysqli_query($db_connection, $sql);
 
         while ($row = mysqli_fetch_assoc($query)) {
             $output = $row['food_type'];
             echo "<a href='?show_picked=$output'>" . $output . "</a>";
             echo "<br>";
         }
+        mysqli_free_result($query);
+        mysqli_close($db_connection);
+    }
+}
+
+function edit_foodDB($new_value) {
+    if ($new_value != "") {
+        $db_connection = get_connection();
+        $old_value = $_SESSION['show_picked'];
+        $sql = "SELECT catering_id FROM catering_list WHERE food_type = '$old_value'";
+        $query = mysqli_query($db_connection, $sql);
+        $data = mysqli_num_rows($query);
+        if ($data == 1) {
+            while ($row = mysqli_fetch_assoc($query)) {
+                $food_id = $row["catering_id"];
+            }
+            //$food_id = $query['catering_id'];
+            $sql2 = "UPDATE catering_list SET food_type = '$new_value' WHERE catering_id = '$food_id'";
+            $query = mysqli_query($db_connection, $sql2);
+            $_SESSION['changed'] = $old_value ." is set to : ". $new_value;
+            return true;
+        }
+        mysqli_free_result($query);
+        mysqli_close($db_connection);
     }
     return false;
 }
