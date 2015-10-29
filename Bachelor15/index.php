@@ -25,7 +25,11 @@ and open the template in the editor.
         $PageTitle = "Bachelor prosjekt";
         
         if(isset($_SESSION['dropdown'])){
-            echo $_SESSION['dropdown'];
+            //echo $_SESSION['dropdown'];
+            /*echo $_SESSION['user'];
+            echo "<br>";
+            echo $_SESSION['user_id'];
+            echo "<br>";*/
         }
         
         

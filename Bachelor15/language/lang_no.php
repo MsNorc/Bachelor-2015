@@ -24,6 +24,9 @@ define("city_trd", "Trondheim");
 //labels admin
 define("label_food_type", "legg inn en ny type mat");
 
+//frontpage labels
+define("frontpage_label", "trykk for å opprette et event!");
+
 
 
 // Register user labels

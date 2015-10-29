@@ -189,4 +189,6 @@
     </form>
 </body>
 
+<?php include 'layout/footer.php'; ?> 
+
 

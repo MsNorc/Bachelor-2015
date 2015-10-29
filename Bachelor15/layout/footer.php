@@ -1,7 +1,10 @@
-<hr>
+<!DOCTYPE html>
+<html>
 
-<small>under development.. Norc</small><br>
-
+    <div id="main_footer">
+        
+        <small>under development.. Norc</small><br>
+    </div>
 </body>
 
 </html>

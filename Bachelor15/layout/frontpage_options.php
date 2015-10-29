@@ -5,7 +5,7 @@
     <head> 
         <title>Header</title> 
     </head> 
-    <body> <h2>coming soon ^tm</h2><p>
+    <body> <h2><?php echo frontpage_label; ?></h2><p>
 
         <table border="0">
             <tr>

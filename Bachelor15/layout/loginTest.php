@@ -25,13 +25,17 @@ if (isset($_POST['email1'], $_POST['password1'])) {
         $output = "invalid email..";
     } else {
 
-        $sql = ("SELECT email, password_customer FROM customer where email = '$email' AND password_customer = '$password'");
+        $sql = ("SELECT email, password_customer, customer_id FROM customer where email = '$email' AND password_customer = '$password'");
         $result = mysqli_query($db_connection, $sql);
         //$data = mysql_num_rows($result);
         $data = mysqli_num_rows($result);
         if ($data == 1) {
             $output = "logged in..";
             $_SESSION['user'] = $email;
+            while ($row = mysqli_fetch_assoc($result)) {
+                $_SESSION['user_id'] = $row["customer_id"];
+                $_SESSION['dropdown'] = 0;
+            }
         } else {
             $output = "email or pw wrong..";
         }

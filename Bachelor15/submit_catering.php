@@ -3,12 +3,36 @@ if (!isset($_SESSION)) {
     session_start();
 }
 
-//include 'db/mysqli_connect.php';
+include 'catering_populate_view.php';
+//include 'layout/header.php';
 
 $adress_event = $_SESSION['adress_event'];
 $zip_code = $_SESSION['zip_code'];
 $date_picked = $_SESSION['date_picked'];
 $quantity_people = $_SESSION['quantity_people'];
+$output = $_SESSION['displayed'];
+$output_amount = $_SESSION['amount'];
+
+$request_array = array();
+$request_array['adress'] = $adress_event;
+$request_array['zip'] = $zip_code;
+$request_array['date'] = $date_picked;
+$request_array['amount'] = $quantity_people;
+$request_array['food_list'] = $output;
+$request_array['amount_list'] = $output_amount;
+
+print_r($output_amount);
+
+//print_r($request_array);
+
+//function send_request($request_array){
+//print_r(make_request($request_array));
+
+
+
+//include 'db/mysqli_connect.php';
+
+
 
 
 //echo "food picked...";
@@ -25,8 +49,11 @@ $quantity_people = $_SESSION['quantity_people'];
     <head>
         <meta charset="UTF-8">
         <title>catering request</title>
+        
+        <?php include 'layout/header.php' ?>
     </head>
     <body>
+        <form method = "post" action = "<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
         <h3>your info..</h3>
         <div>
             <a><label>adress:</label>
@@ -56,7 +83,8 @@ $quantity_people = $_SESSION['quantity_people'];
                     $output = $_SESSION['displayed'];
                     for ($i = 0; $i < count($output); $i++) :
                         ?>
-                        <li><?php echo $output[$i]; ?></li>
+                        <li><?php echo $output[$i]." : ".$output_amount[$output[$i]]; ?>
+                            
                         <?php
                     endfor;
                 endif;
@@ -65,22 +93,22 @@ $quantity_people = $_SESSION['quantity_people'];
         </div>
         <div>
             is this info correct ? 
-            <input type="button" value="ok">
+            <input type="submit" value="ok">
         </div>
+        </form>
     </body>
 </html>
 
 <?php
-$request_array = array();
-$request_array['adress'] = $adress_event;
-$request_array['zip'] = $zip_code;
-$request_array['date'] = $date_picked;
-$request_array['amount'] = $quantity_people;
-$request_array['food_list'] = $output;
 
-//array_push($request_array, $adress_event, $zip_code, $date_picked, $quantity_people);
-//array_push($request_array, $output);
-print_r($request_array);
+make_request($request_array);
+ 
+
+
+//send request to db handler ..
+//make_request($request_array);
+
+
 
 /* for ($i = 0; $i < count($request_array); $i++) {
   $limit = 4;

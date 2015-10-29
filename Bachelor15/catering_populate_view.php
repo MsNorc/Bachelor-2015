@@ -81,8 +81,8 @@ function validate_zip() {
         $zip_code = filter_input(INPUT_POST, 'zip_code');
         if (get_zip()) {
             $zip_code = test_input($_POST["zip_code"]);
-            if (!preg_match("/^[0-9]*$/", $zip_code)) {
-                $zipErr = "only numbers pls";
+            if (!preg_match("/^[0-9]{4}$/", $zip_code)) {
+                $zipErr = "4 digit zip";
             }
         }
     }
@@ -123,13 +123,14 @@ function validate_quantity() {
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if (get_quantityPeople()) {
             $quantity_people = test_input($_POST["quantity_people"]);
-            if (!preg_match("/^[0-9]*$/", $quantity_people)) {
-                $quantityErr = "only letters pls";
+            if (!preg_match("/^[0-9]{1,3}$/", $quantity_people)) {
+                $quantityErr = "between 1-999";
             }
         }
     }
     return $quantityErr;
 }
+
 
 function check_validation() {
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -152,6 +153,8 @@ function save_input() {
     $_SESSION['zip_code'] = get_zip();
     $_SESSION['quantity_people'] = get_quantityPeople();
     $_SESSION['date_picked'] = get_date();
+    
+    
 }
 
 function cancel_picked() {
@@ -253,5 +256,43 @@ if (isset($_POST['partial_food'])) {
   //$array = $_SESSION['show_dishes_save'];
 
   } */
+
+function save_amount(){
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        $amount_list = array();
+        $displayed_items = $_SESSION['displayed'];
+        for ($i = 0; $i < count($displayed_items); $i++) {
+            $amount[$i] = filter_input(INPUT_POST, "amount".$displayed_items[$i]);
+            $amount_list[$displayed_items[$i]] = $amount[$i];
+        }
+        $_SESSION['amount'] = $amount_list;
+    }
+}
+
+function make_request($request){
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        make_requestDB($request);
+    }
+}
+
+//receive from JS function
+if(isset($_POST['zip_codeInput'])){
+    $input = $_POST['zip_codeInput'];
+    get_area($input);
+}
+function get_area($zip){
+    //$_SESSION['testen'] = "get_area";
+    get_areaDB($zip);
+    
+}
+
+function set_location($zip){
+    $substr = substr($zip, 0,2);
+    if($substr <= 12){
+        $region = "oslo";
+    }
+    
+    
+}
 ?>
 
