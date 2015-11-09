@@ -7,10 +7,11 @@
 
 
         <?php
-        include 'layout/header.php';
-        include 'catering_populate_view.php';
-        $_SESSION['dropdown'] = 0;
-        include 'layout/dropdown_layout.php';
+        include '/layout/header.php';
+        include '/layout/dropdown_layout.php';
+        include '/catering_populate_view.php';
+        //$_SESSION['dropdown'] = 0;
+        //include 'layout/dropdown_layout.php';
         if (isset($_SESSION['user'])):
             ?>
 
@@ -50,13 +51,12 @@
         </head>
         <body>
 
-            <link rel = "stylesheet" type = "text/css" href = "css/search_catering.css">
+            
             <form method = "post" action = "<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
                 <div class = "catering_wrapper">
                     <div id = "catering_left_display">
                         <div >
-                            <input type = "checkbox" id = "checkbox_city_trd" value = "trd">
-                            <label for="checkbox_city_trd" ><?php echo city_trd ?> </label>
+                            <label><?php echo msg_insertFood ?></label>
                         </div>
                         <form action="/" id="search_food">
                             <input type="text" placeholder="search food.." onkeyup="getFoodList(this.value)">
@@ -64,7 +64,7 @@
                         </form>
 
                         <div>
-                            <h4>your choice of food</h4>
+                            <h4><?php echo msg_pickFood ?></h4>
                             <?php
                             if (check_validation()) :
                                 save_input();
@@ -156,13 +156,13 @@
 
                 <?php
 //footer
-                include 'layout/footer.php';
+                //include 'layout/footer.php';
                 ?>
             </div>
         </body>
     </html>
     <?php
 endif;
-if(!$_SESSION['user']):
-echo "please log in to make a catering request.. ";
+if(!isset($_SESSION['user'])):
+echo msg_login;
 endif;

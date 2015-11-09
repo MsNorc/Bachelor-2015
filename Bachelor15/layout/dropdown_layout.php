@@ -24,27 +24,29 @@
                     $.post("layout/loginTest.php", {email1: email, password1: password})
                             .done(function (data) {
                             $("#resultLogin").html(data);
+                    
+                            
                     //alert(data);
                             })
                             .error(function(data){
-                            //alert("something wrong boy!");
+                            //location = location['admin_input.php'];
                             })
 
                             .always(function (data) {
-                            //alert("completed");
+                            window.setTimeout(function(){location.reload()},2000);
                             });
                     });
             });
         </script>
     </head>
     <body>
+        <link rel = "stylesheet" type = "text/css" href = "css/search_catering.css">
         <div class="container">
             <div class="main">
                 <form action="/.." method="POST">
-                <h4>login..</h4>
-                <label>Email :</label>
+                <label><?php echo email_label ?></label>
                 <input type="text" name="demail" id="email">
-                <label>Password :</label>
+                <label><?php echo pw_label ?></label>
                 <input type="password" name="password" id="password">
                 <input type="button" name="login" id="login" value="Login">
                 <div id="resultLogin"></div>

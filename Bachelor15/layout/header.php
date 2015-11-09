@@ -3,7 +3,7 @@ if (!isset($_SESSION)) {
     session_start();
 }
 
-include 'language/switch_language.php';
+include '/language/switch_language.php';
 
 function check_dropdown() {
 //$php_errormsg = "what";
@@ -22,11 +22,14 @@ function check_dropdown() {
         $_SESSION['dropdown'] = 0;
     }
 }
+
 ?>
 <!DOCTYPE html>
 <html> 
     <head> 
         <title>Header</title> 
+        
+       
     </head> 
     <body> 
         <link rel = "stylesheet" type = "text/css" href = "css/search_catering.css">
@@ -53,6 +56,7 @@ function check_dropdown() {
                         <select name="form" onchange="location = this.options[this.selectedIndex].value;">
                             <option style="display:none;">more</option>
                             <option value="view_requests.php">view requests</option>
+                            <option value="provider_search.php">provider</option>
                             
                         </select>
                     </td>
@@ -78,6 +82,7 @@ function check_dropdown() {
 
                         <?php endif; ?>
                     </td>
+                    
                 </tr>
 
             </table>

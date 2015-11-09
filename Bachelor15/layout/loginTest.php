@@ -30,7 +30,7 @@ if (isset($_POST['email1'], $_POST['password1'])) {
         //$data = mysql_num_rows($result);
         $data = mysqli_num_rows($result);
         if ($data == 1) {
-            $output = "logged in..";
+            $output = "success";
             $_SESSION['user'] = $email;
             while ($row = mysqli_fetch_assoc($result)) {
                 $_SESSION['user_id'] = $row["customer_id"];

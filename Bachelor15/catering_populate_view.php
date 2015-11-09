@@ -10,7 +10,7 @@ $accessed = 0;
   $accessed = $_SESSION['accessed'];
   } */
 
-include 'db/mysqli_connect.php';
+include '/db/mysqli_connect.php';
 /* if ($accessed != 1) {
   include '/db/mysqli_connect.php';
 
@@ -83,6 +83,9 @@ function validate_zip() {
             $zip_code = test_input($_POST["zip_code"]);
             if (!preg_match("/^[0-9]{4}$/", $zip_code)) {
                 $zipErr = "4 digit zip";
+            }
+            if(!check_zipDB($zip_code)){
+                $zipErr = "zip doesn't exist";
             }
         }
     }
@@ -219,12 +222,12 @@ function show_picked() {
         }
     }
 
-    if (isset($_GET['show_picked'])) {
+    if (isset($_GET['show_pickedFood'])) {
         //$display = array($_GET['show_picked']); old for backup
-        $display = filter_input(INPUT_GET, 'show_picked');
+        $display = filter_input(INPUT_GET, 'show_pickedFood');
         if (isset($_SESSION['displayed'])) {
             $displayed_array = $_SESSION['displayed'];
-            $display = filter_input(INPUT_GET, 'show_picked');
+            $display = filter_input(INPUT_GET, 'show_pickedFood');
 
             if (in_array($display, $displayed_array)) {
 

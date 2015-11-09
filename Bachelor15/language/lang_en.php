@@ -61,3 +61,6 @@ define("zip_event_string", "zip code");
 define("select_date_string", "pick a date for delivery");
 define("quantity_people_string", "amount of people");
 
+define("please_login", "please login to see this page..");
+define("msg_insertFood", "Search to show a list of food");
+define("msg_pickFood","Your choice of food..");

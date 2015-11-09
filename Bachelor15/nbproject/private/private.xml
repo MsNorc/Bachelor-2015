@@ -3,9 +3,12 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/wamp/www/Bachelor15/catering_populate_view.php</file>
-            <file>file:/C:/wamp/www/Bachelor15/catering_view.php</file>
-            <file>file:/C:/wamp/www/Bachelor15/submit_catering.php</file>
+            <file>file:/C:/wamp/www/Bachelor15/provider_handling.php</file>
+            <file>file:/C:/wamp/www/Bachelor15/css/search_catering.css</file>
+            <file>file:/C:/wamp/www/Bachelor15/db/mysqli_connect.php</file>
+            <file>file:/C:/wamp/www/Bachelor15/request_handling.php</file>
+            <file>file:/C:/wamp/www/Bachelor15/provider_search.php</file>
+            <file>file:/C:/wamp/www/Bachelor15/view_requests.php</file>
         </group>
     </open-files>
 </project-private>

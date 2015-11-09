@@ -61,3 +61,9 @@ define("zip_event_string", "postnummer");
 define("select_date_string", "velg en ønsket dato for levering");
 define("quantity_people_string", "velg antall personer");
 
+//messages
+define("msg_login", "logg inn for å se denne siden..");
+define("msg_insertFood", "Søk for å vise matliste");
+define("msg_pickFood","Dine valg av mat..");
+
+define("msg_providerOffer", "Du har registrert din interesse, vent på tilbakemelding fra kunde");

@@ -3,7 +3,7 @@ if (!isset($_SESSION)) {
     session_start();
 }
 
-include 'catering_populate_view.php';
+include '/catering_populate_view.php';
 //include 'layout/header.php';
 
 $adress_event = $_SESSION['adress_event'];
@@ -20,8 +20,7 @@ $request_array['date'] = $date_picked;
 $request_array['amount'] = $quantity_people;
 $request_array['food_list'] = $output;
 $request_array['amount_list'] = $output_amount;
-
-print_r($output_amount);
+//print_r($output_amount);
 
 //print_r($request_array);
 
@@ -101,7 +100,10 @@ print_r($output_amount);
 
 <?php
 
-make_request($request_array);
+if(make_request($request_array)){
+    echo "success..";
+}
+
  
 
 
