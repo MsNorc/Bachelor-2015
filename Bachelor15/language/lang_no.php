@@ -40,6 +40,7 @@ define("zipCode_label", "Postnummer");
 define("city_label", "By");
 define("pw_label", "Passord");
 define("amount_label", "Antall mennesker");
+define("password_label", "passord");
 
 //Register user errors
 define("blank","");

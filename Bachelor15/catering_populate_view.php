@@ -10,7 +10,7 @@ $accessed = 0;
   $accessed = $_SESSION['accessed'];
   } */
 
-include '/db/mysqli_connect.php';
+include 'db/mysqli_connect.php';
 /* if ($accessed != 1) {
   include '/db/mysqli_connect.php';
 
@@ -289,13 +289,13 @@ function get_area($zip){
     
 }
 
-function set_location($zip){
+/*function set_location($zip){ //NOT USED
     $substr = substr($zip, 0,2);
     if($substr <= 12){
         $region = "oslo";
     }
     
     
-}
+}*/
 ?>
 

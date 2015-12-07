@@ -3,11 +3,14 @@
     <head>
         <meta charset="UTF-8">
         <title>admin access</title>
+        
 
         <?php
-        include '/layout/header.php';
-        include '/layout/dropdown_layout.php';
-        include '/admin_handling.php';
+        //include '../controller.php';
+        //echo dirname(__FILE__);
+        include 'layout/header.php';
+        include 'layout/dropdown_layout.php';
+        include 'admin_handling.php';
         ?>
 
         <!DOCTYPE html>
@@ -188,153 +191,188 @@
                     <input type="text" name="zip_provider"><br>
                     <label><?php echo amount_label ?></label>
                     <input type="text" name="amount_provider"><br>
+                    <label><?php echo password_label ?></label>
+                    <input type="password" name="password_provider"><br>
                     <input type="submit" value="add">
-                </div>
-                <?php
-                insert_provider();
-            endif;
 
-            if (show_ins_request()):
-                ?>
-                <div id="show_insert_admin">
-                    <h4>insert request</h4>
-                    <div id="left_admin"><h4>find customer</h4>
-                        <input type="text" onkeyup="getCustomerList(this.value)" placeholder="search customer..">
-                        <div id="result_editCustomer"></div><br>
-                        <?php
-                        if (isset($_SESSION['show_pickedCustomer'])) :
-                            for ($i = 0; $i < 3; $i++) :
-                                ?>
-                                <a> <?php show_pickedCustomer($i) ?></a><br>
-                                <?php
-                            endfor;
-                        endif;
+                    <h4>search food and pick what you supply</h4>
+                    <input type="text" id="search_food_admin" 
+                           onkeyup="getFoodList(this.value)" placeholder="search food..">
+                    <div id="result_editFood"></div><br>
+                    <?php
+                    cancel_picked();
+                    $display_array = show_picked();
+
+                    for ($i = 0; $i < count($display_array); $i++) :
+                        $display_array[$i];
                         ?>
-                        <h4>find provider</h4>
-                        <input type="text" onkeyup="getProviderList(this.value)" placeholder="search provider..">
-                        <div id="result_editProvider"></div><br>
-                        <?php
-                        if (isset($_SESSION['show_pickedProvider'])) :
-                            for ($i = 0; $i < 3; $i++) :
-                                ?>
-                                <a> <?php show_pickedProvider($i) ?> </a><br>
-                                <?php
-                            endfor;
-                        endif;
+                        <div id="items_picked">
+                            <a href="?cancelled=<?php echo $display_array[$i] ?>">
+                                <input type = "button" value = "X">
+                            </a>
+                            <?php echo $display_array[$i] ?>
+                            </div>
+                            <?php
+                            //echo "<br>";
+
+                        endfor;
                         ?>
-                        <h4>search food</h4>
-                        <input type="text" id="search_food_admin" 
-                               onkeyup="getFoodList(this.value)" placeholder="search food..">
-                        <div id="result_editFood"></div><br>
                         <?php
-                        cancel_picked();
-                        $display_array = show_picked();
+                        insert_provider();
+                    endif;
 
-                        for ($i = 0; $i < count($display_array); $i++) :
-                            $display_array[$i];
+                    if (show_ins_request()):
+                        ?>
+                    <div id="show_insert_admin">
+                        <h4>insert request</h4>
+                        <div id="left_admin"><h4>find customer</h4>
+                            <input type="text" onkeyup="getCustomerList(this.value)" placeholder="search customer..">
+                            <div id="result_editCustomer"></div><br>
+                            <?php
+                            if (isset($_SESSION['show_pickedCustomer'])) :
+                                for ($i = 0; $i < 3; $i++) :
+                                    ?>
+                           
+                            <label><?php show_pickedCustomer($i) ?></label><br>
+                                    <?php
+                                endfor;
+                                ?>
+                                 <!--<a href="?cancelCustomer=<?php //show_pickedCustomer($i) ?>">
+                                <input type="button" value="X"></a> -->
+                                    <?php
+                            endif;
+                            
+                         
+                            
                             ?>
-                            <div id="items_picked">
-                                <a href="?cancelled=<?php echo $display_array[$i] ?>">
-                                    <input type = "button" value = "X">
-                                </a>
-                                <?php echo $display_array[$i] ?>
-                                <input type="number" id="amount_input_food" 
-                                       name="<?php echo "amount" . $display_array[$i] ?>"></div>
-                                <?php
-                                //echo "<br>";
-
-                            endfor;
+                            <h4>find provider</h4>
+                            <input type="text" onkeyup="getProviderList(this.value)" placeholder="search provider..">
+                            <div id="result_editProvider"></div><br>
+                            <?php
+                            if (isset($_SESSION['show_pickedProvider'])) :
+                                for ($i = 0; $i < 3; $i++) :
+                                    ?>
+                                    <a> <?php show_pickedProvider($i) ?> </a><br>
+                                    <?php
+                                endfor;
+                            endif;
                             ?>
-                    </div>
-                    <div id="right_admin">
-                        <label><?php echo adress_event_string ?></label>
-                        <input type="text" name="adress_request"><br>
-                        <label><?php echo zipCode_label ?></label>
-                        <input type="number" name="zip_request"><br>
-                        <label>date</label>
-                        <input type="date" name="date_request">
-                        <label><?php echo quantity_people_string ?></label>
-                        <input type="number" name="quantity_request"><br>
-                        <label>status - checked if provider ??</label>
-                        <input type="checkbox" name="status_request">
-                        <input type="submit" value="add">
-                    </div>
-                </div>
-                <?php
-                save_amount();
-                insert_request();
-            endif;
+                            <h4>search food</h4>
+                            <input type="text" id="search_food_admin" 
+                                   onkeyup="getFoodList(this.value)" placeholder="search food..">
+                            <div id="result_editFood"></div><br>
+                            <?php
+                            cancel_picked();
+                            $display_array = show_picked();
 
-            if (show_edit_food()):
-                ?>
-                <h4>search to find food to edit..</h4>
-                <input type="text" id="search_food_admin" 
-                       onkeyup="getFoodList(this.value)" placeholder="search food..">
-                <div id="result_editFood"></div><br>
-                <div>
-                    <input type="text" name="edit_food_text" value="<?php show_pickedFood() ?>">
-                    <input type="submit" value="edit">
-                </div>
-                <div><?php
+                            for ($i = 0; $i < count($display_array); $i++) :
+                                $display_array[$i];
+                                ?>
+                                <div id="items_picked">
+                                    <a href="?cancelled=<?php echo $display_array[$i] ?>">
+                                        <input type = "button" value = "X">
+                                    </a>
+                                    <?php echo $display_array[$i] ?>
+                                    <input type="number" id="amount_input_food" 
+                                           name="<?php echo "amount" . $display_array[$i] ?>"></div>
+                                    <?php echo $display_array[$i] ?>
+                                    <?php
+                                    //echo "<br>";
+
+                                endfor;
+                                ?>
+                        </div>
+                        <div id="right_admin">
+                            <label><?php echo adress_event_string ?></label>
+                            <input type="text" name="adress_request"><br>
+                            <label><?php echo zipCode_label ?></label>
+                            <input type="number" name="zip_request"><br>
+                            <label>date</label>
+                            <input type="date" name="date_request">
+                            <label><?php echo quantity_people_string ?></label>
+                            <input type="number" name="quantity_request"><br>
+                            <label>status - checked if provider ??</label>
+                            <input type="checkbox" name="status_request">
+                            <input type="submit" value="add">
+                        </div>
+                    </div>
+                    <?php
+                    save_amount();
+                    insert_request();
+                endif;
+
+                if (show_edit_food()):
+                    ?>
+                    <h4>search to find food to edit..</h4>
+                    <input type="text" id="search_food_admin" 
+                           onkeyup="getFoodList(this.value)" placeholder="search food..">
+                    <div id="result_editFood"></div><br>
+                    <div>
+                        <input type="text" name="edit_food_text" value="<?php show_pickedFood() ?>">
+                        <input type="submit" value="edit">
+                    </div>
+                    <div><?php
+                        if (isset($_SESSION['changed'])):
+                            echo $_SESSION['changed'];
+                        endif;
+                        ?></div>
+
+                    <?php
+                endif;
+                if (show_edit_customer()):
+                    ?>
+                    <h4>search to find customer to edit..</h4>
+                    <input type="text" id="search_customer_admin" 
+                           onkeyup="getCustomerList(this.value)" placeholder="search customer..">
+                    <div id="result_editCustomer"></div><br>
+                    <div>
+                        <?php for ($i = 0; $i < 6; $i++): ?>
+                            <input type="text" name="<?php echo "edit" . $i ?>"
+                                   value="<?php show_pickedCustomer($i) ?>"><br>                  
+                               <?php endfor; ?>
+                        <input type="submit" value="edit">
+                    </div>
+
+                    <?php
                     if (isset($_SESSION['changed'])):
                         echo $_SESSION['changed'];
                     endif;
-                    ?></div>
-
-                <?php
-            endif;
-            if (show_edit_customer()):
-                ?>
-                <h4>search to find customer to edit..</h4>
-                <input type="text" id="search_customer_admin" 
-                       onkeyup="getCustomerList(this.value)" placeholder="search customer..">
-                <div id="result_editCustomer"></div><br>
-                <div>
-                    <?php for ($i = 0; $i < 6; $i++): ?>
-                        <input type="text" name="<?php echo "edit" . $i ?>"
-                               value="<?php show_pickedCustomer($i) ?>"><br>                  
-                           <?php endfor; ?>
-                    <input type="submit" value="edit">
-                </div>
-
-                <?php
-                if (isset($_SESSION['changed'])):
-                    echo $_SESSION['changed'];
                 endif;
-            endif;
-            if (show_searchArea()):
-                if ($list = show_area()): ?>
-                    <div class="area_search_head">
-                    <table><tr>
-                            <th>zip code</th>
-                            <th>area</th>
-                        </tr>
-                    </table>
-                </div>
-                <div class="area_search">
-                    <table>
-                        <?php for ($i = 0; $i < count($list); $i++) : ?>
-                            <tr>
-                                <td><?php echo $list[$i]; $i++; ?></td>
-                                <td><?php echo $list[$i]; ?></td>
-                            </tr>
+                if (show_searchArea()):
+                    if ($list = show_area()):
+                        ?>
+                        <div class="area_search_head">
+                            <table><tr>
+                                    <th>zip code</th>
+                                    <th>area</th>
+                                </tr>
+                            </table>
+                        </div>
+                        <div class="area_search">
+                            <table>
+        <?php for ($i = 0; $i < count($list); $i++) : ?>
+                                    <tr>
+                                        <td><?php echo $list[$i];
+            $i++; ?></td>
+                                        <td><?php echo $list[$i]; ?></td>
+                                    </tr>
 
                         <?php endfor; ?>
-                    </table>
-                </div>
-                <?php endif;
-                ?>
-                <input type="number" placeholder="zip.." name="zip_search">
-                <input type="number" placeholder="km radius.." name="radius_km">
-                <input type="submit" value="search"><br>
+                            </table>
+                        </div>
+    <?php endif;
+    ?>
+                    <input type="number" placeholder="zip.." name="zip_search">
+                    <input type="number" placeholder="km radius.." name="radius_km">
+                    <input type="submit" value="search"><br>
 
 
-            <?php endif;
-            ?>
-        </div>
+<?php endif;
+?>
+            </div>
     </form>
     <div>
-        <?php //include 'layout/footer.php';    ?> 
+<?php //include 'layout/footer.php';     ?> 
     </div>
 </body>
 

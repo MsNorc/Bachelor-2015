@@ -2,8 +2,7 @@
 if (!isset($_SESSION)) {
     session_start();
 }
-
-include '/language/switch_language.php';
+include 'language/switch_language.php';
 
 function check_dropdown() {
 //$php_errormsg = "what";
@@ -27,6 +26,7 @@ function check_dropdown() {
 <!DOCTYPE html>
 <html> 
     <head> 
+        <meta charset="UTF-8">
         <title>Header</title> 
         
        
@@ -74,14 +74,23 @@ function check_dropdown() {
 
                     <td><form method="POST" action="admin_input.php">
                             <input type="submit" value="admin">
-
+                            <?php //show_admin(); ?>
                         </form></td>
                     <td>
                         <?php if (isset($_SESSION['user'])): ?>
                         <div id="logged_in">logged in as: <?php echo$_SESSION['user'] ?></div>
+                        <?php if(isset($_SESSION['user_type'])) : ?>
+                        <div><?php echo $_SESSION['user_type'] ?></div>
+                        <?php                        endif; ?>
 
-                        <?php endif; ?>
+                        
                     </td>
+                    <td><form method="POST" action="logout.php">
+                            <input type="submit" value="logout">
+
+                        </form></td>
+                    <td>
+                        <?php endif; ?>
                     
                 </tr>
 

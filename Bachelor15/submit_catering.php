@@ -3,7 +3,7 @@ if (!isset($_SESSION)) {
     session_start();
 }
 
-include '/catering_populate_view.php';
+include 'catering_populate_view.php';
 //include 'layout/header.php';
 
 $adress_event = $_SESSION['adress_event'];

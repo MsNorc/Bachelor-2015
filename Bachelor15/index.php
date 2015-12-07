@@ -12,11 +12,16 @@ and open the template in the editor.
     </head>
     <body>
         <?php
+        //echo dirname(__FILE__) . " #end#";
+        //require_once 'controller.php';
+        //setPageIndex();
        
+        //include 'config.php';
+        //include(VIEW_HEADER);
         
-        
-        include ("/layout/header.php");
-        include '/layout/dropdown_layout.php';
+        //echo dirname(__FILE__);
+        include ("layout/header.php");
+        include 'layout/dropdown_layout.php';
         ?>
         <?php
         //include ("db/mysqli_connect.php")
@@ -50,12 +55,12 @@ and open the template in the editor.
         
         echo time();
 
-        include '/layout/frontpage_options.php';
+        include 'layout/frontpage_options.php';
         ?>
 
 
 <?php
-include ("/layout/footer.php")
+include ("layout/footer.php")
 ?>
 
     </body>

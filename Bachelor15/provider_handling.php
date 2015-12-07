@@ -27,7 +27,7 @@ function setJobOffer(){
             $job_picked = $_SESSION['job_picked'];
             $request_id = $job_picked[0];
             //echo "<a>".$request_id."<a>";
-            $provider_id = 2;//hardmode for now..
+            $provider_id = $_SESSION['user_id'];
             
             
             //$provider_id = $_SESSION['user']; when provider is made <-

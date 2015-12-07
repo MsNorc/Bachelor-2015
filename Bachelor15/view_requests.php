@@ -5,8 +5,8 @@
         <title>review you requests</title>
 
         <?php
-        include '/layout/header.php';
-        include '/layout/dropdown_layout.php';
+        include 'layout/header.php';
+        include 'layout/dropdown_layout.php';
         include 'request_handling.php';
 
         if (!isset($_SESSION)) {

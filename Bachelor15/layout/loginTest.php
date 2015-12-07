@@ -25,25 +25,43 @@ if (isset($_POST['email1'], $_POST['password1'])) {
         $output = "invalid email..";
     } else {
 
-        $sql = ("SELECT email, password_customer, customer_id FROM customer where email = '$email' AND password_customer = '$password'");
+        $sql = ("SELECT email, password_customer, customer_id FROM customer where "
+                . "email = '$email' AND password_customer = '$password'");
         $result = mysqli_query($db_connection, $sql);
         //$data = mysql_num_rows($result);
         $data = mysqli_num_rows($result);
+
         if ($data == 1) {
-            $output = "success";
+            $output = "success..";
             $_SESSION['user'] = $email;
             while ($row = mysqli_fetch_assoc($result)) {
                 $_SESSION['user_id'] = $row["customer_id"];
                 $_SESSION['dropdown'] = 0;
             }
         } else {
-            $output = "email or pw wrong..";
+            $sql = ("SELECT email, password, provider_id FROM provider where "
+                    . "email = '$email' AND password = '$password' ");
+            $result = mysqli_query($db_connection, $sql);
+            $data = mysqli_num_rows($result);
+            if ($data == 1) {
+                $output = "success..";
+                $_SESSION['user'] = $email;
+                while ($row = mysqli_fetch_assoc($result)) {
+                    $_SESSION['user_id'] = $row["provider_id"];
+                    $_SESSION['user_type'] = "provider";
+                    $_SESSION['dropdown'] = 0;
+                }
+            }else{
+                $output = "email or pw wrong..";
+            }
+            
         }
     }
 }
 
 
 echo $output;
+mysqli_free_result($result);
 mysqli_close($db_connection); // Connection Closed.
 ?>
 

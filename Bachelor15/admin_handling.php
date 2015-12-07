@@ -8,7 +8,7 @@ if (!isset($_SESSION)) {
 
 $accessed = 0;
 
-include '/db/mysqli_connect.php';
+include 'db/mysqli_connect.php';
 
 //functions hide and display 
 function show_ins_food() {
@@ -187,33 +187,49 @@ function insert_user() {
 }
 
 function insert_provider() {
-    //enable_access();
+    $food_list = null;
     $provider = array();
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
         /* if (!empty($_POST['first_name_provider'] && $_POST['last_name_provider']
           && $_POST['email_provider'] && $_POST['phone_provider']
           && $_POST['adress_provider'] && $_POST['zip_provider']
           && $_POST['amount_provider'])) { */ //php > 5.3
-        if (isset($_POST['first_name_provider'], $_POST['last_name_provider']
-                        , $_POST['email_provider'], $_POST['phone_provider'], $_POST['adress_provider'], $_POST['zip_provider']
-                        , $_POST['amount_people'])) {
+        
+        /*if (isset($_POST['first_name_provider'],$_POST['last_name_provider']
+                        , $_POST['email_provider'], $_POST['phone_provider'], 
+                $_POST['adress_provider'], $_POST['zip_provider']
+                        , $_POST['amount_people'])) {*/
 
+           
 
-            $first_name = $_POST['first_name_provider'];
-            $last_name = $_POST['last_name_provider'];
-            $email = $_POST['email_provider'];
-            $phone = $_POST['phone_provider'];
-            $adress = $_POST['adress_provider'];
-            $zip = $_POST['zip_provider'];
-            $amount = $_POST['amount_provider'];
+            $first_name = filter_input(INPUT_POST,'first_name_provider');
+            $last_name = filter_input(INPUT_POST,'last_name_provider');
+            $email = filter_input(INPUT_POST,'email_provider');
+            $phone = filter_input(INPUT_POST,'phone_provider');
+            $adress = filter_input(INPUT_POST,'adress_provider');
+            $zip = filter_input(INPUT_POST,'zip_provider');
+            $amount = filter_input(INPUT_POST,'amount_provider');
+            $password = filter_input(INPUT_POST,'password_provider');
+            if(isset($_SESSION['displayed'])){
+                $food_list = $_SESSION['displayed'];
+            }
+            
+            
+           
 
-            if ($first_name && $last_name && $email && $phone && $adress && $zip && $amount) {
+            if ($first_name && $last_name && $email && $phone && $adress && $zip
+                    && $amount && $food_list) {
 
-                array_push($provider, $first_name, $last_name, $email, $phone, $adress, $zip, $amount);
+                array_push($provider, $first_name, $last_name, $email, $phone, 
+                        $adress, $zip, $amount,$password,$food_list);
                 insert_providerDB($provider);
+                if(isset($_SESSION['displayed'])){
+                    unset($_SESSION['displayed']);
+                }
+                
                 return true;
             }
-        }
+        //}
     }
     return false;
 }
@@ -378,11 +394,6 @@ function edit_provider() {
 //food ADMIN
 
 function cancel_picked() {
-    $test = "match found..";
-    $fail = "no match.. ";
-    $a_test = array("testen", "blir");
-    $b_test = array("blir");
-    $i_test = "testen";
 
     if (isset($_GET['cancelled'])) {
 

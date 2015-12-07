@@ -4,8 +4,8 @@
         </style></head>
     <body>
         <?php
-        include 'layout/header.php';
-        include 'db/mysqli_connect.php';
+        include '/layout/header.php';
+        include '/db/mysqli_connect.php';
 
         function test_input($data) {
             $data = trim($data);

@@ -2,6 +2,7 @@
 
 //include ('db/config_db.php');
 
+//echo dirname(__FILE__) . " #end#";
 
 function insert_test() {
     $db_connection = get_connection();
@@ -124,12 +125,13 @@ function insert_userDB($user) {
         $phone = $user['phone'];
         $adress = $user['adress'];
         $zip = $user['zip'];
+        $user_type = "user";
         $password = $user['password'];
 
         $sql = "INSERT INTO chrin.customer (first_name, last_name, email, 
-        phone_number, adress, zip_code, password_customer) 
+        phone_number, adress, zip_code,user_type, password_customer) 
 	VALUES ('$first_name', '$last_name', '$email', '$phone', '$adress', "
-                . "'$zip', '$password')";
+                . "'$zip','$user_type', '$password')";
 
         $result = mysqli_query($db_connection, $sql);
 
@@ -138,9 +140,51 @@ function insert_userDB($user) {
     }
 }
 
+function insert_provider_info($db_connection, $food_list, $provider_id) {
+    if ($food_list && $provider_id) {
+        //$db_connection = get_connection();
+        for ($i = 0; $i < count($food_list); $i++) {
+            $catering_id = get_catering_id($db_connection, $food_list[$i]);
+            //$amount_value = $amount_list[$food_list[$i]];
+            $sql = "INSERT INTO provider_info (catering_id,provider_id) VALUES"
+                    . "('$catering_id','$provider_id')";
+            $result = mysqli_query($db_connection, $sql);
+            test_result($db_connection, $result);
+        }
+        //mysqli_close($db_connection);
+    }
+}
+
+function find_provider_id($db_connection,$email){
+    $sql = "SELECT provider_id FROM provider WHERE email = '$email'";
+    $result = mysqli_query($db_connection, $sql);
+    test_result($db_connection, $result);
+    while ($row = mysqli_fetch_assoc($result)) {
+        $provider_id = $row['provider_id'];
+    }
+    mysqli_free_result($result);
+    return $provider_id;
+}
+
+function check_availability_provider($provider, $db_connection) {
+    //$db_connection = get_connection();
+    $email = $provider[2];
+    $sql = "SELECT email FROM provider WHERE email = '$email'";
+    $result = mysqli_query($db_connection, $sql);
+    test_result($db_connection, $result);
+    $data = mysqli_num_rows($result);
+    mysqli_free_result($result);
+    if ($data == 1) {
+        mysqli_close($db_connection);
+        return false;
+    }
+    return true;
+}
+
 function insert_providerDB($provider) {
     $db_connection = get_connection();
-
+    if(check_availability_provider($provider, $db_connection)){
+    
     $first_name = $provider[0];
     $last_name = $provider[1];
     $email = $provider[2];
@@ -148,19 +192,22 @@ function insert_providerDB($provider) {
     $adress = $provider[4];
     $zip = $provider[5];
     $amount = $provider[6];
-
-
+    $password = $provider[7];
+    $food_list = $provider[8];     
 
     $sql = "INSERT INTO provider (first_name, last_name, email, phone_number, 
-        address, zip, amount_people) 
+        address, zip, amount_people, password) 
 	VALUES ('$first_name', '$last_name', '$email', '$phone', '$adress',"
-            . " '$zip', '$amount')";
+            . " '$zip', '$amount','$password')";
 
     $result = mysqli_query($db_connection, $sql);
+    $provider_id = find_provider_id($db_connection,$email);
+    insert_provider_info($db_connection, $food_list, $provider_id);
 
-    test_result($db_connection, $result);
-    mysqli_free_result($result);
+    //test_result($db_connection, $result);
+    //mysqli_free_result($result);
     mysqli_close($db_connection);
+    }
 }
 
 //display list of food from DB - search 
@@ -174,6 +221,7 @@ function search_FoodDB($input) {
         while ($row = mysqli_fetch_assoc($result)) {
             $output = $row['food_type'];
             echo "<a href='?show_pickedFood=$output'>" . $output . "</a><br>";
+            //parent.window.location.reload();
         }
         mysqli_free_result($result);
         mysqli_close($db_connection);
@@ -312,26 +360,6 @@ function insert_request_info($db_connection, $food_list, $amount_list, $request_
         }
         //mysqli_close($db_connection);
     }
-}
-
-function get_areaDB($zip) {
-    $area = "";
-    $db_connection = get_connection();
-    $sql = "SELECT area FROM zip_list WHERE zip_code = '$zip'";
-    $result = mysqli_query($db_connection, $sql);
-    test_result($db_connection, $result);
-    $data = mysqli_num_rows($result);
-    if ($data == 1) {
-        while ($row = mysqli_fetch_assoc($result)) {
-            $area = $row['area'];
-            echo "<label>" . $area . "</label>";
-            //$_SESSION['testen'] = "what";
-        }
-    }
-
-    mysqli_free_result($result);
-    mysqli_close($db_connection);
-    return $area;
 }
 
 function find_request_id($db_connection, $customer_id, $adress) {
@@ -513,6 +541,26 @@ function check_duplicateOffer($provider_id, $request_id, $db_connection) {
         return true;
     }
     return false;
+}
+
+function get_areaDB($zip) {
+    $area = "";
+    $db_connection = get_connection();
+    $sql = "SELECT area FROM zip_list WHERE zip_code = '$zip'";
+    $result = mysqli_query($db_connection, $sql);
+    test_result($db_connection, $result);
+    $data = mysqli_num_rows($result);
+    if ($data == 1) {
+        while ($row = mysqli_fetch_assoc($result)) {
+            $area = $row['area'];
+            echo "<label>" . $area . "</label>";
+            //$_SESSION['testen'] = "what";
+        }
+    }
+
+    mysqli_free_result($result);
+    mysqli_close($db_connection);
+    return $area;
 }
 
 function get_providers_in($zip, $limit) {

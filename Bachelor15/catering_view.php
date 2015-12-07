@@ -7,9 +7,9 @@
 
 
         <?php
-        include '/layout/header.php';
-        include '/layout/dropdown_layout.php';
-        include '/catering_populate_view.php';
+        include 'layout/header.php';
+        include 'layout/dropdown_layout.php';
+        include 'catering_populate_view.php';
         //$_SESSION['dropdown'] = 0;
         //include 'layout/dropdown_layout.php';
         if (isset($_SESSION['user'])):
@@ -28,7 +28,7 @@
                             })
 
                             .always(function (data) {
-                                //alert ("execution time.." + time);
+                                //
                             });
                 }
                 ;

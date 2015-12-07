@@ -6,16 +6,17 @@
         <title>provider jobs</title>
 
         <?php
-        include '/layout/header.php';
-        include '/provider_handling.php';
-        include '/layout/dropdown_layout.php';
+        include 'layout/header.php';
+        include 'provider_handling.php';
+        include 'layout/dropdown_layout.php';
 
 
         if (!isset($_SESSION)) {
             session_start();
         }
         if (isset($_SESSION['user'])):
-            $array = get_requestsForProvider(2);
+            $provider_id = $_SESSION['user_id'];
+            $array = get_requestsForProvider($provider_id);
             //echo count($array);
             ?>
 
