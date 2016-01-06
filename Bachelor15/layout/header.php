@@ -62,7 +62,7 @@ function check_dropdown() {
                     </td>
 
                     <td><form method="POST" action="?dropdown=1">
-                            <input type="submit" value="<?php echo search_btn ?>">
+                            <input type="submit" value="<?php echo search_btn ?>*">
 
                         </form></td>
 

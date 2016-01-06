@@ -53,7 +53,7 @@ and open the template in the editor.
        // session_start();
         
         
-        echo time();
+       // echo time();
 
         include 'layout/frontpage_options.php';
         ?>

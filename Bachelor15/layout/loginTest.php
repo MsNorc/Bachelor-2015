@@ -26,7 +26,7 @@ if (isset($_POST['email1'], $_POST['password1'])) {
     } else {
 
         $sql = ("SELECT email, password_customer, customer_id FROM customer where "
-                . "email = '$email' AND password_customer = '$password'");
+                . "email = '$email' AND password_customer =  md5('$password') ");
         $result = mysqli_query($db_connection, $sql);
         //$data = mysql_num_rows($result);
         $data = mysqli_num_rows($result);

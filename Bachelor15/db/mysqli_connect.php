@@ -1,7 +1,6 @@
 <?php
-
+include 'mailsender.php';
 //include ('db/config_db.php');
-
 //echo dirname(__FILE__) . " #end#";
 
 function insert_test() {
@@ -131,7 +130,7 @@ function insert_userDB($user) {
         $sql = "INSERT INTO chrin.customer (first_name, last_name, email, 
         phone_number, adress, zip_code,user_type, password_customer) 
 	VALUES ('$first_name', '$last_name', '$email', '$phone', '$adress', "
-                . "'$zip','$user_type', '$password')";
+                . "'$zip','$user_type', md5('$password'))";
 
         $result = mysqli_query($db_connection, $sql);
 
@@ -155,7 +154,7 @@ function insert_provider_info($db_connection, $food_list, $provider_id) {
     }
 }
 
-function find_provider_id($db_connection,$email){
+function find_provider_id($db_connection, $email) {
     $sql = "SELECT provider_id FROM provider WHERE email = '$email'";
     $result = mysqli_query($db_connection, $sql);
     test_result($db_connection, $result);
@@ -183,30 +182,30 @@ function check_availability_provider($provider, $db_connection) {
 
 function insert_providerDB($provider) {
     $db_connection = get_connection();
-    if(check_availability_provider($provider, $db_connection)){
-    
-    $first_name = $provider[0];
-    $last_name = $provider[1];
-    $email = $provider[2];
-    $phone = $provider[3];
-    $adress = $provider[4];
-    $zip = $provider[5];
-    $amount = $provider[6];
-    $password = $provider[7];
-    $food_list = $provider[8];     
+    if (check_availability_provider($provider, $db_connection)) {
 
-    $sql = "INSERT INTO provider (first_name, last_name, email, phone_number, 
+        $first_name = $provider[0];
+        $last_name = $provider[1];
+        $email = $provider[2];
+        $phone = $provider[3];
+        $adress = $provider[4];
+        $zip = $provider[5];
+        $amount = $provider[6];
+        $password = $provider[7];
+        $food_list = $provider[8];
+
+        $sql = "INSERT INTO provider (first_name, last_name, email, phone_number, 
         address, zip, amount_people, password) 
 	VALUES ('$first_name', '$last_name', '$email', '$phone', '$adress',"
-            . " '$zip', '$amount','$password')";
+                . " '$zip', '$amount','$password')";
 
-    $result = mysqli_query($db_connection, $sql);
-    $provider_id = find_provider_id($db_connection,$email);
-    insert_provider_info($db_connection, $food_list, $provider_id);
+        $result = mysqli_query($db_connection, $sql);
+        $provider_id = find_provider_id($db_connection, $email);
+        insert_provider_info($db_connection, $food_list, $provider_id);
 
-    //test_result($db_connection, $result);
-    //mysqli_free_result($result);
-    mysqli_close($db_connection);
+        //test_result($db_connection, $result);
+        //mysqli_free_result($result);
+        mysqli_close($db_connection);
     }
 }
 
@@ -475,6 +474,10 @@ function setProviderRequestDB($request_id, $provider_id) {
         $sql = "UPDATE request SET provider_id = '$provider_id' "
                 . "WHERE request_id = '$request_id'";
         $result = mysqli_query($db_connection, $sql);
+        $sql2 = "UPDATE request_providers SET status = 1 WHERE request_id "
+                . "='$request_id'";
+        $result2 = mysqli_query($db_connection, $sql2);
+        test_result($db_connection, $result2);
         mysqli_close($db_connection);
         return true;
     }
@@ -494,13 +497,31 @@ function check_zipDB($zip) {
     return false;
 }
 
-function get_requestsForProvider($provider_id) {
+function get_requestsForProvider($provider_id, $zip, $limit) {
     $array = array();
+    $trimZip = array();
+    $zip_list = get_providers_in($zip, $limit);
+    for ($i = 0; $i < count($zip_list); $i++) {
+        array_push($trimZip, $zip_list[$i]);
+        $i = $i + 1;
+    }
+    $trimZip = implode("', '", $trimZip);
+
+    /* foreach ($zip_list as $param) {
+      $placeholders[] = '?';
+      }
+      $sql_string = implode(', ', $placeholders);
+      echo $sql_string; */
+
     $db_connection = get_connection();
+    //$sql = "SELECT * FROM zip_list WHERE zip_code IN ('$trimZip')";
+    // for($i=0; $i<count($trimZip); $i++){
     $sql = "SELECT DISTINCT r.request_id,r.date_event,r.adress, r.zip_code, quantity_people, cl.food_type,ri.amount "
             . "FROM provider p JOIN provider_info pi "
             . "ON p.provider_id = pi.provider_id INNER JOIN request r "
-            . "ON r.quantity_people <= p.amount_people JOIN request_info ri "
+            . "ON r.quantity_people <= p.amount_people JOIN zip_list zl "
+            . "ON r.zip_code IN ('$trimZip') "
+            . "JOIN request_info ri "
             . "ON ri.request_id = r.request_id "
             . "AND pi.catering_id = ri.catering_id JOIN catering_list cl "
             . "ON cl.catering_id = ri.catering_id "
@@ -508,10 +529,13 @@ function get_requestsForProvider($provider_id) {
             . "NOT IN (SELECT request_id FROM request_providers rp "
             . "WHERE rp.provider_id = '$provider_id') ORDER BY r.request_id";
     $result = mysqli_query($db_connection, $sql);
+
     test_result($db_connection, $result);
     while ($row = mysqli_fetch_row($result)) {
         array_push($array, $row);
     }
+    // }
+    //$new_array = array_merge_recursive($array,$zip_list);
     mysqli_free_result($result);
     mysqli_close($db_connection);
     return $array;
@@ -561,6 +585,21 @@ function get_areaDB($zip) {
     mysqli_free_result($result);
     mysqli_close($db_connection);
     return $area;
+}
+
+function get_providerAppliedJobsDB($provider_id) {
+    $array = array();
+    $db_connection = get_connection();
+    $sql = "SELECT * FROM request_providers rp JOIN request r ON r.request_id "
+            . "= rp.request_id AND rp.provider_id = '$provider_id' "
+            . "WHERE rp.status = 0";
+    $result = mysqli_query($db_connection, $sql);
+    while ($row = mysqli_fetch_row($result)) {
+        array_push($array, $row);
+    }
+    mysqli_free_result($result);
+    mysqli_close($db_connection);
+    return $array;
 }
 
 function get_providers_in($zip, $limit) {
@@ -616,6 +655,79 @@ function getProvider_idDB($provider_name) {
         mysqli_free_result($result);
         mysqli_close($db_connection);
     }
+}
+
+//pre sending recovery mail
+function encryptUserId($id){
+    $encrypt = md5(1290*3+$id);
+    return $encrypt;
+}
+
+//after receiving recovery mail
+function decryptUserIdmail($encryptedId){
+    $id = md5($encryptedId - 1290*3);
+    return $id;
+}
+
+function decryptUserId($encrypted){
+    $db_connection = get_connection();
+    //$id = decryptUserId($encrypted);
+    $sql = "SELECT customer_id FROM customer where md5(1290*3+customer_id)='".$encrypted."'";
+        $result = mysqli_query($db_connection,$sql);
+        test_result($db_connection, $result);
+        $data = mysqli_fetch_array($result);
+        if(count($data)>=1){
+            $msg = true;
+        }else{
+            $msg = false;
+        }
+        mysqli_free_result($result);
+        mysqli_close($db_connection);
+        return $msg;
+}
+
+function getUserId($email) {
+    $db_connection = get_connection();
+    //$encrypt = "";
+    $sql = "SELECT customer_id FROM customer where email='$email'";
+    $result = mysqli_query($db_connection, $sql);
+    //test_result($db_connection, $result);
+    $data = mysqli_fetch_array($result);
+    if (count($data) >=1) {
+        $encrypt = encryptUserId($data['customer_id']);
+    }
+    mysqli_free_result($result);
+    mysqli_close($db_connection);
+    return $encrypt;
+}
+
+function updatePasswordUser($password, $encryptedId){
+    $db_connection = get_connection();
+    $sql = "update customer set password_customer='" . md5($password) . "' where md5(1290*3+customer_id)='$encryptedId'";
+    $result = mysqli_query($db_connection, $sql);
+    test_result($db_connection, $result);
+    mysqli_close($db_connection);
+    return true;
+}
+
+function sendEmail_pickedProviderDB($provider_id){
+    $db_connection = get_connection();
+    $sql = "SELECT * FROM request WHERE provider_id = '$provider_id' AND status "
+            . "''";
+}
+
+function getZipUserDB($user_id) {
+    $user_zip = "";
+    $db_connection = get_connection();
+    $sql = "SELECT zip FROM provider WHERE provider_id = '$user_id'";
+    $result = mysqli_query($db_connection, $sql);
+    test_result($db_connection, $result);
+    while ($row = mysqli_fetch_assoc($result)) {
+        $user_zip = $row['zip'];
+    }
+    mysqli_free_result($result);
+    mysqli_close($db_connection);
+    return $user_zip;
 }
 
 function getProviderDB($id) {

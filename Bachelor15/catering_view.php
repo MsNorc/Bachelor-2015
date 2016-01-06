@@ -22,24 +22,28 @@
             <script>
                 function getFoodList(value) {
 
-                    $.post("catering_populate_view.php", {partial_food: value})
+                    $.post("catering_populate_view.php", {partial_food: value, tempSave: true})
                             .done(function (data) {
                                 $("#results").html(data);
                             })
 
                             .always(function (data) {
-                                //
+
+                            })
+                            .click(function (data) {
+                                alert("what");
+                                window.location.reload();
                             });
                 }
                 ;
-                function show_area(value){
-                    $.post("catering_populate_view.php",{zip_codeInput:value})
-                            .done(function(data){
+                function show_area(value) {
+                    $.post("catering_populate_view.php", {zip_codeInput: value})
+                            .done(function (data) {
                                 $("#show_area").html(data);
-                    })
-                            .always(function(data){
+                            })
+                            .always(function (data) {
                                 //alert("what!");
-                    });
+                            });
                 }
                 ;
 
@@ -51,7 +55,7 @@
         </head>
         <body>
 
-            
+
             <form method = "post" action = "<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
                 <div class = "catering_wrapper">
                     <div id = "catering_left_display">
@@ -59,52 +63,55 @@
                             <label><?php echo msg_insertFood ?></label>
                         </div>
                         <form action="/" id="search_food">
-                            <input type="text" placeholder="search food.." onkeyup="getFoodList(this.value)">
+                            <input type="text" placeholder="search food.." 
+                                   onkeyup="getFoodList(this.value)">
                             <div id="results"></div>
-                        </form>
 
-                        <div>
-                            <h4><?php echo msg_pickFood ?></h4>
-                            <?php
-                            if (check_validation()) :
-                                save_input();
-                                save_amount();
-                                header('Location: submit_catering.php');
-                            endif;
 
-                            cancel_picked();
-                            $display_array = show_picked();
+                            <div>
+                                <h4><?php echo msg_pickFood ?></h4>
 
-                            for ($i = 0; $i < count($display_array); $i++) :
-                                $display_array[$i];
-                                ?>
-                            <div id="items_picked">
-                                <a href="?cancelled=<?php echo $display_array[$i] ?>">
-                                    <input type = "button" value = "X">
-                                </a>
-                            <?php echo $display_array[$i] ?>
-                            <input type="number" id="amount_input_food" 
-                                   name="<?php echo "amount" . $display_array[$i] ?>"></div>
                                 <?php
-                                //echo "<br>";
+                                if (check_validation()) :
+                                    save_input();
+                                    save_amount();
+                                    ?>
+                                    <script>
+                                    window.location='submit_catering.php';
+                                    </script>
+                                    <?php
+                                endif;
 
-                            endfor;
-                            //  }
-                            ?> 
+                                cancel_picked();
+                                $display_array = show_picked();
 
-                            <?php
-                           
-                            
-                            ?>
+                                for ($i = 0; $i < count($display_array); $i++) :
+                                    $display_array[$i];
+                                    ?>
+                                    <div id="items_picked">
+                                        <a href="?cancelled=<?php echo $display_array[$i] ?>">
+                                            <input type = "button" value = "X">
+                                        </a>
+                                        <?php echo $display_array[$i] ?>
+                                        <input type="number" id="amount_input_food" 
+                                               name="<?php echo "amount" . $display_array[$i] ?>"></div>
+                                        <?php
+                                        //echo "<br>";
+
+                                    endfor;
+                                    //  }
+                                    ?> 
+
+                                <?php ?>
 
 
-                        </div>
+                            </div>
 
 
 
-                        <div >
-                            <input type = "submit" value = "<?php echo send_btn ?>">
-                        </div>
+                            <div >
+                                <input type = "submit" value = "<?php echo send_btn ?>">
+                            </div>
                     </div>
                     <div id = "catering_right_display">
                         <div id = "adress_event">
@@ -119,11 +126,12 @@
 
 
                         </div>
+
                         <div id = "zip_event">
                             <label class="labels_catering">
                                 <?php echo zip_event_string ?>
                             </label>
-                            <input type="number" onkeyup="show_area(this.value)" id="zip_catering" name="zip_code" 
+                            <input type="number" onkeyup="show_area(this.value)" class="input_catering" name="zip_code" 
                                    value="<?php echo get_zip(); ?>">
                             <span class = "error" > * <?php echo validate_zip(); ?> 
                             </span><label id="show_area"></label>
@@ -143,9 +151,13 @@
                             <label class="labels_catering">
                                 <?php echo quantity_people_string ?>
                             </label>
-                            <input type="number" id="amount_people_catering" name="quantity_people"
+                            <input type="number" class="input_catering" name="quantity_people"
                                    value="<?php echo get_quantityPeople() ?>">
                             <span class = "error" > * <?php echo validate_quantity(); ?> </span>
+                        </div><br>
+                        <div id="notify_email">
+                            <label class="labels_catering"><?php echo interest_string ?></label>
+                            <input type="checkbox">
                         </div>
 
 
@@ -163,6 +175,6 @@
     </html>
     <?php
 endif;
-if(!isset($_SESSION['user'])):
-echo msg_login;
+if (!isset($_SESSION['user'])):
+    echo msg_login;
 endif;

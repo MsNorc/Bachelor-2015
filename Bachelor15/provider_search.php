@@ -16,7 +16,11 @@
         }
         if (isset($_SESSION['user'])):
             $provider_id = $_SESSION['user_id'];
-            $array = get_requestsForProvider($provider_id);
+            $provider_zip = getZipUser($provider_id);
+            $radius = setRange();
+            $free_jobs = get_requestsForProvider($provider_id, $provider_zip, $radius);
+            //print_r($free_jobs);
+            $applied_jobs = get_providerAppliedJobs($provider_id);
             //echo count($array);
             ?>
 
@@ -55,8 +59,9 @@
             <form method = "post" action = "<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
                 <div id="provider_wrapper_left">
                     <div>
-                        <input type="number" placeholder="search radius km.." name="search radius">
+                        <input type="number" placeholder="search radius km.." name="search_radius">
                         <input type="submit" value="<?php echo search_btn ?>">
+                        <label> ZIP: <?php echo $provider_zip ?></label>
                     </div>
 
                     <div class="provider_jobHeader">
@@ -74,20 +79,39 @@
                         <table class="testen">
 
                             <?php
-                            for ($i = 0; $i < count($array); $i++) :
+                            for ($i = 0; $i < count($free_jobs); $i++) :
                                 ?>
                                 <tr>
-                                    <?php for ($y = 0; $y < count($array[$i]); $y++) : ?>
-                                        <td><?php echo $array[$i][$y]; ?></td>
+                                    <?php for ($y = 0; $y < count($free_jobs[$i]); $y++) : ?>
+                                        <td><?php echo $free_jobs[$i][$y]; ?></td>
 
                                     <?php endfor; ?>
                                     <td><input type="submit" class="pick-job" value="ok"></td>
                                 </tr>
-                            <?php endfor; ?>
+                            <?php endfor; 
+                            ?>
 
                         </table>
                     </div>
+                    <hr>
+                    <div>
+                        <h4><?php echo "unanswered applies" ?></h4>
+                        <table>
+                            <?php
+                            for ($i = 0; $i < count($applied_jobs); $i++) :
+                                ?>
+                                <tr>
+                                    <?php for ($y = 0; $y < count($applied_jobs[$i]); $y++) : ?>
+                                        <td><?php echo $applied_jobs[$i][$y]; ?></td>
 
+                                    <?php endfor; ?>
+                                </tr>
+                            <?php endfor;
+
+                            ?>
+
+                        </table>
+                    </div>
 
                 </div>
                 <div id="provider_wrapper_right">
@@ -110,6 +134,7 @@
                     <div id="resultOffered"></div>
                 </div>
             </form>
+
         </body>     
     </html>
 

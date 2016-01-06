@@ -21,19 +21,10 @@ $request_array['amount'] = $quantity_people;
 $request_array['food_list'] = $output;
 $request_array['amount_list'] = $output_amount;
 //print_r($output_amount);
-
 //print_r($request_array);
-
 //function send_request($request_array){
 //print_r(make_request($request_array));
-
-
-
 //include 'db/mysqli_connect.php';
-
-
-
-
 //echo "food picked...";
 /* if (isset($_SESSION['displayed'])) {
   $output = $_SESSION['displayed'];
@@ -48,63 +39,75 @@ $request_array['amount_list'] = $output_amount;
     <head>
         <meta charset="UTF-8">
         <title>catering request</title>
-        
+
         <?php include 'layout/header.php' ?>
+        <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+        <script>
+            $(document).ready(function () {
+                $("#submit_catering").click(function () {
+                    alert("success..");
+                    window.setTimeout(function () {
+                        window.location = 'index.php'
+                    }, 1000);
+                });
+
+            });
+
+        </script>
     </head>
     <body>
         <form method = "post" action = "<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
-        <h3>your info..</h3>
-        <div>
-            <a><label>adress:</label>
-                <?php echo $adress_event ?>
-            </a>
-        </div>
-        <div>
-            <a><label>zip:</label>
-                <?php echo $zip_code ?>
-            </a>
-        </div>
-        <div>
-            <a><label>date:</label>
-                <?php echo $date_picked ?>
-            </a>
-        </div>
-        <div>
-            <a><label>people:</label>
-                <?php echo $quantity_people ?>
-            </a>
-        </div>
-        <div>
-            <label>items:</label>
-            <ul>
-                <?php
-                if (isset($_SESSION['displayed'])):
-                    $output = $_SESSION['displayed'];
-                    for ($i = 0; $i < count($output); $i++) :
+            <h3>your info..</h3>
+            <div>
+                <a><label>adress:</label>
+                    <?php echo $adress_event ?>
+                </a>
+            </div>
+            <div>
+                <a><label>zip:</label>
+                    <?php echo $zip_code ?>
+                </a>
+            </div>
+            <div>
+                <a><label>date:</label>
+                    <?php echo $date_picked ?>
+                </a>
+            </div>
+            <div>
+                <a><label>people:</label>
+                    <?php echo $quantity_people ?>
+                </a>
+            </div>
+            <div>
+                <label>items:</label>
+                <ul>
+                    <?php
+                    if (isset($_SESSION['displayed'])):
+                        $output = $_SESSION['displayed'];
+                        for ($i = 0; $i < count($output); $i++) :
+                            ?>
+                            <li><?php echo $output[$i] . " : " . $output_amount[$output[$i]]; ?>
+
+                                <?php
+                            endfor;
+                        endif;
                         ?>
-                        <li><?php echo $output[$i]." : ".$output_amount[$output[$i]]; ?>
-                            
-                        <?php
-                    endfor;
-                endif;
-                ?>
-            </ul>
-        </div>
-        <div>
-            is this info correct ? 
-            <input type="submit" value="ok">
-        </div>
+                </ul>
+            </div>
+            <div>
+                is this info correct ? 
+                <input type="submit" id="submit_catering" value="ok">
+            </div>
         </form>
     </body>
 </html>
 
 <?php
-
-if(make_request($request_array)){
+if (make_request($request_array)) {
     echo "success..";
 }
 
- 
+
 
 
 //send request to db handler ..

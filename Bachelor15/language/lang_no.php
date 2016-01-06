@@ -58,9 +58,11 @@ define("max4Values_Error", "m&aring inneholde 4 tall");
 
 //STRINGS
 define("adress_event_string", "velg addresse for levering");
+define("adressNr_event_string", "velg adressenummer");
 define("zip_event_string", "postnummer");
-define("select_date_string", "velg en ønsket dato for levering");
+define("select_date_string", "velg en ønsket dato");
 define("quantity_people_string", "velg antall personer");
+define("interest_string","send meg email når noen viser interesse");
 
 //messages
 define("msg_login", "logg inn for å se denne siden..");

@@ -55,7 +55,7 @@
 }
 
 
-#zip_catering, #amount_people_catering,#amount_input_food{
+.input_catering,#amount_input_food{
     width: 50px;
 }
 
@@ -68,9 +68,8 @@
 
 //login dropdown
 
-.container{
-    background-color: aqua;
-    padding: 9px;
+.main_login{
+    //dropdown 
 }
 
 //**ADMIN **//

@@ -48,6 +48,7 @@ function setProviderRequest($provider_name) {
             
             if(setProviderRequestDB($request_id, $provider_id)){
                 echo "flott, du har valgt : ".$provider_name[0]." som din leverandør.";
+                sendEmail_pickedProviderDB($provider_id);
                 unset($_SESSION['request_picked']); 
             }
             

@@ -22,7 +22,12 @@ include 'db/mysqli_connect.php';
 
 //
 
-
+/*function redirect($url) {
+    ob_start();
+    header('Location: ' . $url);
+    ob_end_flush();
+    die();
+}*/
 
 function check_dishes() {
     $show_dishes = $_SESSION['show_dishes_save'];
@@ -46,17 +51,22 @@ function get_adress() {
         }
         return $adress_event;
     }
+    if (isset($_SESSION['adress_event'])) {
+        return $_SESSION['adress_event'];
+    }
+    $_SESSION['adress_event'] = filter_input(INPUT_POST, 'adress_event');
 }
 
 function validate_adress() {
     $adressErr = "";
+    $dummy = array(); //for php < 5.3
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
         //if (isset($_POST["adress_event"])) {
         //$adress_event = filter_input(INPUT_POST, 'adress_event');
         if (get_adress()) {
             $adress_event = test_input($_POST["adress_event"]);
-            if (!preg_match("/^[a-zA-Z ]*$/", $adress_event)) {
-                $adressErr = "only letters pls";
+            if (!preg_match_all("/^[a-zA-Z]*[0-9]*[a-zA-Z]*$/", $adress_event, $dummy)) {
+                $adressErr = "example veien10a";
             }
         }
         //  }
@@ -84,7 +94,7 @@ function validate_zip() {
             if (!preg_match("/^[0-9]{4}$/", $zip_code)) {
                 $zipErr = "4 digit zip";
             }
-            if(!check_zipDB($zip_code)){
+            if (!check_zipDB($zip_code)) {
                 $zipErr = "zip doesn't exist";
             }
         }
@@ -134,16 +144,13 @@ function validate_quantity() {
     return $quantityErr;
 }
 
-
 function check_validation() {
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
         /* if (!empty(validate_adress() && get_adress() 
           && validate_date() && get_date()
           && validate_quantity() && get_quantityPeople()
           && (validate_zip()) && get_zip())) { */ //php > 5.3
-        if ((!validate_adress() && get_adress() && !validate_date() 
-                && get_date() && !validate_quantity() && get_quantityPeople() 
-                && !validate_zip() && get_zip())) {
+        if ((!validate_adress() && get_adress() && !validate_date() && get_date() && !validate_quantity() && get_quantityPeople() && !validate_zip() && get_zip()) && isset($_SESSION['displayed'])) {
 
             return true;
         }
@@ -151,13 +158,15 @@ function check_validation() {
     return false;
 }
 
+if (isset($_POST['tempSave'])) {
+    save_input();
+}
+
 function save_input() {
     $_SESSION['adress_event'] = get_adress();
     $_SESSION['zip_code'] = get_zip();
     $_SESSION['quantity_people'] = get_quantityPeople();
     $_SESSION['date_picked'] = get_date();
-    
-    
 }
 
 function cancel_picked() {
@@ -260,42 +269,42 @@ if (isset($_POST['partial_food'])) {
 
   } */
 
-function save_amount(){
+function save_amount() {
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $amount_list = array();
         $displayed_items = $_SESSION['displayed'];
         for ($i = 0; $i < count($displayed_items); $i++) {
-            $amount[$i] = filter_input(INPUT_POST, "amount".$displayed_items[$i]);
+            $amount[$i] = filter_input(INPUT_POST, "amount" . $displayed_items[$i]);
             $amount_list[$displayed_items[$i]] = $amount[$i];
         }
         $_SESSION['amount'] = $amount_list;
     }
 }
 
-function make_request($request){
+function make_request($request) {
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
         make_requestDB($request);
     }
 }
 
 //receive from JS function
-if(isset($_POST['zip_codeInput'])){
+if (isset($_POST['zip_codeInput'])) {
     $input = $_POST['zip_codeInput'];
     get_area($input);
 }
-function get_area($zip){
+
+function get_area($zip) {
     //$_SESSION['testen'] = "get_area";
     get_areaDB($zip);
-    
 }
 
-/*function set_location($zip){ //NOT USED
-    $substr = substr($zip, 0,2);
-    if($substr <= 12){
-        $region = "oslo";
-    }
-    
-    
-}*/
+/* function set_location($zip){ //NOT USED
+  $substr = substr($zip, 0,2);
+  if($substr <= 12){
+  $region = "oslo";
+  }
+
+
+  } */
 ?>
 
