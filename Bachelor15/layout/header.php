@@ -21,15 +21,14 @@ function check_dropdown() {
         $_SESSION['dropdown'] = 0;
     }
 }
-
 ?>
 <!DOCTYPE html>
 <html> 
     <head> 
         <meta charset="UTF-8">
         <title>Header</title> 
-        
-       
+
+
     </head> 
     <body> 
         <link rel = "stylesheet" type = "text/css" href = "css/search_catering.css">
@@ -57,7 +56,7 @@ function check_dropdown() {
                             <option style="display:none;">more</option>
                             <option value="view_requests.php">view requests</option>
                             <option value="provider_search.php">provider</option>
-                            
+
                         </select>
                     </td>
 
@@ -74,24 +73,27 @@ function check_dropdown() {
 
                     <td><form method="POST" action="admin_input.php">
                             <input type="submit" value="admin">
-                            <?php //show_admin(); ?>
+                            <?php //show_admin();  ?>
                         </form></td>
                     <td>
                         <?php if (isset($_SESSION['user'])): ?>
-                        <div id="logged_in">logged in as: <?php echo$_SESSION['user'] ?></div>
-                        <?php if(isset($_SESSION['user_type'])) : ?>
-                        <div><?php echo $_SESSION['user_type'] ?></div>
-                        <?php                        endif; ?>
+                            <div id="logged_in">logged in as: <?php echo$_SESSION['user'] ?></div>
+                            <?php if (isset($_SESSION['user_type'])) : ?>
+                                <div><?php echo $_SESSION['user_type'] ?></div>
+                            <?php endif; ?>
 
-                        
-                    </td>
-                    <td><form method="POST" action="logout.php">
-                            <input type="submit" value="logout">
 
-                        </form></td>
-                    <td>
+                        </td>
+                        <td><form method="POST" action="register_provider_input.php">
+                                <input type="submit" value="<?php echo upgrade_button ?>">
+                            </form></td>
+                        <td><form method="POST" action="logout.php">
+                                <input type="submit" value="<?php echo logout_button ?>">
+
+                            </form></td>
+                        <td>
                         <?php endif; ?>
-                    
+
                 </tr>
 
             </table>
