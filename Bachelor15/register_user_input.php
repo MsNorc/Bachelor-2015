@@ -119,7 +119,7 @@
             <br><br>
 
             <!--Adresse-->
-            <?php echo adresse_label ?>: <input type="text" name="adresse"><br><br>
+            <?php echo address_label ?>: <input type="text" name="adresse"><br><br>
             
             <?php echo zipCode_label ?>: 
                         <input type="text" name="zip_code" value="<?php echo $zip_code; ?>">

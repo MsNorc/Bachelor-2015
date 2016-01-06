@@ -35,17 +35,18 @@ define("firstName_label", "Fornavn");
 define("lastName_label", "Etternavn");
 define("email_label", "E-mail");
 define("phone_label", "Telefon");
-define("adresse_label", "Adresse");
+define("address_label", "Adresse");
 define("zipCode_label", "Postnummer");
 define("city_label", "By");
 define("pw_label", "Passord");
 define("amount_label", "Antall mennesker");
 define("password_label", "passord");
 
-//Register user errors
+//Register user/provider errors
 define("blank","");
 define("firstName_blank","skriv inn fornavn");
 define("lastName_blank","skriv inn etternavn");
+define("businessName_blank","skriv inn bedrift navn");
 define("email_blank","skriv e-post adresse");
 define("invalidName","kun bokstaver og mellomrom er tilatt");
 define("invalidEmail","ugyldig e-post format");
