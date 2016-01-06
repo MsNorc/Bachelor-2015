@@ -41,7 +41,7 @@ function check_dropdown() {
                         </form></td>
 
                     <?php if (!isset($_SESSION['user'])): ?>
-                        <td><form method="POST" action="registerUser.php">
+                        <td><form method="POST" action="register_user_input.php">
                                 <INPUT type="submit" value="<?php echo new_user_btn ?>">
                             </form>
                         </td>

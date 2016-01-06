@@ -77,7 +77,7 @@
                                     save_amount();
                                     ?>
                                     <script>
-                                    window.location='submit_catering.php';
+                                        window.location = 'submit_catering.php';
                                     </script>
                                     <?php
                                 endif;
@@ -109,9 +109,7 @@
 
 
 
-                            <div >
-                                <input type = "submit" value = "<?php echo send_btn ?>">
-                            </div>
+
                     </div>
                     <div id = "catering_right_display">
                         <div id = "adress_event">
@@ -156,10 +154,16 @@
                             <span class = "error" > * <?php echo validate_quantity(); ?> </span>
                         </div><br>
                         <div id="notify_email">
-                            <label class="labels_catering"><?php echo interest_string ?></label>
+                            <label class="labels_catering"><?php echo interest_string ."*" ?></label>
                             <input type="checkbox">
+                        </div><br>
+                        <div>
+                            <label class="labels_catering">comment*</label>
+                            <textarea rows="4" cols="30"></textarea>
+                        </div><br><br>
+                        <div><label class="labels_catering">click to apply</label>
+                            <input type = "submit" value = "<?php echo send_btn ?>">
                         </div>
-
 
                     </div>
                 </div>       
