@@ -118,21 +118,14 @@
             <span class="error">* <?php echo $phoneErr; ?></span>
             <br><br>
 
-
-            <!-- User adress
+            <!--Adresse-->
             <?php echo adresse_label ?>: <input type="text" name="adresse"><br><br>
             
             <?php echo zipCode_label ?>: 
                         <input type="text" name="zip_code" value="<?php echo $zip_code; ?>">
                         <span class="error"> <?php echo $zip_codeErr; ?></span><br><br>
             
-            <?php echo city_label ?>: <input type="text" name ="city"><br><br>
-            -->
-            
-            <?php echo provider_label?>:
-            <input type="checkbox" name="provider">
-            <?php echo private_label?>:
-            <input type="checkbox" name="provider">
+            <?php echo city_label ?>: <input type="text" name ="city"><br><br>      
             
             <script src="https://www.google.com/recaptcha/api.js" async defer></script>
             <div class="g-recaptcha" data-sitekey="6Levlg8TAAAAALG8kxIJ-XuybQ14pgsQrp5C6BlA"></div>

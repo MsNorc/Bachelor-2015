@@ -29,13 +29,13 @@ define("frontpage_label", "trykk for å opprette et event!");
 
 
 
-// Register user labels
+// Register user/provider labels
 define("register_label","Registrering av bruker");
 define("firstName_label", "Fornavn");
 define("lastName_label", "Etternavn");
 define("email_label", "E-mail");
 define("phone_label", "Telefon");
-define("adress_label", "Adresse");
+define("adresse_label", "Adresse");
 define("zipCode_label", "Postnummer");
 define("city_label", "By");
 define("pw_label", "Passord");
