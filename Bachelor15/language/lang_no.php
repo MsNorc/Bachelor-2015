@@ -55,6 +55,16 @@ define("invalidLength", "ugyldig lengde p&aring input");
 define("max8Values_Error", "m&aring inneholde 8 tall");
 define("max4Values_Error", "m&aring inneholde 4 tall");
 
+// Register provider labels
+define("register_provider_label","Registrering av tjeneste og virksomhet");
+define("provider_registartion_label", "Registrere som Privat Bruker eller Leverandør");
+define("provider_label", "Leverandør");
+define("private_label", "Privat");
+define("service_label", "Tjenester bedriften leverer");
+define("BusinessName_label","Bedriftens navn");
+
+//Sucsess message
+define("finished_label","din input er registrert");
 
 //STRINGS
 define("adress_event_string", "velg addresse for levering");
