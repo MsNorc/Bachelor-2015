@@ -15,13 +15,19 @@
         }
 
 // define variables and set to empty values
-        $provider_nameErr = "";
-        $provider_name = "";
+        $business_nameErr = $emailErr = $phoneErr = $zip_codeErr = "";
+        $business_name = $email = $phone = $zip_code = "";
 
-        //Provider name validation
+        //Firstname validation
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
-            if (empty($_POST["provider_name"])) {
-                $provider_nameErr = firstName_blank;
+            if (empty($_POST["business_name"])) {
+                $business_nameErr = firstName_blank;
+            } else {
+                $business_name = test_input($_POST["business_name"]);
+                // check if name only contains letters and whitespace
+                if (!preg_match("/^[a-zA-Z ]*$/", $business_name)) {
+                    $business_nameErr = invalidName;
+                }
             }
         }
 
@@ -57,7 +63,7 @@
                 }
             }
         }
-
+        //Zipcode check
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
             if (empty($_POST["zip_code"])) {
                 $zip_codeErr = blank;
@@ -75,16 +81,11 @@
         <h1><?php echo register_label ?></h1><br>
         <p><span class="error">* required field.</span></p>
         <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>"> 
-            <!--Provider name-->
-            <?php echo provider_label ?>:
-            <input type="text" name="provider_name" value="<?php echo $provider_name; ?>">
-            <span class="error">* <?php echo $provider_nameErr; ?></span>
+            <!--business name-->
+            <?php echo BusinessName_label ?>:
+            <input type="text" name="business_name" value="<?php echo $business_name; ?>">
+            <span class="error">* <?php echo $business_nameErr; ?></span>
             <br><br>
-            
-            <?php echo service_label ?>:
-            <input type="radio" name="sevice_type" value="sound">
-            <input type="radio" name="sevice_type" value="picture">
-            <input type="radio" name="sevice_type" value="both">
             
             <!--E-mail-->
             <?php echo email_label ?>: 
@@ -92,14 +93,24 @@
             <span class="error">* <?php echo $emailErr; ?></span>
             <br><br>
             
-            <!--Phone-->
+            <!--Service a provider delivers-->
+            <?php echo service_label ?>
+            <select>
+                <option value="catering"> <?php echo catering_label?> </option>
+                <option value="location"> <?php echo location_label?> </option>
+                <option value="sound&picture"> <?php echo sound&picture_label?> </option>
+            </select>
+            
+            <?php echo email_label ?>: 
+            <input type="text" name="email" value="<?php echo $email; ?>">
+            <span class="error">* <?php echo $emailErr; ?></span>
+            <br><br>
+            
             <?php echo phone_label ?>: 
             <input type="text" name="phone" value="<?php echo $phone; ?>">
             <span class="error">* <?php echo $phoneErr; ?></span>
             <br><br>
 
-
-            <!-- User adress-->
             <?php echo adresse_label ?>: <input type="text" name="adresse"><br><br>
             
             <?php echo zipCode_label ?>: 
@@ -107,6 +118,22 @@
                         <span class="error"> <?php echo $zip_codeErr; ?></span><br><br>
             
             <?php echo city_label ?>: <input type="text" name ="city"><br><br>            
+                            
+            
+            <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+            <div class="g-recaptcha" data-sitekey="6Levlg8TAAAAALG8kxIJ-XuybQ14pgsQrp5C6BlA"></div> <!-- will have to register as a user at google to get site key-->
+            <script src="grecaptcha.getResponse(opt_widget_id)"></script>
+            <script src="grecaptcha.reset(opt_widget_id)"></script>
             <br/>
             <input type="submit" value="Submit">
         </form>
+
+        <?php
+        $user = array("business_name" => $business_name, "email" => $email, "phone" => $phone);
+
+        if ($business_nameErr == "" && $emailErr == "" && $phoneErr == "" && $first_name != "" && $email != "" && $phone != "") {
+            echo finished_label;
+        }
+        ?>
+    </body>
+</html>

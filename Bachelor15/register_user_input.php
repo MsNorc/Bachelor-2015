@@ -76,7 +76,8 @@
                 }
             }
         }
-
+        
+        // Zip_code validation
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
             if (empty($_POST["zip_code"])) {
                 $zip_codeErr = blank;
@@ -127,6 +128,12 @@
             
             <?php echo city_label ?>: <input type="text" name ="city"><br><br>
             -->
+            
+            <?php echo provider_label?>:
+            <input type="checkbox" name="provider">
+            <?php echo private_label?>:
+            <input type="checkbox" name="provider">
+            
             <script src="https://www.google.com/recaptcha/api.js" async defer></script>
             <div class="g-recaptcha" data-sitekey="6Levlg8TAAAAALG8kxIJ-XuybQ14pgsQrp5C6BlA"></div>
             <script src="grecaptcha.getResponse(opt_widget_id)"></script>
