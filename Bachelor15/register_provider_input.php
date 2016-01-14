@@ -4,8 +4,10 @@
         </style></head>
     <body>
         <?php
-        include 'layout/header.php';
-        include 'db/mysqli_connect.php';
+        //$filePath = "/home/stud/chrnordh/public_html/Bachelor15";//server
+        $filePath = "C:\wamp\www\Bachelor15"; //local 
+        include $filePath . '/layout/header.php';
+        include $filePath . '/db/mysqli_connect.php';
 
         function test_input($data) {
             $data = trim($data);
@@ -108,7 +110,7 @@
             </select>
             <br><br>      
 
-            <?php echo address_label ?>: 
+            <?php echo adress_label ?>: 
             <input type="text" name="adresse">
             <br><br>
 

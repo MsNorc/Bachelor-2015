@@ -4,8 +4,11 @@
         </style></head>
     <body>
         <?php
-        include 'layout/header.php';
-        include 'db/mysqli_connect.php';
+        if (isset($_GET['url'])) {
+            ( $url = explode('/', filter_var(rtrim($_GET['url'], '/'), FILTER_SANITIZE_URL)));
+        }
+        //include '../language/lang_no.php';
+        //include 'db/mysqli_connect.php';
 
         function test_input($data) {
             $data = trim($data);
@@ -94,7 +97,7 @@
         ?>
         <h1><?php echo register_label ?></h1><br>
         <p><span class="error">* required field.</span></p>
-        <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>"> 
+        <form method="post" action="<?php echo htmlspecialchars($url[0]); ?>"> 
             <!--First name-->
             <?php echo firstName_label ?>:
             <input type="text" name="first_name" value="<?php echo $first_name; ?>">

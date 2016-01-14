@@ -3,30 +3,28 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/wamp/www/Bachelor15/layout/dropdown_layout.php</file>
-            <file>file:/C:/wamp/www/Bachelor15/mvc/app/init.php</file>
-            <file>file:/C:/wamp/www/Bachelor15/mvc/app/views/home/index.php</file>
-            <file>file:/C:/wamp/www/Bachelor15/language/lang_no.php</file>
-            <file>file:/C:/wamp/www/Bachelor15/mvc/app/models/User.php</file>
-            <file>file:/C:/wamp/www/Bachelor15/catering_populate_view.php</file>
-            <file>file:/C:/wamp/www/Bachelor15/mvc/public/.htaccess</file>
-            <file>file:/C:/wamp/www/Bachelor15/resetPassword.php</file>
-            <file>file:/C:/wamp/www/Bachelor15/mvc/public/index.php</file>
-            <file>file:/C:/wamp/www/Bachelor15/language/switch_language.php</file>
-            <file>file:/C:/wamp/www/Bachelor15/admin_handling.php</file>
-            <file>file:/C:/wamp/www/Bachelor15/catering_view.php</file>
-            <file>file:/C:/wamp/www/Bachelor15/submit_catering.php</file>
             <file>file:/C:/wamp/www/Bachelor15/layout/loginTest.php</file>
-            <file>file:/C:/wamp/www/Bachelor15/mvc/app/core/Controller.php</file>
-            <file>file:/C:/wamp/www/Bachelor15/css/search_catering.css</file>
-            <file>file:/C:/wamp/www/Bachelor15/admin_input.php</file>
-            <file>file:/C:/wamp/www/Bachelor15/provider_search.php</file>
+            <file>file:/C:/wamp/www/Bachelor15/layout/dropdown_layout.php</file>
+            <file>file:/C:/wamp/www/Bachelor15/register_provider_input.php</file>
+            <file>file:/C:/wamp/www/Bachelor15/summaryCatering_view.php</file>
+            <file>file:/C:/wamp/www/Bachelor15/controllers/catering_controller.php</file>
+            <file>file:/C:/wamp/www/Bachelor15/index.php</file>
+            <file>file:/C:/wamp/www/Bachelor15/controllers/admin_controller.php</file>
+            <file>file:/C:/wamp/www/Bachelor15/language/lang_no.php</file>
             <file>file:/C:/wamp/www/Bachelor15/forgotPassword.php</file>
-            <file>file:/C:/wamp/www/Bachelor15/mvc/app/core/App.php</file>
+            <file>file:/C:/wamp/www/Bachelor15/logout.php</file>
+            <file>file:/C:/wamp/www/Bachelor15/language/lang_en.php</file>
+            <file>file:/C:/wamp/www/Bachelor15/OLD/mysqli_connect.php</file>
             <file>file:/C:/wamp/www/Bachelor15/mailsender.php</file>
-            <file>file:/C:/wamp/www/Bachelor15/mvc/app/controllers/home.php</file>
+            <file>file:/C:/wamp/www/Bachelor15/controllers/provider_controller.php</file>
+            <file>file:/C:/wamp/www/Bachelor15/resetPassword.php</file>
+            <file>file:/C:/wamp/www/Bachelor15/provider_view.php</file>
+            <file>file:/C:/wamp/www/Bachelor15/language/switch_language.php</file>
             <file>file:/C:/wamp/www/Bachelor15/db/mysqli_connect.php</file>
-            <file>file:/C:/wamp/www/Bachelor15/mvc/app/controllers/contact.php</file>
+            <file>file:/C:/wamp/www/Bachelor15/controllers/request_controller.php</file>
+            <file>file:/C:/wamp/www/Bachelor15/catering_view.php</file>
+            <file>file:/C:/wamp/www/Bachelor15/request_view.php</file>
+            <file>file:/C:/wamp/www/Bachelor15/admin_view.php</file>
             <file>file:/C:/wamp/www/Bachelor15/layout/header.php</file>
         </group>
     </open-files>

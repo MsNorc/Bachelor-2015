@@ -4,8 +4,8 @@
         </style></head>
     <body>
         <?php
-        include 'layout/header.php';
-        include 'db/mysqli_connect.php';
+        //include 'layout/header.php';
+        //include 'db/mysqli_connect.php';
 
         function test_input($data) {
             $data = trim($data);
@@ -15,31 +15,18 @@
         }
 
 // define variables and set to empty values
-        $first_nameErr = $last_nameErr = $emailErr = $phoneErr = $zip_codeErr = "";
-        $first_name = $last_name = $email = $phone = $zip_code = "";
+        $business_nameErr = $emailErr = $phoneErr = $zip_codeErr = "";
+        $business_name = $email = $phone = $zip_code = "";
 
-        //Firstname validation
+        //Buisnessname validation
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
-            if (empty($_POST["first_name"])) {
-                $first_nameErr = firstName_blank;
+            if (empty($_POST["business_name"])) {
+                $business_nameErr = businessName_blank;
             } else {
-                $first_name = test_input($_POST["first_name"]);
+                $business_name = test_input($_POST["business_name"]);
                 // check if name only contains letters and whitespace
-                if (!preg_match("/^[a-zA-Z ]*$/", $first_name)) {
-                    $first_nameErr = invalidName;
-                }
-            }
-        }
-
-        //Lastname validation
-        if ($_SERVER["REQUEST_METHOD"] == "POST") {
-            if (empty($_POST["last_name"])) {
-                $last_nameErr = lastName_blank;
-            } else {
-                $last_name = test_input($_POST["last_name"]);
-                // check if name only contains letters and whitespace
-                if (!preg_match("/^[a-zA-Z ]*$/", $last_name)) {
-                    $last_nameErr = invalidName;
+                if (!preg_match("/^[a-zA-Z ]*$/", $business_name)) {
+                    $business_nameErr = invalidName;
                 }
             }
         }
@@ -76,8 +63,7 @@
                 }
             }
         }
-        
-        // Zip_code validation
+        //Zipcode check
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
             if (empty($_POST["zip_code"])) {
                 $zip_codeErr = blank;
@@ -92,19 +78,13 @@
             }
         }
         ?>
-        <h1><?php echo register_label ?></h1><br>
-        <p><span class="error">* required field.</span></p>
+        <h1><?php echo register_provider_label ?></h1><br>
+        <p><span class="error">* required field/s.</span></p>
         <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>"> 
-            <!--First name-->
-            <?php echo firstName_label ?>:
-            <input type="text" name="first_name" value="<?php echo $first_name; ?>">
-            <span class="error">* <?php echo $first_nameErr; ?></span>
-            <br><br>
-
-            <!--Last name-->
-            <?php echo lastName_label ?>:
-            <input type="text" name="last_name" value="<?php echo $last_name; ?>">
-            <span class="error">* <?php echo $last_nameErr; ?></span>
+            <!--business name-->
+            <?php echo BusinessName_label ?>:
+            <input type="text" name="business_name" value="<?php echo $business_name; ?>">
+            <span class="error">* <?php echo $business_nameErr; ?></span>
             <br><br>
 
             <!--E-mail-->
@@ -113,22 +93,37 @@
             <span class="error">* <?php echo $emailErr; ?></span>
             <br><br>
 
+            <!--Phone-->
             <?php echo phone_label ?>: 
             <input type="text" name="phone" value="<?php echo $phone; ?>">
             <span class="error">* <?php echo $phoneErr; ?></span>
             <br><br>
 
-            <!--Adresse-->
-            <?php echo adress_label ?>: <input type="text" name="adresse"><br><br>
-            
-            <?php echo zipCode_label ?>: 
-                        <input type="text" name="zip_code" value="<?php echo $zip_code; ?>">
-                        <span class="error"> <?php echo $zip_codeErr; ?></span><br><br>
-            
-            <?php echo city_label ?>: <input type="text" name ="city"><br><br>      
-            
+            <!--Service a provider delivers-->
+            <?php echo service_label ?>
+            <select>
+                <option value="catering"> <?php echo catering_label ?> </option>
+                <option value="location"> <?php echo facility_label ?> </option>
+                <option value="sound&picture"> <?php echo sound_light_label ?> </option>
+            </select>
+            <br><br>      
+
+            <?php echo adress_label ?>: 
+            <input type="text" name="adresse">
+            <br><br>
+
+            <?php echo zipCode_label ?>:
+            <input type="text" name="zip_code" value="<?php echo $zip_code; ?>">
+            <span class="error"> <?php echo $zip_codeErr; ?></span>
+            <br><br>
+
+            <?php echo city_label ?>: 
+            <input type="text" name ="city">
+            <br><br>
+
+
             <script src="https://www.google.com/recaptcha/api.js" async defer></script>
-            <div class="g-recaptcha" data-sitekey="6Levlg8TAAAAALG8kxIJ-XuybQ14pgsQrp5C6BlA"></div>
+            <div class="g-recaptcha" data-sitekey="6Levlg8TAAAAALG8kxIJ-XuybQ14pgsQrp5C6BlA"></div> <!-- will have to register as a user at google to get site key-->
             <script src="grecaptcha.getResponse(opt_widget_id)"></script>
             <script src="grecaptcha.reset(opt_widget_id)"></script>
             <br/>
@@ -136,9 +131,9 @@
         </form>
 
         <?php
-        $user = array("first_name" => $first_name, "last_name" => $last_name, "email" => $email, "phone" => $phone);
+        $user = array("business_name" => $business_name, "email" => $email, "phone" => $phone);
 
-        if ($first_nameErr == "" && $last_nameErr == "" && $emailErr == "" && $phoneErr == "" && $first_name != "" && $last_name != "" && $email != "" && $phone != "") {
+        if ($business_nameErr == "" && $emailErr == "" && $phoneErr == "" && $business_name != "" && $email != "" && $phone != "") {
             echo finished_label;
         }
         ?>

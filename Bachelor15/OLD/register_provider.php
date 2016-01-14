@@ -4,8 +4,8 @@
         </style></head>
     <body>
         <?php
-        include 'layout/header.php';
-        include 'db/mysqli_connect.php';
+        include '/layout/header.php';
+        include '/db/mysqli_connect.php';
 
         function test_input($data) {
             $data = trim($data);
@@ -15,32 +15,13 @@
         }
 
 // define variables and set to empty values
-        $first_nameErr = $last_nameErr = $emailErr = $phoneErr = $zip_codeErr = "";
-        $first_name = $last_name = $email = $phone = $zip_code = "";
+        $provider_nameErr = "";
+        $provider_name = "";
 
-        //Firstname validation
+        //Provider name validation
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
-            if (empty($_POST["first_name"])) {
-                $first_nameErr = firstName_blank;
-            } else {
-                $first_name = test_input($_POST["first_name"]);
-                // check if name only contains letters and whitespace
-                if (!preg_match("/^[a-zA-Z ]*$/", $first_name)) {
-                    $first_nameErr = invalidName;
-                }
-            }
-        }
-
-        //Lastname validation
-        if ($_SERVER["REQUEST_METHOD"] == "POST") {
-            if (empty($_POST["last_name"])) {
-                $last_nameErr = lastName_blank;
-            } else {
-                $last_name = test_input($_POST["last_name"]);
-                // check if name only contains letters and whitespace
-                if (!preg_match("/^[a-zA-Z ]*$/", $last_name)) {
-                    $last_nameErr = invalidName;
-                }
+            if (empty($_POST["provider_name"])) {
+                $provider_nameErr = firstName_blank;
             }
         }
 
@@ -76,8 +57,7 @@
                 }
             }
         }
-        
-        // Zip_code validation
+
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
             if (empty($_POST["zip_code"])) {
                 $zip_codeErr = blank;
@@ -95,52 +75,38 @@
         <h1><?php echo register_label ?></h1><br>
         <p><span class="error">* required field.</span></p>
         <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>"> 
-            <!--First name-->
-            <?php echo firstName_label ?>:
-            <input type="text" name="first_name" value="<?php echo $first_name; ?>">
-            <span class="error">* <?php echo $first_nameErr; ?></span>
+            <!--Provider name-->
+            <?php echo provider_label ?>:
+            <input type="text" name="provider_name" value="<?php echo $provider_name; ?>">
+            <span class="error">* <?php echo $provider_nameErr; ?></span>
             <br><br>
-
-            <!--Last name-->
-            <?php echo lastName_label ?>:
-            <input type="text" name="last_name" value="<?php echo $last_name; ?>">
-            <span class="error">* <?php echo $last_nameErr; ?></span>
-            <br><br>
-
+            
+            <?php echo service_label ?>:
+            <input type="radio" name="sevice_type" value="sound">
+            <input type="radio" name="sevice_type" value="picture">
+            <input type="radio" name="sevice_type" value="both">
+            
             <!--E-mail-->
             <?php echo email_label ?>: 
             <input type="text" name="email" value="<?php echo $email; ?>">
             <span class="error">* <?php echo $emailErr; ?></span>
             <br><br>
-
+            
+            <!--Phone-->
             <?php echo phone_label ?>: 
             <input type="text" name="phone" value="<?php echo $phone; ?>">
             <span class="error">* <?php echo $phoneErr; ?></span>
             <br><br>
 
-            <!--Adresse-->
-            <?php echo adress_label ?>: <input type="text" name="adresse"><br><br>
+
+            <!-- User adress-->
+            <?php echo adresse_label ?>: <input type="text" name="adresse"><br><br>
             
             <?php echo zipCode_label ?>: 
                         <input type="text" name="zip_code" value="<?php echo $zip_code; ?>">
                         <span class="error"> <?php echo $zip_codeErr; ?></span><br><br>
             
-            <?php echo city_label ?>: <input type="text" name ="city"><br><br>      
-            
-            <script src="https://www.google.com/recaptcha/api.js" async defer></script>
-            <div class="g-recaptcha" data-sitekey="6Levlg8TAAAAALG8kxIJ-XuybQ14pgsQrp5C6BlA"></div>
-            <script src="grecaptcha.getResponse(opt_widget_id)"></script>
-            <script src="grecaptcha.reset(opt_widget_id)"></script>
+            <?php echo city_label ?>: <input type="text" name ="city"><br><br>            
             <br/>
             <input type="submit" value="Submit">
         </form>
-
-        <?php
-        $user = array("first_name" => $first_name, "last_name" => $last_name, "email" => $email, "phone" => $phone);
-
-        if ($first_nameErr == "" && $last_nameErr == "" && $emailErr == "" && $phoneErr == "" && $first_name != "" && $last_name != "" && $email != "" && $phone != "") {
-            echo finished_label;
-        }
-        ?>
-    </body>
-</html>

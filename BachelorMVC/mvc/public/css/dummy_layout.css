@@ -1,0 +1,153 @@
+
+
+#main_header, #main_footer{
+    margin: 0;
+    background-color: #0099FF;
+}
+
+
+//** CATERING **/
+
+.catering_wrapper{
+    width: 100%;
+    height: 500px;
+    margin-left: auto;
+    margin-right: auto;
+    border: 0px;
+}
+
+#catering_header{
+    margin-top: 10px;
+    margin-bottom: 10px;
+    background-color: background;
+}
+
+/*left display catering*/
+
+#catering_left_display{
+    width: 20%;
+    float: left;
+    border-radius: 2px;
+    background-color: aquamarine;
+    padding: 30px;
+    box-shadow: 2px 2px 2px #888;
+}
+
+
+/*right display catering*/
+
+#catering_right_display{
+    width: 70%;
+    float: right;
+    padding-left: 30px;
+    background-color: infobackground;
+}
+
+.error{
+    color: red;
+}
+
+.labels_catering{
+    display:inline-block;
+    width:200px;
+    margin-left:5px;
+    text-align:left;
+}
+
+
+.input_catering,#amount_input_food{
+    width: 50px;
+}
+
+#items_picked{
+    width: 100%;
+}
+
+
+//** DROPDOWN FROM HEADER**//
+
+//login dropdown
+
+.main_login{
+    //dropdown 
+}
+
+//**ADMIN **//
+
+.admin_wrapper,#show_insert_admin{
+    width: 100%;
+    height: 500px;
+    margin-left: auto;
+    margin-right: auto;
+    border: 0px;
+}
+
+#left_admin{
+    width: 20%;
+    float: left;
+    border-radius: 2px;
+    background-color: aquamarine;
+    padding: 30px;
+    box-shadow: 2px 2px 2px #888;
+}
+
+#right_admin{
+    width: 70%;
+    float: right;
+    padding-left: 30px;
+    background-color: infobackground;
+}
+
+.area_search_head{
+    width: 150px;
+}
+.area_search {
+    width: 200px;
+    height: 150px;
+    overflow: auto
+}
+
+/* provider */
+
+#provider_wrapper_left{
+    width: 30%;
+    float: left;
+    border-radius: 2px;
+    background-color: aquamarine;
+    padding: 30px;
+    box-shadow: 2px 2px 2px #888;
+}
+
+#provider_wrapper_right{
+    width: 60%;
+    float: right;
+    padding-left: 30px;
+    background-color: infobackground;
+}
+
+/* requests */
+
+#request_left{
+    width: 40%;
+    float: left;
+    border-radius: 2px;
+    background-color: aquamarine;
+    padding: 30px;
+    box-shadow: 2px 2px 2px #888;
+}
+
+#request_right{
+    width: 50%;
+    float: right;
+    padding-left: 30px;
+    background-color: infobackground;
+}
+
+.providers_scrollPick{
+    width: 200px;
+    height: 150px;
+    overflow: auto
+}
+
+
+

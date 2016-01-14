@@ -214,13 +214,14 @@ function search_FoodDB($input) {
 
     if ($input != "") {
         $db_connection = get_connection();
-        $sql = "SELECT food_type FROM catering_list WHERE food_type LIKE '%{$input}%' LIMIT 20";
+        $sql = "SELECT food_type FROM catering_list WHERE food_type LIKE '%{$input}%' LIMIT 10";
         $result = mysqli_query($db_connection, $sql);
 
         while ($row = mysqli_fetch_assoc($result)) {
             $output = $row['food_type'];
             echo "<a href='?show_pickedFood=$output'>" . $output . "</a><br>";
             //parent.window.location.reload();
+            //unset($_SESSION['JQUERY']);
         }
         mysqli_free_result($result);
         mysqli_close($db_connection);
@@ -312,6 +313,7 @@ function edit_foodDB($new_value) {
 }
 
 function check_duplicate_request($adress, $customer_id) {
+    
     if ($adress != "") {
         $db_connection = get_connection();
         $sql = "SELECT adress, customer_id FROM request WHERE adress = '$adress'"
@@ -376,18 +378,20 @@ function find_request_id($db_connection, $customer_id, $adress) {
 
 //insert a catering request into DB
 function make_requestDB($request) {
+
     if ($request != null) {
+  
         $db_connection = get_connection();
 
         $adress = $request['adress'];
         $zip = $request['zip'];
         $date = $request['date'];
-        //$amount = $request['amount'];
+        $amount = $request['amount'];
         $customer_id = $_SESSION['user_id'];
         //$food_list = $request['food_list']; //list of items picked, soon^tm
         if (!check_duplicate_request($adress, $customer_id)) {
-            $sql = "INSERT INTO request (adress, zip_code, date_event, customer_id)"
-                    . "VALUES ('$adress','$zip','$date', '$customer_id')";
+            $sql = "INSERT INTO request (adress, zip_code, date_event,quantity_people, customer_id)"
+                    . "VALUES ('$adress','$zip','$date','$amount','$customer_id')";
             $result = mysqli_query($db_connection, $sql);
             $request_id = find_request_id($db_connection, $customer_id, $adress);
             //mysqli_close($db_connection);
@@ -512,7 +516,6 @@ function get_requestsForProvider($provider_id, $zip, $limit) {
       }
       $sql_string = implode(', ', $placeholders);
       echo $sql_string; */
-
     $db_connection = get_connection();
     //$sql = "SELECT * FROM zip_list WHERE zip_code IN ('$trimZip')";
     // for($i=0; $i<count($trimZip); $i++){
@@ -532,8 +535,10 @@ function get_requestsForProvider($provider_id, $zip, $limit) {
 
     test_result($db_connection, $result);
     while ($row = mysqli_fetch_row($result)) {
+       
         array_push($array, $row);
     }
+    
     // }
     //$new_array = array_merge_recursive($array,$zip_list);
     mysqli_free_result($result);

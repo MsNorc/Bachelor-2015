@@ -36,6 +36,7 @@ if (isset($_POST['email1'], $_POST['password1'])) {
             $_SESSION['user'] = $email;
             while ($row = mysqli_fetch_assoc($result)) {
                 $_SESSION['user_id'] = $row["customer_id"];
+                $_SESSION['user_type'] = "customer";
                 $_SESSION['dropdown'] = 0;
             }
         } else {

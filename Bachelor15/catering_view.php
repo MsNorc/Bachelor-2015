@@ -9,7 +9,7 @@
         <?php
         include 'layout/header.php';
         include 'layout/dropdown_layout.php';
-        include 'catering_populate_view.php';
+        include 'controllers/catering_controller.php';
         //$_SESSION['dropdown'] = 0;
         //include 'layout/dropdown_layout.php';
         if (isset($_SESSION['user'])):
@@ -22,7 +22,7 @@
             <script>
                 function getFoodList(value) {
 
-                    $.post("catering_populate_view.php", {partial_food: value, tempSave: true})
+                    $.post("controllers/catering_controller.php", {partial_food: value, tempSave: true})
                             .done(function (data) {
                                 $("#results").html(data);
                             })
@@ -37,7 +37,7 @@
                 }
                 ;
                 function show_area(value) {
-                    $.post("catering_populate_view.php", {zip_codeInput: value})
+                    $.post("controllers/catering_controller.php", {zip_codeInput: value})
                             .done(function (data) {
                                 $("#show_area").html(data);
                             })
@@ -112,6 +112,14 @@
 
                     </div>
                     <div id = "catering_right_display">
+                        <div><label class="labels_catering">type event*</label>
+                            <select name="form">
+                            <option style="display:none;">more</option>
+                            <option>bryllup</option>
+                            <option>bursdag</option>
+                        </select>
+                        </div><br>
+                        
                         <div id = "adress_event">
                             <label class="labels_catering">
                                 <?php echo adress_event_string ?>
@@ -145,14 +153,16 @@
                             <span class = "error" > * <?php echo validate_date(); ?> </span>
 
                         </div>
+                        <!-- quantity OLD
                         <div id = "pick_amount_people">
                             <label class="labels_catering">
-                                <?php echo quantity_people_string ?>
+                                <?php //echo quantity_people_string ?>
                             </label>
                             <input type="number" class="input_catering" name="quantity_people"
-                                   value="<?php echo get_quantityPeople() ?>">
+                                   value="<?php //echo get_quantityPeople() ?>">
                             <span class = "error" > * <?php echo validate_quantity(); ?> </span>
-                        </div><br>
+                        </div> -->
+                        <br>
                         <div id="notify_email">
                             <label class="labels_catering"><?php echo interest_string ."*" ?></label>
                             <input type="checkbox">
