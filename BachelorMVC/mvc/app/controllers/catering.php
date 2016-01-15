@@ -1,6 +1,6 @@
 <?php
 
-require_once '/db/mysqli_connect.php';
+require_once 'db/mysqli_connect.php';
 
 if (!isset($_SESSION)) {
     session_start();

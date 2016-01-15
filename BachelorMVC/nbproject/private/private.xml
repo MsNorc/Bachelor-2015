@@ -3,17 +3,18 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/wamp/www/BachelorMVC/mvc/app/core/App.php</file>
-            <file>file:/C:/wamp/www/BachelorMVC/mvc/app/core/layout/header.php</file>
+            <file>file:/C:/wamp/www/BachelorMVC/mvc/app/views/admin/admin_view.php</file>
             <file>file:/C:/wamp/www/BachelorMVC/mvc/app/controllers/home.php</file>
-            <file>file:/C:/wamp/www/BachelorMVC/mvc/app/models/catering_handling.php</file>
+            <file>file:/C:/wamp/www/BachelorMVC/mvc/app/views/catering/summaryCatering_view.php</file>
+            <file>file:/C:/wamp/www/BachelorMVC/mvc/app/controllers/admin.php</file>
             <file>file:/C:/wamp/www/BachelorMVC/mvc/app/views/catering/catering_view.php</file>
-            <file>file:/C:/wamp/www/BachelorMVC/mvc/app/core/Controller.php</file>
+            <file>file:/C:/wamp/www/BachelorMVC/mvc/app/controllers/register.php</file>
+            <file>file:/C:/wamp/www/BachelorMVC/mvc/app/controllers/overview.php</file>
             <file>file:/C:/wamp/www/BachelorMVC/mvc/app/controllers/catering.php</file>
-            <file>file:/C:/wamp/www/BachelorMVC/mvc/public/index.php</file>
-            <file>file:/C:/wamp/www/BachelorMVC/mvc/public/.htaccess</file>
-            <file>file:/C:/wamp/www/BachelorMVC/mvc/app/controllers/registerUser.php</file>
-            <file>file:/C:/wamp/www/BachelorMVC/mvc/app/views/home/index.php</file>
+            <file>file:/C:/wamp/www/BachelorMVC/mvc/app/controllers/provider.php</file>
+            <file>file:/C:/wamp/www/BachelorMVC/mvc/app/views/register/register_user_input.php</file>
+            <file>file:/C:/wamp/www/BachelorMVC/mvc/app/views/overview/provider_view.php</file>
+            <file>file:/C:/wamp/www/BachelorMVC/mvc/app/controllers/db/mysqli_connect.php</file>
         </group>
     </open-files>
 </project-private>

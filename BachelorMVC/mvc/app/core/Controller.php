@@ -11,7 +11,8 @@ class Controller {
         return new $model();
     }
 
-    public function view($view, $data = []) {
+    public function view($view, $data = array()) {
+        //echo "<br>this is view : " . $view . "<br>";
         require_once '../app/views/' . $view . '.php';
     }
 
