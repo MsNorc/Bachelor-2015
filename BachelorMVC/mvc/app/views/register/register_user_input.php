@@ -134,11 +134,12 @@
 
 
             if ($user_nameErr == "" && $passwordErr == "" && $cpasswordErr == "" && $emailErr == "" && $phoneErr == "" && $tagErr == "") {
-                if ($tag == "private") {
+               /* if ($tag == "private") {
                     echo "sucsess";
                 } else if ($tag == "business" && $business_IdErr == "") {
                     echo "business sucsess";
-                }
+                }*/
+                echo "sucsess";
             } else {
                 echo "form does not satisfy";
             }
