@@ -178,20 +178,25 @@
             <br><br>
 
             <!-- User tag -->
+            <!--
             <?php echo userTag_label ?>
             <br>
             <input type="radio" name="tag" value="private" onclick="disableIdInput()"> <?php echo privat_label ?>
             <input type="radio" name="tag" value="business" onclick="enableIdInput()"> <?php echo business_label ?>
             <span class="error">* <?php echo $tagErr; ?></span>
             <br><br>
-
+            -->
+            
             <!-- Business Id -->
+            <!--
             <?php echo businessId_label ?>
             <input type="text" id="businessId" name="businessId" value="<?php echo $business_Id; ?>" disabled=""> 
             <span class="error">* <?php echo $business_IdErr; ?></span>
             <br><br>
-
-            <!--Adresse
+            -->
+            
+            <!--Adresse-->
+            <!--
             <?php echo address_label ?>: <input type="text" name="adresse"><br><br>
             
             <?php echo zipCode_label ?>: 

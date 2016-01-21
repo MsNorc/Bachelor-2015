@@ -58,14 +58,10 @@
             }
 
             //Webpage validation
-            if (empty($_POST["webPage"])) {
-                $web_pageErr = webPage_blank;
-            } else {
-                $web_page = test_input($_POST["webPage"]);
-                //check web page format
-                if (!filter_var($web_page, FILTER_VALIDATE_URL)) {
-                    $web_pageErr = invalidWebPage;
-                }
+            $web_page = test_input($_POST["webPage"]);
+            //check web page format
+            if (!filter_var($web_page, FILTER_VALIDATE_URL)) {
+                $web_pageErr = invalidWebPage;
             }
 
             //Phone Validation
@@ -104,13 +100,6 @@
                 }
             }
 
-
-            //Service check
-            if (empty($_POST["service"])) {
-                $serviceErr = serviceNone;
-            } else {
-                $service = test_input($_POST["service"]);
-            }
 
             //Zipcode check
             if (empty($_POST["zip_code"])) {
@@ -196,19 +185,19 @@
             <input type="checkbox" name="service" value="sound&picture"><?php echo sound_light_label ?>
             <span class="error">* <?php echo $serviceErr; ?></span>
             <br><br>      
-            
+
             <!--Address-->
             <?php echo address_label ?>: 
             <input type="text" name="address" value="<?php echo $address; ?>">
             <span class="error">* <?php echo $addressErr; ?></span>
             <br><br>
-            
+
             <!--Zip Code-->
             <?php echo zipCode_label ?>:
             <input type="text" name="zip_code" value="<?php echo $zip_code; ?>">
             <span class="error">* <?php echo $zip_codeErr; ?></span>
             <br><br>
-            
+
             <!-- City -->
             <!--
             <?php echo city_label ?>: 
@@ -216,7 +205,7 @@
             <span class="error">* <?php echo $cityErr; ?></span>
             <br><br>
             -->
-            
+
             <script src="https://www.google.com/recaptcha/api.js" async defer></script>
             <div class="g-recaptcha" data-sitekey="6Levlg8TAAAAALG8kxIJ-XuybQ14pgsQrp5C6BlA" data-theme="dark"></div> <!-- will have to register as a user at google to get site key-->
             <script src="grecaptcha.getResponse(opt_widget_id)"></script>
