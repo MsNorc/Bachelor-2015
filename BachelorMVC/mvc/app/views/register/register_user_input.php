@@ -13,8 +13,9 @@
         </style></head>
     <body>
         <?php
-        include 'layout/header.php';
-        include 'db/mysqli_connect.php';
+     if (isset($_GET['url'])) {
+            ( $url = explode('/', filter_var(rtrim($_GET['url'], '/'), FILTER_SANITIZE_URL)));
+        }
 
         function test_input($data) {
             $data = trim($data);
@@ -33,7 +34,7 @@
                 $user_nameErr = userName_blank;
             }
 
-            if (empty($_POST["password"]) && ($_POST["password"] == $_POST["cpassword"])) {
+            if (isset($_POST["password"]) && ($_POST["password"] == $_POST["cpassword"])) {
                 $passwordErr = least8signs;
             } else {
                 $password = test_input($_POST["password"]);
@@ -147,7 +148,7 @@
         ?>
         <h1><?php echo register_label ?></h1><br>
         <p><span class="error">* required fields.</span></p>
-        <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>"> 
+        <form method="post" action="<?php echo htmlspecialchars($url[0]); ?>"> 
 
             <!--User name-->
             <?php echo userName_label ?>:

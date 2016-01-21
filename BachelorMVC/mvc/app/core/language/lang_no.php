@@ -5,28 +5,55 @@ define("title_home", "hjem");
 define("title_cateringView", "søk catering");
 
 //buttons
-define("new_user_btn", "ny bruker");
-define("login_btn", "logg inn");
-define("search_btn", "søk");
-define("send_btn", "send");
+define("home_btn", "HJEM");
+define("new_user_btn", "Ny bruker");
+define("login_btn", "Logg inn");
+define("search_btn", "Søk");
+define("send_btn", "Send");
+define("upgrade_button", "Oppgrader");
+define("logout_button", "Logg ut");
+define("admin_btn", "Admin");
+define("more_btn", "Mer");
+define("view_request_btn", "Se bestillinger");
+define("search_jobs_btn", "Se jobber");
+define("pick_btn", "Velg");
+
+define("forgotPw_btn", "Glemt passord?");
+
+define("adress_label", "Adresse");
 
 //labels frontpage
-define("catering_label", "catering");
-define("facility_label", "lokale");
-define("sound_light_label", "lyd og lys");
+define("loggedInAs", "Innlogget som : ");
+define("catering_label", "Catering");
+define("facility_label", "Lokale");
+define("sound_light_label", "Lyd og lys");
 
-//labels personalia
-define("user_name_label", "Fornavn");
-
-define("city_trd", "Trondheim");
-
+//labels catering
+define("typeEvent_label", "Type arrangement");
+define("adress_event_label", "Velg addresse for levering");
+define("zip_event_label", "Postnummer");
+define("date_event_label", "Velg en ønsket dato");
+define("quantity_event_label", "Velg antall personer");
+define("interest_event_label","Send meg email når noen viser interesse");
+define("comment_event_label", "Kommentar");
+define("apply_event_label", "Klikk for å opprette arrangement");
 
 //labels admin
 define("label_food_type", "legg inn en ny type mat");
 
 //frontpage labels
-define("frontpage_label", "trykk for å opprette et event!");
+define("frontpage_label", "Trykk for å opprette et arrangement!");
 
+//view requests
+define("price_offer", "Anbud");
+define("food_amount_label", "Antall");
+define("food_label", "Mat");
+define("people_label", "Personer");
+define("summary_label", "Oppsummering");
+define("date_label", "Dato");
+define("item_label", "Varer");
+define("combined_amount", "Til sammen");
+define("correct_info", "Er informasjonen korrekt?");
 
 
 // Register user/provider labels
@@ -101,8 +128,21 @@ define("quantity_people_string", "velg antall personer");
 define("interest_string","send meg email når noen viser interesse");
 
 //messages
-define("msg_login", "logg inn for å se denne siden..");
+define("msg_login", "Logg inn for å se denne siden..");
 define("msg_insertFood", "Søk for å vise matliste");
 define("msg_pickFood","Dine valg av mat..");
-
 define("msg_providerOffer", "Du har registrert din interesse, vent på tilbakemelding fra kunde");
+define("noProviders_msg", "Ingen leverandører har vist sin interesse enda..");
+define("pickedProvider_msg", "Flott, din leverandør for dette arrangementet er : ");
+define("applied_noAnswer", "Anbud uten svar");
+
+
+
+
+
+
+
+
+
+
+
