@@ -16,7 +16,6 @@ class App {
 
         if (file_exists('../app/controllers/' . $url[0] . '.php')) {
             $this->controller = $url[0];
-            //echo "first url: " . $url[0] . "<br>";
             unset($url[0]);
         }
        
@@ -26,8 +25,6 @@ class App {
         require_once 'language/switch_language.php';
 
         $this->controller = new $this->controller;
-
-        
         
         if (isset($url[1])) {
             if (method_exists($this->controller, $url[1])) {
@@ -44,19 +41,12 @@ class App {
         echo "ctrl <br>";*/
       
         //just empty array php 5.3 workaround
-        $test = array();
-        /*print_r(array_values($url));
-        echo "url <br>";*/
-        ($this->params = $url ? array_values($url) : $test);
-        //echo "this->params";
-        //$this->params = $url ? array_values($url) : []); original code
-        //another workaround
-        
-        
+        $empty = array();
+        ($this->params = $url ? array_values($url) : $empty);
+
         call_user_func_array($ctrlMethod, $this->params); //php 5.3
         //call_user_func_array([$this->controller, $this->method], $this->params);
         
-
     }
     
     public function parseURL() {

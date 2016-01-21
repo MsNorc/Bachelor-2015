@@ -121,17 +121,17 @@
                         </div>
                 </div>
                 <div id = "catering_right_display">
-                    <div><label class="labels_catering">type event*</label>
+                    <div><label class="labels_catering"><?php echo typeEvent_label . "*" ?></label>
                         <select name="form">
-                            <option style="display:none;">more</option>
-                            <option>bryllup</option>
-                            <option>bursdag</option>
+                            <option style="display:none;"><?php echo more_btn ?></option>
+                            <option>Bryllup</option>
+                            <option>Bursdag</option>
                         </select>
                     </div><br>
 
                     <div id = "adress_event">
                         <label class="labels_catering">
-                            <?php echo adress_event_string ?>
+                            <?php echo adress_event_label ?>
                         </label>
 
                         <input type = "text" name = "adress_event"
@@ -142,7 +142,7 @@
 
                     <div id = "zip_event">
                         <label class="labels_catering">
-                            <?php echo zip_event_string ?>
+                            <?php echo zip_event_label ?>
                         </label>
                         <input type="number" onkeyup="show_area(this.value)" 
                                class="input_catering" name="zip_code" 
@@ -153,7 +153,7 @@
 
                     <div id = "pick_date">
                         <label class="labels_catering">
-                            <?php echo select_date_string ?>
+                            <?php echo date_event_label ?>
                         </label> 
                         <input type = "date" name = "date_picked"
                                value = <?php echo get_date(); ?> >
@@ -171,14 +171,14 @@
                     </div> -->
                     <br>
                     <div id="notify_email">
-                        <label class="labels_catering"><?php echo interest_string . "*" ?></label>
+                        <label class="labels_catering"><?php echo interest_event_label . "*" ?></label>
                         <input type="checkbox">
                     </div><br>
                     <div>
-                        <label class="labels_catering">comment*</label>
+                        <label class="labels_catering"><?php echo comment_event_label ?></label>
                         <textarea rows="4" cols="30"></textarea>
                     </div><br><br>
-                    <div><label class="labels_catering">click to apply</label>
+                    <div><label class="labels_catering"><?php echo apply_event_label ?></label>
                         <input type = "submit" value = "<?php echo send_btn ?>">
                     </div>
 

@@ -83,19 +83,22 @@
                     <table border="1">
                         <tr>
                             <th>#id</th>
-                            <th>adress</th>
-                            <th>zip</th>
-                            <th>date</th>
-                            <th>quantity</th>
-                            <th>food type</th>
-                            <th>amount</th>
+                            <th><?php echo adress_label ?></th>
+                            <th><?php echo zipCode_label ?></th>
+                            <th><?php echo date_label ?></th>
+                            <th><?php echo people_label ?></th>
+                            <th><?php echo food_label ?></th>
+                            <th><?php echo food_amount_label?></th>
                         </tr>
-                        <?php for ($i = 0; $i < count($list); $i++) : ?>
+                        <?php 
+                                    //print_r($list);
+                        for ($i = 0; $i < count($list); $i++) : ?>
                             <tr>
                                 <?php for ($y = 0; $y < count($list[$i]); $y++) : ?>
                                     <td><?php echo $list[$i][$y]; ?></td>                                                
                                 <?php endfor; ?>
-                                <td><input type="submit" class="select-request" value="pick"></td>
+                                <td><input type="submit" class="select-request" 
+                                           value="<?php echo pick_btn ?>"></td>
                             </tr>
                         <?php endfor; ?>
                     </table>
@@ -123,7 +126,8 @@
                                         <?php for ($y = 1; $y < count($providers[$i]); $y++) : ?>
                                             <td><?php echo $providers[$i][$y]; ?></td>
                                         <?php endfor; ?>
-                                        <td><input type="button" class="pick-provider" value="pick"></td>
+                                        <td><input type="button" class="pick-provider" 
+                                                   value="<?php echo pick_btn ?>"></td>
                                     </tr>
                                 <?php endfor;
                                 ?>
@@ -132,7 +136,7 @@
                             <?php
                         endif;
                         if (!isset($_SESSION['providers'])):
-                            echo "no providers for your request so far..";
+                            echo noProviders_msg;
                         endif;
                     endif;
                     ?>

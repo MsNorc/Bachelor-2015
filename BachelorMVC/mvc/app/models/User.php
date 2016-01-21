@@ -2,9 +2,8 @@
 
 class User{
     public $name;
-    public function getName(){
-        return "chris";
-    }
+    
+    
         
 }
 

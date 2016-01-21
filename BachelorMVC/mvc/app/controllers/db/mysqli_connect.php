@@ -1,7 +1,12 @@
 <?php
+
 //include 'mailsender.php';
 //include ('db/config_db.php');
 //echo dirname(__FILE__) . " #end#";
+
+class Database extends Controller {
+    
+}
 
 function insert_test() {
     $db_connection = get_connection();
@@ -41,16 +46,29 @@ function test_result($db_connection, $result) {
     }
 }
 
+function testDB() {
+    $array = array();
+    $db_connection = get_connection();
+    $sql = "SELECT * FROM request";
+    $result = mysqli_query($db_connection, $sql);
+    while ($row = mysqli_fetch_row($result)) {
+        array_push($array, $row);
+    }
+    mysqli_free_result($result);
+    mysqli_close($db_connection);
+    return $array;
+}
+
 //select provider / catering
 function select_provider($provider_id) { //WORKS!! :D
     $db_connection = get_connection();
-    $sql = "SELECT first_name FROM provider WHERE provider_id = '$provider_id'";
+    $sql = "SELECT company_name FROM provider WHERE provider_id = '$provider_id'";
     $result = mysqli_query($db_connection, $sql);
 
     test_result($db_connection, $result);
 
     while ($row = mysqli_fetch_assoc($result)) {
-        echo $row["first_name"];
+        echo $row["company_name"];
     }
 
     //echo json_encode($row)
@@ -125,6 +143,7 @@ function insert_userDB($user) {
         $adress = $user['adress'];
         $zip = $user['zip'];
         $user_type = "user";
+        //$status = 0; set to 0 when created, send email link to set to 1.
         $password = $user['password'];
 
         $sql = "INSERT INTO chrin.customer (first_name, last_name, email, 
@@ -167,7 +186,7 @@ function find_provider_id($db_connection, $email) {
 
 function check_availability_provider($provider, $db_connection) {
     //$db_connection = get_connection();
-    $email = $provider[2];
+    $email = $provider['email'];
     $sql = "SELECT email FROM provider WHERE email = '$email'";
     $result = mysqli_query($db_connection, $sql);
     test_result($db_connection, $result);
@@ -184,25 +203,28 @@ function insert_providerDB($provider) {
     $db_connection = get_connection();
     if (check_availability_provider($provider, $db_connection)) {
 
-        $first_name = $provider[0];
-        $last_name = $provider[1];
-        $email = $provider[2];
-        $phone = $provider[3];
-        $adress = $provider[4];
-        $zip = $provider[5];
-        $amount = $provider[6];
-        $password = $provider[7];
-        $food_list = $provider[8];
+        $company_name = $provider['company_name'];
+        $org_nr = $provider['org_nr'];
+        $home_page = $provider['home_page'];
+        $email = $provider['email'];
+        $phone = $provider['phone'];
+        $adress = $provider['adress'];
+        $zip = $provider['zip'];
+        $amount = $provider['amount'];
+        $password = $provider['password'];
+        $food_list = $provider['food_list'];
+        
 
-        $sql = "INSERT INTO provider (first_name, last_name, email, phone_number, 
+        $sql = "INSERT INTO provider (company_name, org_nr,home_page, email, phone_number, 
         address, zip, amount_people, password) 
-	VALUES ('$first_name', '$last_name', '$email', '$phone', '$adress',"
+	VALUES ('$company_name', '$org_nr', '$home_page', '$email', '$phone', '$adress',"
                 . " '$zip', '$amount','$password')";
 
         $result = mysqli_query($db_connection, $sql);
-        $provider_id = find_provider_id($db_connection, $email);
-        insert_provider_info($db_connection, $food_list, $provider_id);
-
+        if ($food_list) {
+            $provider_id = find_provider_id($db_connection, $email);
+            insert_provider_info($db_connection, $food_list, $provider_id);
+        }
         //test_result($db_connection, $result);
         //mysqli_free_result($result);
         mysqli_close($db_connection);
@@ -236,7 +258,7 @@ function getCustomerDB($id) {
                 . "FROM customer WHERE customer_id = '$id'";
         $result = mysqli_query($db_connection, $sql);
         test_result($db_connection, $result);
-        while ($row = mysqli_fetch_array($result)) {
+        while ($row = mysqli_fetch_row($result)) {
             $user = $row;
         }
         mysqli_free_result($result);
@@ -248,18 +270,14 @@ function getCustomerDB($id) {
 function search_customerDB($input) {
     if (strlen($input) > 2) {
         $db_connection = get_connection();
-        $sql = "SELECT * FROM customer WHERE first_name LIKE '%{$input}%' "
-                . "OR last_name LIKE '%{$input}%' OR email LIKE '%{$input}%'"
-                . " LIMIT 20;";
+        $sql = "SELECT * FROM customer WHERE email LIKE '%{$input}%' " . " LIMIT 10";
+                
         $result = mysqli_query($db_connection, $sql);
         test_result($db_connection, $result);
         while ($row = mysqli_fetch_assoc($result)) {
             $customer_id = $row['customer_id'];
-            $first_name = $row['first_name'];
-            $last_name = $row['last_name'];
             $email = $row['email'];
-            echo "<a href='?show_pickedCustomer=$customer_id'>" . $first_name . " "
-            . $last_name . " | " . $email . "</a><br>";
+            echo "<a href='?show_pickedCustomer=$customer_id'>" .  $email . "</a><br>";
         }
         mysqli_free_result($result);
         mysqli_close($db_connection);
@@ -313,7 +331,7 @@ function edit_foodDB($new_value) {
 }
 
 function check_duplicate_request($adress, $customer_id) {
-    
+
     if ($adress != "") {
         $db_connection = get_connection();
         $sql = "SELECT adress, customer_id FROM request WHERE adress = '$adress'"
@@ -378,9 +396,8 @@ function find_request_id($db_connection, $customer_id, $adress) {
 
 //insert a catering request into DB
 function make_requestDB($request) {
-
     if ($request != null) {
-  
+        //print_r($request);
         $db_connection = get_connection();
 
         $adress = $request['adress'];
@@ -419,25 +436,11 @@ function get_requestDB($user_id) {
             . "WHERE c.customer_id = $user_id AND r.provider_id IS NULL";
     $result = mysqli_query($db_connection, $sql);
     test_result($db_connection, $result);
-
+    $data = mysqli_num_rows($result);
+    //echo $data;
     while ($row = mysqli_fetch_row($result)) {
+        //echo " test";
         array_push($requests, $row);
-        /* $adress = $row['adress'];
-          $zip = $row['zip'];
-          $date = $row['date_event'];
-          $quantity_people = $row['quantity_people'];
-          $food_type = $row['food_type'];
-          $amount = $row['amount']; */
-
-        //$requests['adress'] = $adress;
-        //$requests['zip'] = $zip;
-
-        /* array_push($adresses, $adress);
-          array_push($zip_codes, $zip);
-          array_push($dates, $date);
-          array_push($quantity, $quantity_people);
-          array_push($food_list, $food_type, $amount); */
-        //array_push($requests, $adress,$zip,$date,$quantity_people,$food_type);
     }
 
     mysqli_free_result($result);
@@ -454,7 +457,7 @@ function get_requestDB($user_id) {
 function show_ProvidersForRequestDB($request_id) {
     $provider_list = array();
     $db_connection = get_connection();
-    $sql = "SELECT rp.provider_id,p.email, price_offer FROM request_providers rp JOIN provider p "
+    $sql = "SELECT rp.provider_id,p.company_name, price_offer FROM request_providers rp JOIN provider p "
             . "ON p.provider_id = rp.provider_id WHERE request_id = '$request_id'";
     $result = mysqli_query($db_connection, $sql);
     test_result($db_connection, $result);
@@ -475,8 +478,8 @@ function show_ProvidersForRequestDB($request_id) {
 function setProviderRequestDB($request_id, $provider_id) {
     if ($request_id && $provider_id) {
         $db_connection = get_connection();
-        $sql = "UPDATE request SET provider_id = '$provider_id' "
-                . "WHERE request_id = '$request_id'";
+        $sql = "UPDATE request SET provider_id = '$provider_id',status = 1 "
+                . "WHERE request_id = '$request_id' ";
         $result = mysqli_query($db_connection, $sql);
         $sql2 = "UPDATE request_providers SET status = 1 WHERE request_id "
                 . "='$request_id'";
@@ -501,7 +504,7 @@ function check_zipDB($zip) {
     return false;
 }
 
-function get_requestsForProvider($provider_id, $zip, $limit) {
+function get_requestsForProviderDB($provider_id, $zip, $limit) {
     $array = array();
     $trimZip = array();
     $zip_list = zipCode_search($zip, $limit);
@@ -535,10 +538,10 @@ function get_requestsForProvider($provider_id, $zip, $limit) {
 
     test_result($db_connection, $result);
     while ($row = mysqli_fetch_row($result)) {
-       
+
         array_push($array, $row);
     }
-    
+
     // }
     //$new_array = array_merge_recursive($array,$zip_list);
     mysqli_free_result($result);
@@ -664,32 +667,32 @@ function getProvider_idDB($provider_name) {
 }
 
 //pre sending recovery mail
-function encryptUserId($id){
-    $encrypt = md5(1290*3+$id);
+function encryptUserId($id) {
+    $encrypt = md5(1290 * 3 + $id);
     return $encrypt;
 }
 
 //after receiving recovery mail
-function decryptUserIdmail($encryptedId){
-    $id = md5($encryptedId - 1290*3);
+function decryptUserIdmail($encryptedId) {
+    $id = md5($encryptedId - 1290 * 3);
     return $id;
 }
 
-function decryptUserId($encrypted){
+function decryptUserId($encrypted) {
     $db_connection = get_connection();
     //$id = decryptUserId($encrypted);
-    $sql = "SELECT customer_id FROM customer where md5(1290*3+customer_id)='".$encrypted."'";
-        $result = mysqli_query($db_connection,$sql);
-        test_result($db_connection, $result);
-        $data = mysqli_fetch_array($result);
-        if(count($data)>=1){
-            $msg = true;
-        }else{
-            $msg = false;
-        }
-        mysqli_free_result($result);
-        mysqli_close($db_connection);
-        return $msg;
+    $sql = "SELECT customer_id FROM customer where md5(1290*3+customer_id)='" . $encrypted . "'";
+    $result = mysqli_query($db_connection, $sql);
+    test_result($db_connection, $result);
+    $data = mysqli_fetch_array($result);
+    if (count($data) >= 1) {
+        $msg = true;
+    } else {
+        $msg = false;
+    }
+    mysqli_free_result($result);
+    mysqli_close($db_connection);
+    return $msg;
 }
 
 function getUserId($email) {
@@ -699,7 +702,7 @@ function getUserId($email) {
     $result = mysqli_query($db_connection, $sql);
     //test_result($db_connection, $result);
     $data = mysqli_fetch_array($result);
-    if (count($data) >=1) {
+    if (count($data) >= 1) {
         $encrypt = encryptUserId($data['customer_id']);
     }
     mysqli_free_result($result);
@@ -707,7 +710,7 @@ function getUserId($email) {
     return $encrypt;
 }
 
-function updatePasswordUser($password, $encryptedId){
+function updatePasswordUser($password, $encryptedId) {
     $db_connection = get_connection();
     $sql = "update customer set password_customer='" . md5($password) . "' where md5(1290*3+customer_id)='$encryptedId'";
     $result = mysqli_query($db_connection, $sql);
@@ -716,10 +719,30 @@ function updatePasswordUser($password, $encryptedId){
     return true;
 }
 
-function sendEmail_pickedProviderDB($provider_id){
+function getInformationPickedProviderEmail($provider_id) {
+    $event_information = array();
     $db_connection = get_connection();
-    $sql = "SELECT * FROM request WHERE provider_id = '$provider_id' AND status "
-            . "''";
+    $sql = "SELECT p.email, r.adress, r.zip_code, r.date_event, r.quantity_people, c.email,"
+            . " c.phone_number, ri.amount, cl.food_type, ri.amount, rp.price_offer"
+            . " FROM request r JOIN customer c ON r.customer_id = c.customer_id"
+            . " JOIN request_info ri ON ri.request_id = r.request_id"
+            . " JOIN catering_list cl ON cl.catering_id = ri.catering_id"
+            . " JOIN provider p ON p.provider_id = r.provider_id"
+            . " JOIN request_providers rp ON rp.request_id = r.request_id"
+            . " WHERE r.provider_id = '$provider_id' AND r.status = 1";
+
+    $result = mysqli_query($db_connection, $sql);
+    test_result($db_connection, $result);
+    while ($row = mysqli_fetch_row($result)) {
+        array_push($event_information, $row);
+    }
+
+    mysqli_free_result($result);
+    mysqli_close($db_connection);
+
+    //print_r($event_information);
+    //sendEmail_pickedProvider($event_information);
+    return $event_information;
 }
 
 function getZipUserDB($user_id) {
@@ -740,7 +763,7 @@ function getProviderDB($id) {
     if ($id != null) {
         $provider = array();
         $db_connection = get_connection();
-        $sql = "SELECT first_name, last_name, email, phone_number,address, zip,amount_people "
+        $sql = "SELECT company_name, email "
                 . "FROM provider WHERE provider_id = '$id'";
         $result = mysqli_query($db_connection, $sql);
         test_result($db_connection, $result);
@@ -756,18 +779,16 @@ function getProviderDB($id) {
 function search_providerDB($input) {
     if (strlen($input) > 2) {
         $db_connection = get_connection();
-        $sql = "SELECT * FROM provider WHERE first_name LIKE '%{$input}%' "
-                . "OR last_name LIKE '%{$input}%' OR email LIKE '%{$input}%'"
-                . " LIMIT 20;";
+        $sql = "SELECT * FROM provider WHERE company_name LIKE '%{$input}%' "
+                . "OR email LIKE '%{$input}%' LIMIT 10";
         $result = mysqli_query($db_connection, $sql);
         test_result($db_connection, $result);
         while ($row = mysqli_fetch_assoc($result)) {
             $provider_id = $row['provider_id'];
-            $first_name = $row['first_name'];
-            $last_name = $row['last_name'];
+            $company_name = $row['company_name'];
             $email = $row['email'];
-            echo "<a href='?show_pickedProvider=$provider_id'>" . $first_name . " "
-            . $last_name . " | " . $email . "</a><br>";
+            echo "<a href='?show_pickedProvider=$provider_id'>" . $company_name . " "
+            . $email . "</a><br>";
         }
         mysqli_free_result($result);
         mysqli_close($db_connection);

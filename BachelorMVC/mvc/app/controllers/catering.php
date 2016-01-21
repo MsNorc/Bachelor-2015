@@ -196,7 +196,9 @@ function check_validation() {
           && validate_date() && get_date()
           && validate_quantity() && get_quantityPeople()
           && (validate_zip()) && get_zip())) { */ //php > 5.3
-        if ((!validate_adress() && get_adress() && !validate_date() && get_date() && /* !validate_quantity() && get_quantityPeople() && */!validate_zip() && get_zip()) && isset($_SESSION['displayed'])) {
+        if ((!validate_adress() && get_adress() && !validate_date() && get_date() &&
+                /* !validate_quantity() && get_quantityPeople() && */
+                !validate_zip() && get_zip()) && isset($_SESSION['displayed'])) {
 
             return true;
         }
@@ -216,12 +218,7 @@ function save_input() {
 }
 
 function cancel_picked() {
-    $test = "match found..";
-    $fail = "no match.. ";
-    $a_test = array("testen", "blir");
-    $b_test = array("blir");
-    $i_test = "testen";
-
+    
     if (isset($_GET['cancelled'])) {
 
         $displayed_array = $_SESSION['displayed'];
@@ -241,12 +238,12 @@ function cancel_picked() {
 //return $displayed_array;
 }
 
-function test_array() {
+/*function test_array() {
     $comp = "fullfort";
     $a = array("test", "er", "kanskje");
     array_push($a, $comp);
     print_r($a);
-}
+}*/
 
 function submit_hold() {
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -329,7 +326,10 @@ function save_amount() {
 
 function make_request($request) {
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        make_requestDB($request);
+        if(make_requestDB($request)){
+            return true;
+        }
+        return false;
     }
 }
 

@@ -212,40 +212,50 @@ function insert_provider() {
           && $_POST['email_provider'] && $_POST['phone_provider']
           && $_POST['adress_provider'] && $_POST['zip_provider']
           && $_POST['amount_provider'])) { */ //php > 5.3
-
-        /* if (isset($_POST['first_name_provider'],$_POST['last_name_provider']
-          , $_POST['email_provider'], $_POST['phone_provider'],
-          $_POST['adress_provider'], $_POST['zip_provider']
-          , $_POST['amount_people'])) { */
+        if (isset($_POST['company_name'], $_POST['org_nr']
+                        , $_POST['email_provider'], $_POST['zip_provider']
+                        , $_POST['amount_provider'], $_POST['password_provider'])) {
 
 
-
-        $first_name = filter_input(INPUT_POST, 'first_name_provider');
-        $last_name = filter_input(INPUT_POST, 'last_name_provider');
-        $email = filter_input(INPUT_POST, 'email_provider');
-        $phone = filter_input(INPUT_POST, 'phone_provider');
-        $adress = filter_input(INPUT_POST, 'adress_provider');
-        $zip = filter_input(INPUT_POST, 'zip_provider');
-        $amount = filter_input(INPUT_POST, 'amount_provider');
-        $password = filter_input(INPUT_POST, 'password_provider');
-        if (isset($_SESSION['displayed'])) {
-            $food_list = $_SESSION['displayed'];
-        }
-
-
-
-
-        if ($first_name && $last_name && $email && $phone && $adress && $zip && $amount && $food_list) {
-
-            array_push($provider, $first_name, $last_name, $email, $phone, $adress, $zip, $amount, $password, $food_list);
-            insert_providerDB($provider);
+            $company_name = filter_input(INPUT_POST, 'company_name');
+            $org_nr = filter_input(INPUT_POST, 'org_nr');
+            $home_page = filter_input(INPUT_POST, 'home_page');
+            $email = filter_input(INPUT_POST, 'email_provider');
+            $phone = filter_input(INPUT_POST, 'phone_provider');
+            $adress = filter_input(INPUT_POST, 'adress_provider');
+            $zip = filter_input(INPUT_POST, 'zip_provider');
+            $amount = filter_input(INPUT_POST, 'amount_provider');
+            $password = filter_input(INPUT_POST, 'password_provider');
             if (isset($_SESSION['displayed'])) {
-                unset($_SESSION['displayed']);
+                $food_list = $_SESSION['displayed'];
             }
+            
+            
 
-            return true;
+            if ($company_name && $org_nr && $email && $zip && $amount && $food_list) {
+
+                /* array_push($provider, $company_name, $last_name, $email, $phone, 
+                  $adress, $zip, $amount, $password, $food_list); */
+
+                $provider['company_name'] = $company_name;
+                $provider['org_nr'] = $org_nr;
+                $provider['home_page'] = $home_page;
+                $provider['email'] = $email;
+                $provider['phone'] = $phone;
+                $provider['adress'] = $adress;
+                $provider['zip'] = $zip;
+                $provider['amount'] = $amount;
+                $provider['password'] = $password;
+                $provider['food_list'] = $food_list;
+
+                insert_providerDB($provider);
+
+                if (isset($_SESSION['displayed'])) {
+                    unset($_SESSION['displayed']);
+                }
+                return true;
+            }
         }
-        //}
     }
     return false;
 }
@@ -340,14 +350,16 @@ function show_pickedCustomer($i) {
     if (isset($_SESSION['show_pickedCustomer'])) {
         $id = $_SESSION['show_pickedCustomer'];
         $user = getCustomerDB($id);
+        //print_r($user);
         $_SESSION['old_user'] = $user;
+        //print_r($user);
         echo $user[$i];
     }
 }
 
 function edit_customer() {
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        if (isset($_POST['edit0'])) {
+        if (isset($_POST['edit2'])) {
 
             $edit_user = array();
             $edit_user['first_name'] = filter_input(INPUT_POST, 'edit0');

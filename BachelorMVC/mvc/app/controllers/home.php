@@ -3,14 +3,14 @@
 if(!isset($_SESSION)){
     session_start();
 }
-//session_start();
+
 
 class Home extends Controller {
 
-    public function index() {
-
+    public function index() {   
         $this->view('layout/header');
         $this->view('home/index');
+        
     }
     
     public function login(){

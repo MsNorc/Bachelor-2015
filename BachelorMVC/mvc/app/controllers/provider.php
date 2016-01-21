@@ -64,6 +64,10 @@ function setJobOffer($price_offer) {
     }
 }
 
+function get_requestsForProvider($provider_id, $zip, $limit) {
+    return get_requestsForProviderDB($provider_id, $zip, $limit);
+}
+
 function get_providerAppliedJobs($provider_id) {
     return get_providerAppliedJobsDB($provider_id);
 }

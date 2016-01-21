@@ -57,8 +57,8 @@
                         <input type="text" name="demail" id="email">
                         <label><?php echo pw_label ?></label>
                         <input type="password" name="password" id="password">
-                        <input type="button" name="login" id="login" value="Login">
-                        <div><a href="forgotPassword.php">forgot pw?</a></div>
+                        <input type="button" name="login" id="login" value="<?php echo login_btn ?>">
+                        <div><a href="password"><?php echo forgotPw_btn ?></a></div>
                         <div id="resultLogin"></div>
                     </form>
                 </div>

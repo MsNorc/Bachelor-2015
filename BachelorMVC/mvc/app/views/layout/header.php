@@ -36,7 +36,7 @@ if (!isset($_SESSION)) {
                 <tr>
                     <td><form method = "post" action = "<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
                             
-                            <input type="submit" id="home_btn" value="HOME">
+                            <input type="submit" id="home_btn" value="<?php echo home_btn ?>">
                         </form></td>
 
                     <?php if (!isset($_SESSION['user'])): ?>
@@ -53,13 +53,13 @@ if (!isset($_SESSION)) {
 
                     <td>
                         <select name="form" onchange="location = this.options[this.selectedIndex].value;">
-                            <option style="display:none;">more</option>
-                            <option id="overview_btn" value="overview">view requests</option>
+                            <option style="display:none;"><?php echo more_btn ?></option>
+                            <option id="overview_btn" value="overview"><?php echo view_request_btn ?></option>
                             <?php
                             if (isset($_SESSION['user_type']) &&
                                     $_SESSION['user_type'] == "provider"):
                                 ?>
-                                <option value="provider">apply jobs</option>
+                                <option value="provider"><?php echo search_jobs_btn ?></option>
                             <?php endif; ?>
                         </select>
                     </td>
@@ -76,15 +76,15 @@ if (!isset($_SESSION)) {
                     </td>
 
                     <td><form method="POST" action="admin">
-                            <input type="submit" value="admin">
+                            <input type="submit" value="<?php echo admin_btn ?>">
                             <?php //show_admin();    ?>
                         </form></td>
                     <td>
                         <?php if (isset($_SESSION['user'])): ?>
-                            <div id="logged_in">logged in as: <?php echo$_SESSION['user'] ?></div>
-                            <?php if (isset($_SESSION['user_type'])) : ?>
+                            <div id="logged_in"><?php echo loggedInAs . $_SESSION['user'] ?></div>
+                            <?php /*if (isset($_SESSION['user_type'])) : ?>
                                 <div><?php echo $_SESSION['user_type'] ?></div>
-                            <?php endif; ?>
+                            <?php endif; */ ?>
 
 
                         </td>

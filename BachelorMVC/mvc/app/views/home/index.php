@@ -12,12 +12,17 @@ and open the template in the editor.
         <?php $app = new App();
         unset($_SESSION['JQUERY']);
         /*echo "test";
-        $_SESSION['displayed_view'] = 1;
-        echo $_SESSION['displayed_view'];*/
+        $_SESSION['displayed_view'] = 1;*/
+        if(isset($user)){
+            echo "hello " . $user;
+        }
+        
+        
         ?>
         
     </head>
     <body>
+        <h3><?php echo frontpage_label ?></h3>
         <table border="0">
             <tr>
 
@@ -36,7 +41,7 @@ and open the template in the editor.
                 </td>
 
             </tr>
-            <tr><td>TODO*</td></tr>
+            <tr><td></td></tr>
 
         </table>
 

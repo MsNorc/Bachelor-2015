@@ -198,28 +198,11 @@
                 ?>
                 <div id="provider_insert">
                     <h3>provider</h3>
-                    <label><?php echo firstName_label ?></label>
-                    <input type="text" name="first_name_provider"><br>
-                    <label><?php echo lastName_label ?></label>
-                    <input type="text" name="last_name_provider"><br>
-                    <label><?php echo email_label ?></label>
-                    <input type="text" name="email_provider"><br>
-                    <label><?php echo phone_label ?></label>
-                    <input type="text" name="phone_provider"><br>
-                    <label><?php echo adress_label ?></label>
-                    <input type="text" name="adress_provider"><br>
-                    <label><?php echo zipCode_label ?></label>
-                    <input type="text" name="zip_provider"><br>
-                    <label><?php echo amount_label ?></label>
-                    <input type="text" name="amount_provider"><br>
-                    <label><?php echo password_label ?></label>
-                    <input type="password" name="password_provider"><br>
-                    <input type="submit" value="add">
-
                     <h4>search food and pick what you supply</h4>
                     <input type="text" id="search_food_admin" 
                            onkeyup="getFoodList(this.value)" placeholder="search food..">
                     <div id="result_editFood"></div><br>
+                    
                     <?php
                     cancel_picked();
                     $display_array = show_picked();
@@ -238,6 +221,30 @@
 
                     endfor;
                     ?>
+                    
+                    <h3> Insert credentials </h3>
+                    <label><?php echo "company name" ?></label>
+                    <input type="text" name="company_name"><br>
+                    <label><?php echo "org nr" ?></label>
+                    <input type="number" name="org_nr"><br>
+                    <label><?php echo "homepage" ?></label>
+                    <input type="text" name="home_page"><br>
+                    <label><?php echo email_label ?></label>
+                    <input type="text" name="email_provider"><br>
+                    <label><?php echo phone_label ?></label>
+                    <input type="text" name="phone_provider"><br>
+                    <label><?php echo adress_label ?></label>
+                    <input type="text" name="adress_provider"><br>
+                    <label><?php echo zipCode_label ?></label>
+                    <input type="text" name="zip_provider"><br>
+                    <label><?php echo amount_label ?></label>
+                    <input type="text" name="amount_provider"><br>
+                    <label><?php echo password_label ?></label>
+                    <input type="password" name="password_provider"><br>
+                    <input type="submit" value="add">
+
+                    
+                    
                     <?php
                     insert_provider();
                 endif;
@@ -268,7 +275,7 @@
                             <div id="result_editProvider"></div><br>
                             <?php
                             if (isset($_SESSION['show_pickedProvider'])) :
-                                for ($i = 0; $i < 3; $i++) :
+                                for ($i = 0; $i < 2; $i++) :
                                     ?>
                                     <a> <?php show_pickedProvider($i) ?> </a><br>
                                     <?php
@@ -301,16 +308,15 @@
                                 ?>
                         </div>
                         <div id="right_admin">
-                            <label><?php echo adress_event_string ?></label>
+                            <label><?php echo adress_event_label ?></label>
                             <input type="text" name="adress_request"><br>
-                            <label><?php echo zipCode_label ?></label>
+                            <label><?php echo zip_event_label ?></label>
                             <input type="number" name="zip_request"><br>
-                            <label>date</label>
+                            <label><?php echo date_event_label ?></label>
                             <input type="date" name="date_request">
-                            <label><?php echo quantity_people_string ?></label>
+                            <label><?php echo quantity_event_label ?></label>
                             <input type="number" name="quantity_request"><br>
-                            <label>status - checked if provider ??</label>
-                            <input type="checkbox" name="status_request">
+                            
                             <input type="submit" value="add">
                         </div>
                     </div>

@@ -6,7 +6,8 @@ if (!isset($_SESSION)) {
 
 
 
-include_once 'db/mysqli_connect.php';
+require_once 'db/mysqli_connect.php';
+require_once 'mailsender.php';
 
 class Overview extends Controller {
 
@@ -71,9 +72,12 @@ function setProviderRequest($provider_name) {
             $provider_id = getProvider_idDB($provider_name[0]);
 
             if (setProviderRequestDB($request_id, $provider_id)) {
-                echo "<a>flott, du har valgt : " . $provider_name[0] . " som din leverandør.</a>";
-                //sendEmail_pickedProviderDB($provider_id);
+                echo pickedProvider_msg . $provider_name[0];               
                 unset($_SESSION['request_picked']);
+                //echo $provider_id;
+                $information = getInformationPickedProviderEmail($provider_id);
+                sendEmail_pickedProvider($information);
+                
             }
         }
     }
