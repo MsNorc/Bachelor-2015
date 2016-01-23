@@ -64,22 +64,18 @@
             }
 
             //Phone Validation
-            if (empty($_POST["phone"])) {
-                $phoneErr = number_blank;
-            } else {
 
                 $phone = test_input($_POST["phone"]);
                 $phone = preg_replace("/[^0-9]/", '', $phone);
 
                 // check phone number length
-                if (strlen($phone) != 8) {
+                if (strlen($phone) != 8 || strlen($phone) != 0) {
                     $phoneErr = max8Values_Error;
                 }
                 // check if phone number is valid
                 else if (!filter_var($phone, FILTER_VALIDATE_INT)) {
                     $phoneErr = invalidNumber;
                 }
-            }
 
             /* Zip_code validation
               if (empty($_POST["zip_code"])) {
@@ -133,7 +129,7 @@
               }
               } */
 
-
+//insert a captha check here before using this method
             if ($user_nameErr == "" && $passwordErr == "" && $cpasswordErr == "" && $emailErr == "" && $phoneErr == "" && $tagErr == "") {
                /* if ($tag == "private") {
                     echo "sucsess";
@@ -141,6 +137,10 @@
                     echo "business sucsess";
                 }*/
                 echo "sucsess";
+                
+                $user = array("first_name" => $user_name,  "password" => $password , "email" => $email, "phone" => $phone);
+                insert_userDB($user);
+                
             } else {
                 echo "form does not satisfy";
             }
@@ -176,7 +176,7 @@
             <!--Phone-->
             <?php echo phone_label ?>: 
             <input type="text" name="phone" value="<?php echo $phone; ?>">
-            <span class="error">* <?php echo $phoneErr; ?></span>
+            <span class="error"> <?php echo $phoneErr; ?></span>
             <br><br>
 
             <!-- User tag -->
