@@ -25,11 +25,11 @@
 
         //Buisnessname validation
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
-            if (empty($_POST["business_name"])) {
+            if (NULL !=($_POST["business_name"])) {
                 $business_nameErr = businessName_blank;
             }
 
-            if (empty($_POST["password"]) && ($_POST["password"] == $_POST["cpassword"])) {
+            if (NULL !=($_POST["password"]) && ($_POST["password"] == $_POST["cpassword"])) {
                 $passwordErr = least8signs;
             } else {
                 $password = test_input($_POST["password"]);
@@ -48,7 +48,7 @@
             }
 
             //E-mail validation
-            if (empty($_POST["email"])) {
+            if (NULL !=($_POST["email"])) {
                 $emailErr = email_blank;
             } else {
                 $email = test_input($_POST["email"]);
@@ -66,7 +66,7 @@
             }
 
             //Phone Validation
-            if (empty($_POST["phone"])) {
+            if (NULL !=($_POST["phone"])) {
                 $phoneErr = number_blank;
             } else {
 
@@ -84,7 +84,7 @@
             }
 
             //BuisnessId Validation
-            if (empty($_POST["businessId"])) {
+            if (NULL !=($_POST["businessId"])) {
                 $business_IdErr = businessId_blank;
             } else {
 
@@ -103,7 +103,7 @@
 
 
             //Zipcode check
-            if (empty($_POST["zip_code"])) {
+            if (NULL !=($_POST["zip_code"])) {
                 $zip_codeErr = blankZipCode;
             } else {
                 $zip_code = test_input($_POST["zip_code"]);
@@ -116,14 +116,14 @@
             }
 
             //Address check
-            if (empty($_POST["address"])) {
+            if (NULL !=($_POST["address"])) {
                 $addressErr = blankAddress;
             } else {
                 $address = test_input($_POST["address"]);
             }
 
             //City check
-            if (empty($_POST["address"])) {
+            if (NULL !=($_POST["address"])) {
                 $cityErr = blankCity;
             } else {
                 $city = test_input($_POST["city"]);

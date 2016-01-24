@@ -34,8 +34,8 @@
                 $user_nameErr = userName_blank;
             }
 
-            if (isset($_POST["password"]) && ($_POST["password"] == $_POST["cpassword"])) {
-                $passwordErr = least8signs;
+            if (NULL !=($_POST["password"]) && ($_POST["password"] == $_POST["cpassword"])) {
+                $passwordErr = $cpasswordErr = least8signs;
             } else {
                 $password = test_input($_POST["password"]);
                 $cpassword = test_input($_POST["cpassword"]);
@@ -47,13 +47,13 @@
                     $passwordErr = least1bigLetter;
                 } elseif (!preg_match("#[a-z]+#", $password)) {
                     $passwordErr = least1tinyLetter;
-                } elseif ($password != $cpassword) {
+                } else if ($password != $cpassword) {
                     $cpasswordErr = passwordNotMatch;
                 }
             }
 
             //E-mail validation
-            if (empty($_POST["email"])) {
+            if (NULL !=($_POST["email"])) {
                 $emailErr = email_blank;
             } else {
                 $email = test_input($_POST["email"]);
@@ -90,13 +90,13 @@
               }
               } */
 
-            if (empty($_POST["tag"])) {
+            if (NULL !=($_POST["tag"])) {
                 $tagErr = none;
             } else {
                 $tag = test_input($_POST["tag"]);
             }
 
-            if (empty($_POST["businessId"])) {
+            if (NULL !=($_POST["businessId"])) {
                 $business_IdErr = businessId_blank;
             } else {
 
