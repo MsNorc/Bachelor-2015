@@ -56,6 +56,9 @@ define("combined_amount", "Til sammen");
 define("correct_info", "Er informasjonen korrekt?");
 
 
+define("firstName_label", "Fornavn");
+define("lastName_label", "Etternavn");
+
 // Register user/provider labels
 define("register_label","Registrering av bruker");
 define("userName_label", "Brukernavn");

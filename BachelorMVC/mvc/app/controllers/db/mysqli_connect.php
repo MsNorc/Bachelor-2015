@@ -213,7 +213,7 @@ function insert_providerDB($provider) {
         $amount = $provider['amount'];
         $password = $provider['password'];
         $food_list = $provider['food_list'];
-        
+
 
         $sql = "INSERT INTO provider (company_name, org_nr,home_page, email, phone_number, 
         address, zip, amount_people, password) 
@@ -271,13 +271,13 @@ function search_customerDB($input) {
     if (strlen($input) > 2) {
         $db_connection = get_connection();
         $sql = "SELECT * FROM customer WHERE email LIKE '%{$input}%' " . " LIMIT 10";
-                
+
         $result = mysqli_query($db_connection, $sql);
         test_result($db_connection, $result);
         while ($row = mysqli_fetch_assoc($result)) {
             $customer_id = $row['customer_id'];
             $email = $row['email'];
-            echo "<a href='?show_pickedCustomer=$customer_id'>" .  $email . "</a><br>";
+            echo "<a href='?show_pickedCustomer=$customer_id'>" . $email . "</a><br>";
         }
         mysqli_free_result($result);
         mysqli_close($db_connection);
@@ -457,7 +457,7 @@ function get_requestDB($user_id) {
 function show_ProvidersForRequestDB($request_id) {
     $provider_list = array();
     $db_connection = get_connection();
-    $sql = "SELECT rp.provider_id,p.company_name, price_offer FROM request_providers rp JOIN provider p "
+    $sql = "SELECT rp.provider_id,p.company_name, email ,price_offer FROM request_providers rp JOIN provider p "
             . "ON p.provider_id = rp.provider_id WHERE request_id = '$request_id'";
     $result = mysqli_query($db_connection, $sql);
     test_result($db_connection, $result);
@@ -700,10 +700,19 @@ function getUserId($email) {
     //$encrypt = "";
     $sql = "SELECT customer_id FROM customer where email='$email'";
     $result = mysqli_query($db_connection, $sql);
-    //test_result($db_connection, $result);
-    $data = mysqli_fetch_array($result);
-    if (count($data) >= 1) {
+    test_result($db_connection, $result);
+    $data = mysqli_fetch_assoc($result);
+    if (count($data) == 1) {
         $encrypt = encryptUserId($data['customer_id']);
+        //echo $encrypt;
+    } else {
+        $sql = "SELECT provider_id FROM provider WHERE email ='$email'";
+        $result = mysqli_query($db_connection, $sql);
+        test_result($db_connection, $result);
+        $data = mysqli_fetch_assoc($result);
+        if(count($data) == 1){
+            $encrypt = encryptUserId($data['provider_id']);
+        }
     }
     mysqli_free_result($result);
     mysqli_close($db_connection);
@@ -719,17 +728,17 @@ function updatePasswordUser($password, $encryptedId) {
     return true;
 }
 
-function getInformationPickedProviderEmail($provider_id) {
+function getInformationPickedProviderEmail($requestId) {
     $event_information = array();
     $db_connection = get_connection();
-    $sql = "SELECT p.email, r.adress, r.zip_code, r.date_event, r.quantity_people, c.email,"
-            . " c.phone_number, ri.amount, cl.food_type, ri.amount, rp.price_offer"
+    $sql = "SELECT p.company_name,p.email, r.adress, r.zip_code, r.date_event, r.quantity_people, c.email,"
+            . " c.phone_number, ri.amount, cl.food_type, rp.price_offer"
             . " FROM request r JOIN customer c ON r.customer_id = c.customer_id"
             . " JOIN request_info ri ON ri.request_id = r.request_id"
             . " JOIN catering_list cl ON cl.catering_id = ri.catering_id"
             . " JOIN provider p ON p.provider_id = r.provider_id"
             . " JOIN request_providers rp ON rp.request_id = r.request_id"
-            . " WHERE r.provider_id = '$provider_id' AND r.status = 1";
+            . " WHERE r.request_id = '$requestId' AND r.status = 1";
 
     $result = mysqli_query($db_connection, $sql);
     test_result($db_connection, $result);

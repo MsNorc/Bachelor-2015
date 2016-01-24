@@ -5,9 +5,9 @@
         <title>review you requests</title>
 
         <?php
-        /*include 'layout/header.php';
-        include 'layout/dropdown_layout.php';
-        include 'controllers/request_controller.php';*/
+        /* include 'layout/header.php';
+          include 'layout/dropdown_layout.php';
+          include 'controllers/request_controller.php'; */
 
         if (!isset($_SESSION)) {
             session_start();
@@ -16,14 +16,14 @@
         if (isset($_SESSION['user'])):
             $user = $_SESSION['user'];
             $user_id = $_SESSION['user_id'];
-            
+
             //retrieve list of requests
             $list = get_request($user_id);
-            
+
             //get current url to post in form 
             if (isset($_GET['url'])) {
-            ( $url = explode('/', filter_var(rtrim($_GET['url'], '/'), FILTER_SANITIZE_URL)));
-        }
+                ( $url = explode('/', filter_var(rtrim($_GET['url'], '/'), FILTER_SANITIZE_URL)));
+            }
         endif;
         if ($user):
             ?>
@@ -32,7 +32,7 @@
             <script>
                 $(document).ready(function () {
                     $(".select-request").click(function () {
-                        
+
                         var array = [];
                         $(this).closest('tr').find('td').each(function () {
                             var textval = $(this).text(); // this will be the text of each <td>
@@ -41,7 +41,7 @@
                         });
                         $.post("overview", {picked_request: array, tempStop: true})
                                 .done(function (data) {
-                                    <?php $_SESSION['JQUERY'] = 1; ?>
+    <?php $_SESSION['JQUERY'] = 1; ?>
                                     $("#requestPicked").html(data);
                                 })
 
@@ -54,13 +54,14 @@
                         var arrayP = [];
                         $(this).closest('tr').find('td').each(function () {
                             var provider_name = $(this).text(); // this will be the text of each <td>
+                            //alert(provider_name);
                             arrayP.push(provider_name);
                             //alert(arrayP);
                         });
                         $.post("overview", {provider_name: arrayP, tempStop: true})
                                 .done(function (data) {
-                                    <?php $_SESSION['JQUERY'] = 1; ?>
-                                            
+    <?php $_SESSION['JQUERY'] = 1; ?>
+
                                     $("#picked_provider").html(data);
                                 })
                                 .always(function (data) {
@@ -88,11 +89,12 @@
                             <th><?php echo date_label ?></th>
                             <th><?php echo people_label ?></th>
                             <th><?php echo food_label ?></th>
-                            <th><?php echo food_amount_label?></th>
+                            <th><?php echo food_amount_label ?></th>
                         </tr>
-                        <?php 
-                                    //print_r($list);
-                        for ($i = 0; $i < count($list); $i++) : ?>
+                        <?php
+                        //print_r($list);
+                        for ($i = 0; $i < count($list); $i++) :
+                            ?>
                             <tr>
                                 <?php for ($y = 0; $y < count($list[$i]); $y++) : ?>
                                     <td><?php echo $list[$i][$y]; ?></td>                                                
@@ -116,22 +118,30 @@
                                 <?php endfor; ?>
                             </tr>
                         </table>
-                        <table class="providers_scrollPick">
-                            <?php
-                            if (isset($_SESSION['providers'])):
-                                $providers = $_SESSION['providers'];
-                                for ($i = 0; $i < count($providers); $i++) :
-                                    ?>
-                                    <tr>
-                                        <?php for ($y = 1; $y < count($providers[$i]); $y++) : ?>
-                                            <td><?php echo $providers[$i][$y]; ?></td>
-                                        <?php endfor; ?>
-                                        <td><input type="button" class="pick-provider" 
-                                                   value="<?php echo pick_btn ?>"></td>
-                                    </tr>
-                                <?php endfor;
+                        <div id="picked_provider">
+                        </div>
+                        <?php
+                        if (isset($_SESSION['providers'])):
+                            $providers = $_SESSION['providers'];
+                            //print_r($providers);
+                            for ($i = 0; $i < count($providers); $i++) :
                                 ?>
-                            </table>
+                                <table class="providers_scrollPick">
+                                    <tbody class="provider_jobBody">
+                                        <tr>
+                                            <?php for ($y = 1; $y < count($providers[$i]); $y++) : ?>
+                                                <td><?php echo $providers[$i][$y] ?><td><br>                                              
+                                                <?php endfor; ?>
+                                            <td><input type="button" class="pick-provider" 
+                                                       value="<?php echo pick_btn ?>"></td>
+                                        </tr>
+                                    </tbody>
+
+                                </table>
+                                <br>
+                            <?php endfor;
+                            ?>
+
 
                             <?php
                         endif;
@@ -140,8 +150,7 @@
                         endif;
                     endif;
                     ?>
-                    <div id="picked_provider">
-                    </div>
+
 
                 </div>
             </form>

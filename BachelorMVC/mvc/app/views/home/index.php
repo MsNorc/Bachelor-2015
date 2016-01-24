@@ -10,7 +10,6 @@ and open the template in the editor.
         <title>home</title>
         
         <?php $app = new App();
-        unset($_SESSION['JQUERY']);
         /*echo "test";
         $_SESSION['displayed_view'] = 1;*/
         if(isset($user)){

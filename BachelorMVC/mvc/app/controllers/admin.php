@@ -232,7 +232,7 @@ function insert_provider() {
             
             
 
-            if ($company_name && $org_nr && $email && $zip && $amount && $food_list) {
+            if ($company_name && $org_nr && $email && $zip && $amount) {
 
                 /* array_push($provider, $company_name, $last_name, $email, $phone, 
                   $adress, $zip, $amount, $password, $food_list); */
@@ -247,7 +247,7 @@ function insert_provider() {
                 $provider['amount'] = $amount;
                 $provider['password'] = $password;
                 $provider['food_list'] = $food_list;
-
+                print_r($provider);
                 insert_providerDB($provider);
 
                 if (isset($_SESSION['displayed'])) {

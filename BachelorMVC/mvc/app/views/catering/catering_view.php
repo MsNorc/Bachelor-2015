@@ -176,7 +176,7 @@
                     </div><br>
                     <div>
                         <label class="labels_catering"><?php echo comment_event_label ?></label>
-                        <textarea rows="4" cols="30"></textarea>
+                        <textarea name="comment" rows="4" cols="30"><?php echo getComment() ?></textarea>
                     </div><br><br>
                     <div><label class="labels_catering"><?php echo apply_event_label ?></label>
                         <input type = "submit" value = "<?php echo send_btn ?>">

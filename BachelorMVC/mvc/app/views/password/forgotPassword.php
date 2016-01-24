@@ -34,7 +34,7 @@ if (isset($_GET['url'])) {
         <title>forgot password</title>
 
         <?php
-        include 'layout/header.php';
+
         ?>
     </head>
     <body>

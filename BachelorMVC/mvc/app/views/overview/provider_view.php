@@ -41,8 +41,8 @@
                     });
                     $("#apply-job").click(function () {
                         var price = document.getElementById("priceOffer").value;
-                        alert("what");
-                        alert(price);
+                       
+                        //alert(price);
                         $.post("provider", {send_offer: true, priceOffer: price, tempSave: true})
                                 .done(function (data) {
     <?php $_SESSION['JQUERY'] = 1; ?>

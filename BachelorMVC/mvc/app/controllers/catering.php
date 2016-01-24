@@ -97,10 +97,9 @@ function get_adress() {
         }
         return $adress_event;
     }
-    if (isset($_SESSION['adress_event'])) {
+    if(isset($_GET['cancelled'])){
         return $_SESSION['adress_event'];
     }
-    $_SESSION['adress_event'] = filter_input(INPUT_POST, 'adress_event');
 }
 
 function validate_adress() {
@@ -111,10 +110,12 @@ function validate_adress() {
 //$adress_event = filter_input(INPUT_POST, 'adress_event');
         if (get_adress()) {
             $adress_event = test_input($_POST["adress_event"]);
-            if (!preg_match_all("/^[a-zA-Z]*[0-9]*[a-zA-Z]*$/", $adress_event, $dummy)) {
-                $adressErr = "example veien10a";
+            
+             if(!preg_match_all("/[a-zA-Z]+\s?[0-999]?/", $adress_event, $dummy)) {
+                $adressErr = "example veien 10A | veien 10 | veien";
             }
         }
+        
 //  }
         return $adressErr;
     }
@@ -127,6 +128,8 @@ function get_zip() {
             $zip_code = filter_input(INPUT_POST, 'zip_code');
         }
         return $zip_code;
+    }if(isset($_GET['cancelled'])){
+        return $_SESSION['zip_code'];
     }
 }
 
@@ -190,6 +193,17 @@ function validate_quantity() {
     return $quantityErr;
 }
 
+function getComment(){
+    $comment = "";
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        $comment = filter_input(INPUT_POST, 'comment');
+    }if(isset($_GET['cancelled'])){
+        return $_SESSION['comment'];
+    }
+    return $comment;
+    
+}
+
 function check_validation() {
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
         /* if (!empty(validate_adress() && get_adress() 
@@ -210,11 +224,14 @@ if (isset($_POST['tempSave'])) {
     save_input();
 }
 
+
 function save_input() {
     $_SESSION['adress_event'] = get_adress();
     $_SESSION['zip_code'] = get_zip();
 //$_SESSION['quantity_people'] = get_quantityPeople();
     $_SESSION['date_picked'] = get_date();
+    $_SESSION['comment'] = getComment();
+   
 }
 
 function cancel_picked() {

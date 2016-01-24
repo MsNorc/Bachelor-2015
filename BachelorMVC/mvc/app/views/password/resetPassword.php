@@ -1,5 +1,8 @@
 <?php
 //include 'db/mysqli_connect.php';
+if (isset($_GET['url'])) {
+    ( $url = explode('/', filter_var(rtrim($_GET['url'], '/'), FILTER_SANITIZE_URL)));
+}
 
 if (isset($_GET['action'])) {
     //echo "action<br>";
@@ -13,17 +16,17 @@ if (isset($_GET['action'])) {
             <!DOCTYPE html>
             <html>
                 <head>
-                    <?php include 'layout/header.php'?>
+
                     <meta charset="UTF-8">
                     <title>password recovery</title>
-                    
+
                     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
                     <script>
                         $(document).ready(function () {
                             $("#reset").click(function () {
                                 var pass1 = $("#password1").val();
                                 var pass2 = $("#password2").val();
-     
+
                                 if (pass1 != pass2)
                                 {
                                     alert("Passwords do not match");
@@ -31,19 +34,19 @@ if (isset($_GET['action'])) {
                                 }
                                 else
                                 {
-                                    alert("suc");
+                                    //alert("suc");
                                     window.location = 'home';
                                     $("#submitForm").submit();
-                                    
+
                                 }
                             });
                         });
                     </script>
                 </head>
                 <body>
-                    <form method = "post" id="submitForm" action = "<?php echo htmlspecialchars($url[0]); ?>">
-                     
-                       <input type="hidden" name="encrypted" value="<?php echo $encrypted ?>">
+                    <form method = "post" id="submitForm" action = "<?php echo htmlspecialchars($url[1]); ?>">
+
+                        <input type="hidden" name="encrypted" value="<?php echo $encrypted ?>">
                         <input type="text" name="password" placeholder="new password" id="password1"><br>
                         <input type="text" placeholder="repeat new password" id="password2"><br>
                         <input type="button" value="reset" id="reset">
@@ -63,13 +66,11 @@ if (isset($_GET['action'])) {
         //echo "password " . $password;
         if (updatePasswordUser($password, $encrypted)) {
             echo "success<br>Password updated..";
-            
         } else {
             echo "something went wrong reseting your pw..";
         }
     }
 }
-
 ?>
 
 

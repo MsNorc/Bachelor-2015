@@ -45,12 +45,8 @@ $request_array['amount_list'] = $output_amount;
         <script>
             $(document).ready(function () {
                 $("#submit_catering").click(function () {
-                    alert("success..");
-                    window.location = 'home';
-                    window.setTimeout(function () {
-                        location.reload()
-                    }, 3000);
-
+                    //alert("what");
+                    location.replace('home');
 
                 });
 
@@ -60,67 +56,71 @@ $request_array['amount_list'] = $output_amount;
 if (isset($_GET['url'])) {
     ( $url = explode('/', filter_var(rtrim($_GET['url'], '/'), FILTER_SANITIZE_URL)));
 }
-
-
 ?>
 
         </script>
     </head>
     <body>
+
         <form method = "post" action = "<?php echo htmlspecialchars($url[1]); ?>">
-            <h3><?php echo summary_label ?></h3>
-            <div>
-                <a><label><?php echo adress_label.": " ?></label>
-                    <?php echo $adress_event ?>
-                </a>
-            </div>
-            <div>
-                <a><label><?php echo zipCode_label.": " ?></label>
-                    <?php echo $zip_code ?>
-                </a>
-            </div>
-            <div>
-                <a><label><?php echo date_label.": " ?></label>
-                    <?php echo $date_picked ?>
-                </a>
-            </div>
-            <!-- quantity
-            <div>
-                <a><label>people:</label>
-            <?php //echo $quantity_people  ?>
-                </a>
-            </div>-->
-            <div>
-                <label><?php item_label ?></label>
-                <ul>
-                    <?php
-                    if (isset($_SESSION['displayed'])):
-                        $sumDishes = 0;
-                        $output = $_SESSION['displayed'];
-                        for ($i = 0; $i < count($output); $i++) :
-                            ?>
-                            <li><?php echo $output[$i] . " : " . $output_amount[$output[$i]]; ?></li>
-                            <?php $sumDishes+=$output_amount[$output[$i]]; ?>
-                            <?php
-                        endfor;
-                    endif;
-                    ?>
-                </ul>
-                <div><?php echo combined_amount." : " . $sumDishes ?></div>
-            </div><br>
-            <div>
-                <?php echo correct_info ?> 
-                <input type="submit" id="submit_catering" value="ok">
+
+            <div id="summary">
+                <h3><?php echo summary_label ?></h3>
+                <div>
+                    <a><label><?php echo adress_label . ": " ?></label>
+<?php echo $adress_event ?>
+                    </a>
+                </div>
+                <div>
+                    <a><label><?php echo zipCode_label . ": " ?></label>
+<?php echo $zip_code ?>
+                    </a>
+                </div>
+                <div>
+                    <a><label><?php echo date_label . ": " ?></label>
+<?php echo $date_picked ?>
+                    </a>
+                </div>
+                <!-- quantity
+                <div>
+                    <a><label>people:</label>
+<?php //echo $quantity_people   ?>
+                    </a>
+                </div>-->
+                <div>
+                    <label><?php item_label ?></label>
+                    <ul>
+<?php
+if (isset($_SESSION['displayed'])):
+    $sumDishes = 0;
+    $output = $_SESSION['displayed'];
+    for ($i = 0; $i < count($output); $i++) :
+        ?>
+                                <li><?php echo $output[$i] . " : " . $output_amount[$output[$i]]; ?></li>
+                                <?php $sumDishes+=$output_amount[$output[$i]]; ?>
+                                <?php
+                            endfor;
+                        endif;
+                        ?>
+                    </ul>
+                    <div><?php echo combined_amount . " : " . $sumDishes ?></div>
+                </div><br>
+                <div>
+<?php echo correct_info ?> 
+                    <input type="submit" id="submit_catering" value="ok">
+                </div>
             </div>
         </form>
     </body>
 </html>
 
 <?php
-
 $request_array['amount'] = $sumDishes;
+//print_r($request_array);
 if (make_request($request_array)) {
-    echo "success, you created av event.";
+    echo "success, you created an event!";
+} else {
+    //echo "Something went wrong..Try again!";
 }
 //send request to db handler ..
 //make_request($request_array);

@@ -12,6 +12,7 @@ require_once 'mailsender.php';
 class Overview extends Controller {
 
     public function index() {
+        //echo $_SESSION['JQUERY'];
         if (!isset($_SESSION['JQUERY'])) {
             if (!isset($_POST['tempStop'])) {
                 $this->view('layout/header');
@@ -59,7 +60,9 @@ function show_ProvidersForRequest($request) {
 if (isset($_POST['provider_name'])) {
 
     $provider_name = $_POST['provider_name'];
-    unset($provider_name[1]); //remove blank from button
+    //print_r($provider_name);
+    unset($provider_name[1],$provider_name[3],$provider_name[5],$provider_name[6]); 
+    //print_r($provider_name);
     setProviderRequest($provider_name);
 }
 
@@ -69,13 +72,15 @@ function setProviderRequest($provider_name) {
         if (isset($_SESSION['request_picked'])) {
             $request_picked = $_SESSION['request_picked'];
             $request_id = $request_picked[0];
-            $provider_id = getProvider_idDB($provider_name[0]);
-
+            $provider_id = getProvider_idDB($provider_name[2]); //send email, get id
+          
+            //print_r($provider_name);
             if (setProviderRequestDB($request_id, $provider_id)) {
-                echo pickedProvider_msg . $provider_name[0];               
-                unset($_SESSION['request_picked']);
+                echo  "Du har valgt for ditt arrangement : " . $provider_name[0];               
+                unset($_SESSION['request_picked'], $provider_name);
                 //echo $provider_id;
-                $information = getInformationPickedProviderEmail($provider_id);
+                $information = getInformationPickedProviderEmail($request_id);
+                //print_r($information);
                 sendEmail_pickedProvider($information);
                 
             }
