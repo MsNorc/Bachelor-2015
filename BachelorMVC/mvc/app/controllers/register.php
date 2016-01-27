@@ -1,7 +1,5 @@
 <?php
 
-include "db/mysqli_connect.php";
-
 class Register extends Controller {
 
     public function index() {
@@ -10,7 +8,7 @@ class Register extends Controller {
     }
 
     public function user() {
-        
+
         $this->view('register/register_user_input');
     }
 

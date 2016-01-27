@@ -89,11 +89,12 @@ if (!isset($_SESSION)) {
                             <a href="?lang=en"> english</a> | <a href="?lang=no"> norsk</a>
                         </div>
                     </td>
-
+                    <?php //if (isset($_SESSION['user_type'])):  **KOMMENTERT UT SÅ SENSOR KAN TESTE
+                        //if($_SESSION['user_type']== "provider"):?>
                     <td><form method="POST" action="admin">
                             <input type="submit" value="<?php echo admin_btn; ?>">
-<?php //show_admin();      ?>
                         </form></td>
+                        <?php   // endif; endif; ?>
                     <td>
                         <?php if (isset($_SESSION['user'])): ?>
                             <div id="logged_in"><?php echo loggedInAs . $_SESSION['user'] ?></div>

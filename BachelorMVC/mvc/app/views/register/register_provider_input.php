@@ -129,18 +129,8 @@
                 $city = test_input($_POST["city"]);
             }
 
-            //insert a caphta check before the next if statement 
-            //to verify if the user is a robot before checking if the info is ready to be sent
-            
             if ($business_nameErr == "" && $business_IdErr == "" && $passwordErr == "" && $cpasswordErr == "" && $emailErr == "" && $phoneErr == "" && $serviceErr == "" && $web_pageErr == "" && $addressErr == "" && $zip_codeErr == "") {
                 echo "sucsess";
-                $providers = array("company_name"=>$business_name, "org_nr"=> $business_Id, "home_page"=> $business_Id,
-                        "email"=>$email, "phone"=>$phone, "adress"=>$address, "zip"=>$zip_code,
-                    "password"=> $password);
-                
-                //These will have to be implemented to work with the DB  
-                /*"food_list" => list of food company can deliver*/
-                /*"amount"=> company capasity*/
             }
         }
         ?>

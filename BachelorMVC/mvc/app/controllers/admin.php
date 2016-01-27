@@ -157,8 +157,10 @@ function insert_food() {
         if (isset($_POST['food_type'])) {
             $food_type = filter_input(INPUT_POST, 'food_type');
             if ($food_type) {
-                insert_foodDB($food_type);
-                return true;
+                if(insert_foodDB($food_type)){
+                    return true;
+                }
+                return false;
             }
         }
     }

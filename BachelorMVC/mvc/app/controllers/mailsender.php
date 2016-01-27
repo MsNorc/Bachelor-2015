@@ -6,6 +6,8 @@
 require('PHPMailer-master/PHPMailerAutoload.php');
 
 function sendRecoveryMail($recipient, $encryptedEmail) {
+    
+    $link = "http://stud.iie.ntnu.no/~chrnordh/BachelorMVC/mvc/public/";
 
     $name = "Automated recovery mail";
     $mail = new PHPMailer();
@@ -13,7 +15,7 @@ function sendRecoveryMail($recipient, $encryptedEmail) {
 
     $body = 'Hello, <br/> <br/>Click the link to reset the password for ' . $recipient . ' '
             . '<br><br>Click here to reset your password '
-            . 'http://stud.iie.ntnu.no/~chrnordh/BachelorMVC/mvc/public/password/forgot?encrypt=' . $encryptedEmail . '&action=reset '
+            . $link . 'password/forgot?encrypt=' . $encryptedEmail . '&action=reset '
             . '<br/> <br/>--<br>';
 //http://stud.aitel.hist.no/~chrnordh/Bachelor15/resetPassword.php?encrypt='.$encryptedEmail.'&action=reset '
     $mail->IsSMTP();

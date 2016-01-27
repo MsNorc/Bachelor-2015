@@ -108,13 +108,25 @@ function check_availability_food($food_check) {
     return true;
 }
 
+function check_duplicateFood($food_type, $db_connection){
+    $sql = "SELECT food_type FROM catering_list WHERE food_type = '$food_type'";
+    $result = mysqli_query($db_connection,$sql);
+    $data = mysqli_num_rows($result);
+    if($data == 1){
+        return true;
+    }else{
+        return false;
+    }
+}
+
 //insert functions
 function insert_foodDB($food_type) {
     if (check_availability_food($food_type)) {
         $db_connection = get_connection();
-        $sql = "INSERT INTO catering_list (food_type) VALUES('$food_type')";
-        $result = mysqli_query($db_connection, $sql);
-
+        if (!check_duplicateFood($food_type, $db_connection)) {
+            $sql = "INSERT INTO catering_list (food_type) VALUES('$food_type')";
+            $result = mysqli_query($db_connection, $sql);
+        }
         test_result($db_connection, $result);
         mysqli_close($db_connection);
     }
@@ -710,7 +722,7 @@ function getUserId($email) {
         $result = mysqli_query($db_connection, $sql);
         test_result($db_connection, $result);
         $data = mysqli_fetch_assoc($result);
-        if(count($data) == 1){
+        if (count($data) == 1) {
             $encrypt = encryptUserId($data['provider_id']);
         }
     }
@@ -829,4 +841,44 @@ function insert_requestDB($request) {
     }
     //mysqli_free_result($result);
     mysqli_close($db_connection);
+}
+
+function loginDb($email, $password) {
+    $output = "something went wrong in db..";
+    $db_connection = get_connection();
+    $sql = ("SELECT email, password_customer, customer_id FROM customer where "
+            . "email = '$email' AND password_customer =  md5('$password') ");
+    $result = mysqli_query($db_connection, $sql);
+    //$data = mysql_num_rows($result);
+    $data = mysqli_num_rows($result);
+
+    if ($data == 1) {
+        $output = "success..";
+        $_SESSION['user'] = $email;
+        while ($row = mysqli_fetch_assoc($result)) {
+            $_SESSION['user_id'] = $row["customer_id"];
+            $_SESSION['user_type'] = "customer";
+            $_SESSION['dropdown'] = 0;
+        }
+    } else {
+        $sql = ("SELECT email, password, provider_id FROM provider where "
+                . "email = '$email' AND password = '$password' ");
+        $result = mysqli_query($db_connection, $sql);
+        $data = mysqli_num_rows($result);
+        if ($data == 1) {
+            $output = "success..";
+            $_SESSION['user'] = $email;
+            while ($row = mysqli_fetch_assoc($result)) {
+                $_SESSION['user_id'] = $row["provider_id"];
+                $_SESSION['user_type'] = "provider";
+                $_SESSION['dropdown'] = 0;
+            }
+        } else {
+            $output = "email or pw wrong..";
+        }
+    }
+    mysqli_free_result($result);
+    mysqli_close($db_connection); // Connection Closed.
+
+    return $output;
 }
